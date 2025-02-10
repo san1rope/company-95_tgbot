@@ -1,0 +1,1189 @@
+{
+  "messages": {
+    "wrong_confirm": [
+      "<b>\uD83D\uDED1 You haven't selected the options!</b>",
+      "<b>ℹ\uFE0F You have to select at least one option to confirm!</b>"
+    ],
+    "choose_lang": [
+      "<b>❇\uFE0F Before you start using the bot, choose a language that is more convenient for you</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "choose_role": [
+      "<b>\uD83E\uDDD1\u200D\uD83D\uDCBB Role selection</b>\n",
+      "<b>Choose your role at work</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "driver_reg_write_name": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Write your full name</b>",
+      "\n<b>ℹ\uFE0F Enter your name in Latin letters only</b>"
+    ],
+    "wrong_name_format": [
+      "<b>\uD83D\uDED1 Incorrect name format!</b>\n",
+      "<b>ℹ\uFE0F The name must consist of Latin letters!</b>",
+      "<b>In allowed characters: space, '</b>"
+    ],
+    "driver_reg_choose_birth_year": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Select your year of birth</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "driver_reg_write_contact_number": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Enter your contact phone number</b>",
+      "\n<b>ℹ\uFE0F Must be entered with the country code!</b>"
+    ],
+    "wrong_phone_number_format": [
+      "<b>\uD83D\uDED1 Incorrect phone number format!</b>\n",
+      "<b>ℹ\uFE0F The number must consist of digits only!</b>"
+    ],
+    "driver_reg_choose_car_type": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Select all vehicle types you can work with</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "driver_reg_choose_citizenship": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Select the countries in which you have citizenship</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "driver_reg_basis_of_stay": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Select the basis of stay in Europe</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "driver_reg_availability_95_code": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Do you have a valid Code 95 obtained in Europe?</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "driver_reg_date_start_work": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Select the date you are ready to start work</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "driver_reg_language_skills": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Indicate your proficiency in these languages</b>",
+      "<b>ℹ\uFE0F Need to specify the scale skill for all languages shown</b>\n",
+      "<b>Languages: Polish | English | German</b>",
+      "<b>——————————————————</b>",
+      "<b>Levels: Don't speak | Understand, but don't say | Entry level | Speak well</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "wrong_language_skills": [
+      "<b>\uD83D\uDED1 You have marked your skill not in all the languages shown!</b>\n"
+    ],
+    "driver_reg_job_experience": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Specify your work experience for the different categories</b>",
+      "<b>ℹ\uFE0F Need to specify the scale experience for all categories shown</b>\n",
+      "<b>Categories: D/C/CE in Europe | D/C/CE outside Europe | B - buses 3.5t in Europe</b>",
+      "<b>——————————————————</b>",
+      "<b>Experience: Don't have | Up to half a year | From half to 2 years | Over 2 years</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "wrong_job_experience": [
+      "<b>\uD83D\uDED1 You didn't mark your experience in all the categories shown!</b>\n"
+    ],
+    "driver_reg_need_internship": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Czy potrzebujesz stażu?</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "driver_reg_unsuitable_countries": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Select inappropriate countries for routes</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "driver_reg_documents_availability": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Select the documents you have available</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "driver_reg_expected_salary": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Enter the expected salary in Euros per day worked</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "wrong_number": [
+      "<b>\uD83D\uDED1 Incorrect number format!</b>\n",
+      "<b>ℹ\uFE0F The number must not be negative and must consist solely of digits and a dot (dot in case of a non-integer)</b>"
+    ],
+    "wrong_salary_value_range": [
+      "<b>\uD83D\uDED1 Expected salary should fall within the range of: %value_min% &lt;= salary &lt;= %value_max%</b>\n"
+    ],
+    "driver_reg_availability_categories": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Select the available categories on your licence</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "driver_reg_country_driving_license": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Select the country of issue of the driving licence</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "driver_reg_country_current_living": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Select the country of current stay</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "driver_reg_work_type": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Select the country of current stay</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "driver_reg_choose_cadence": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Select the proposed schedule</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "driver_reg_crew": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Select your preferred crew</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "driver_reg_gender": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Select your gender</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "driver_reg_confirmation": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Check the information you entered and confirm your profile</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "driver_reg_finish": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>✅ Registration has been completed!</b>",
+      "\n<b>ℹ\uFE0FYou will now have the driver's menu available to you on the /start command</b>",
+      "\n<b>In the settings, you can either change or delete all of your profile information and register again</b>"
+    ],
+    "driver_menu_text": [
+      "<b>\uD83D\uDCD4 Driver menu</b>\n",
+      "<b>\uD83D\uDCC3 Number of forms: %forms_count%</b>",
+      "<b>\uD83D\uDCD6 The opening of your profile: %form_opens%</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "driver_menu_my_form": [
+      "<b>\uD83D\uDCC4 My form</b>\n",
+      "<b>You can view your profile and optionally use the buttons below ⬇</b>"
+    ]
+  },
+  "markups": {
+    "default": {},
+    "inline": {
+      "additional_buttons": {
+        "skip": "Skip",
+        "back": "\uD83D\uDD19 Back",
+        "driver_change_form_status:off": "\uD83D\uDD34 Deactivate",
+        "driver_change_form_status:on": "\uD83D\uDFE2 Activate"
+      },
+      "choose_lang": [
+        {
+          "\uD83C\uDDEC\uD83C\uDDE7 English": "en",
+          "\uD83C\uDDF5\uD83C\uDDF1 Polish": "pl",
+          "\uD83C\uDDF7\uD83C\uDDFA Russian": "ru"
+        }
+      ],
+      "choose_role": [
+        {
+          "\uD83D\uDE9A I'm a driver - looking for work": "driver_menu"
+        },
+        {
+          "\uD83D\uDCBC I'm a company - looking for a driver": "company_menu"
+        }
+      ],
+      "car_types": [
+        {
+          "Reefer": "0",
+          "Container": "1"
+        },
+        {
+          "BDF units": "2"
+        },
+        {
+          "Tarp std": "3",
+          "Tarp mega": "4"
+        },
+        {
+          "Car carrier": "5",
+          "ADR tanker": "6"
+        },
+        {
+          "Food tanker": "7",
+          "Dump truck": "8"
+        },
+        {
+          "Silo": "9",
+          "Timber truck": "10"
+        },
+        {
+          "Oversize": "11",
+          "Livestock": "12"
+        },
+        {
+          "Mixer": "13",
+          "Garbage truck": "14"
+        },
+        {
+          "Bus": "15",
+          "Lowbed": "16"
+        },
+        {
+          "Van up to 3.5t": "17"
+        },
+        {
+          "\uD83D\uDFE2 Select all": "check",
+          "\uD83D\uDD34 Deselect all": "uncheck"
+        },
+        {
+          "\uD83D\uDCDD Confirm": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "continents": [
+        {
+          "Europe": "cont:europe",
+          "Asia": "cont:asia"
+        },
+        {
+          "North America": "cont:north_america",
+          "South America": "cont:south_america"
+        },
+        {
+          "Africa": "cont:africa",
+          "Oceania": "cont:oceania"
+        },
+        {
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "countries_europe_1": [
+        {
+          "Ukraine": "ua",
+          "Belarus": "by"
+        },
+        {
+          "Georgia": "ge",
+          "Moldova": "md"
+        },
+        {
+          "Albania": "al",
+          "Austria": "at"
+        },
+        {
+          "Belgium": "be",
+          "Bosnia and Herzegovina": "ba"
+        },
+        {
+          "Bulgaria": "bg",
+          "Croatia": "hr"
+        },
+        {
+          "Cyprus": "cy",
+          "Czech Republic": "cz"
+        },
+        {
+          "  ": "0",
+          "1/4": "0",
+          "➡\uFE0F": "next_page:2"
+        },
+        {
+          "⬅️\uFE0F To continents": "to_continents",
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "countries_europe_2": [
+        {
+          "Denmark": "dk",
+          "Estonia": "ee"
+        },
+        {
+          "Finland": "fi",
+          "France": "fr"
+        },
+        {
+          "Germany": "de",
+          "Greece": "gr"
+        },
+        {
+          "Hungary": "hu",
+          "Iceland": "is"
+        },
+        {
+          "Ireland": "ie",
+          "Italy": "it"
+        },
+        {
+          "Kosovo": "xk",
+          "Latvia": "lv"
+        },
+        {
+          "⬅\uFE0F": "prev_page:1",
+          "2/4": "0",
+          "➡\uFE0F": "next_page:3"
+        },
+        {
+          "⬅️\uFE0F To continents": "to_continents",
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "countries_europe_3": [
+        {
+          "Liechtenstein": "li",
+          "Lithuania": "lt"
+        },
+        {
+          "Luxembourg": "lu",
+          "Malta": "mt"
+        },
+        {
+          "Monaco": "mc",
+          "Montenegro": "me"
+        },
+        {
+          "Netherlands": "nl",
+          "North Macedonia": "mk"
+        },
+        {
+          "Norway": "no",
+          "Poland": "pl"
+        },
+        {
+          "Portugal": "pt",
+          "Romania": "ro"
+        },
+        {
+          "⬅\uFE0F": "prev_page:2",
+          "3/4": "0",
+          "➡\uFE0F": "next_page:4"
+        },
+        {
+          "⬅️\uFE0F To continents": "to_continents",
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "countries_europe_4": [
+        {
+          "Russia": "ru",
+          "Serbia": "rs"
+        },
+        {
+          "Slovakia": "sk",
+          "Slovenia": "si"
+        },
+        {
+          "Spain": "es",
+          "Sweden": "se"
+        },
+        {
+          "Switzerland": "ch",
+          "Turkey": "tr"
+        },
+        {
+          "United Kingdom": "gb"
+        },
+        {
+          "⬅\uFE0F": "prev_page:3",
+          "4/4": "0",
+          "  ": "0"
+        },
+        {
+          "⬅️\uFE0F To continents": "to_continents",
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "countries_asia_1": [
+        {
+          "India": "in",
+          "Kazakhstan": "kz"
+        },
+        {
+          "Uzbekistan": "uz",
+          "Philippines": "ph"
+        },
+        {
+          "Nepal": "np",
+          "Afghanistan": "af"
+        },
+        {
+          "Armenia": "am",
+          "Azerbaijan": "az"
+        },
+        {
+          "Bahrain": "bh",
+          "Bangladesh": "bd"
+        },
+        {
+          "Bhutan": "bt",
+          "Brunei": "bn"
+        },
+        {
+          "  ": "0",
+          "1/4": "0",
+          "➡\uFE0F": "next_page:2"
+        },
+        {
+          "⬅️\uFE0F To continents": "to_continents",
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "countries_asia_2": [
+        {
+          "Cambodia": "kh",
+          "China": "cn"
+        },
+        {
+          "Georgia": "ge",
+          "Indonesia": "id"
+        },
+        {
+          "Iran": "ir",
+          "Iraq": "iq"
+        },
+        {
+          "Israel": "il",
+          "Japan": "jp"
+        },
+        {
+          "Jordan": "jo",
+          "Kuwait": "kw"
+        },
+        {
+          "Kyrgyzstan": "kg",
+          "Laos": "la"
+        },
+        {
+          "⬅\uFE0F": "prev_page:1",
+          "2/4": "0",
+          "➡\uFE0F": "next_page:3"
+        },
+        {
+          "⬅️\uFE0F To continents": "to_continents",
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "countries_asia_3": [
+        {
+          "Lebanon": "lb",
+          "Malaysia": "my"
+        },
+        {
+          "Maldives": "mv",
+          "Mongolia": "mn"
+        },
+        {
+          "Myanmar": "mm",
+          "North Korea": "kp"
+        },
+        {
+          "Oman": "om",
+          "Pakistan": "pk"
+        },
+        {
+          "Palestine": "ps",
+          "Qatar": "qa"
+        },
+        {
+          "Saudi Arabia": "sa",
+          "Singapore": "sg"
+        },
+        {
+          "⬅\uFE0F": "prev_page:2",
+          "3/4": "0",
+          "➡\uFE0F": "next_page:4"
+        },
+        {
+          "⬅️\uFE0F To continents": "to_continents",
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "countries_asia_4": [
+        {
+          "South Korea": "kr",
+          "Sri Lanka": "lk"
+        },
+        {
+          "Syria": "sy",
+          "Tajikistan": "tj"
+        },
+        {
+          "Thailand": "th",
+          "Timor-Leste": "tl"
+        },
+        {
+          "Turkmenistan": "tm",
+          "United Arab Emirates": "ae"
+        },
+        {
+          "Vietnam": "vn",
+          "Yemen": "ye"
+        },
+        {
+          "⬅\uFE0F": "prev_page:3",
+          "4/4": "0",
+          "  ": "0"
+        },
+        {
+          "⬅️\uFE0F To continents": "to_continents",
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "countries_north_america_1": [
+        {
+          "Canada": "ca",
+          "United States": "us"
+        },
+        {
+          "Mexico": "mx",
+          "Guatemala": "gt"
+        },
+        {
+          "Belize": "bz",
+          "Honduras": "hn"
+        },
+        {
+          "El Salvador": "sv",
+          "Nicaragua": "ni"
+        },
+        {
+          "Costa Rica": "cr",
+          "Panama": "pa"
+        },
+        {
+          "Jamaica": "jm",
+          "Cuba": "cu"
+        },
+        {
+          "  ": "0",
+          "1/3": "0",
+          "➡\uFE0F": "next_page:2"
+        },
+        {
+          "⬅️\uFE0F To continents": "to_continents",
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "countries_north_america_2": [
+        {
+          "Dominican Republic": "do",
+          "Haiti": "ht"
+        },
+        {
+          "Bahamas": "bs",
+          "Barbados": "bb"
+        },
+        {
+          "Trinidad and Tobago": "tt",
+          "Grenada": "gd"
+        },
+        {
+          "Saint Lucia": "lc",
+          "Saint Vincent and the Grenadines": "vc"
+        },
+        {
+          "Antigua and Barbuda": "ag",
+          "Saint Kitts and Nevis": "kn"
+        },
+        {
+          "Anguilla": "ai",
+          "Aruba": "aw"
+        },
+        {
+          "⬅\uFE0F": "prev_page:1",
+          "2/3": "0",
+          "➡\uFE0F": "next_page:3"
+        },
+        {
+          "⬅️\uFE0F To continents": "to_continents",
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "countries_north_america_3": [
+        {
+          "Bermuda": "bm",
+          "Cayman Islands": "ky"
+        },
+        {
+          "Saint Barthélemy": "gp",
+          "Montserrat": "ms"
+        },
+        {
+          "Puerto Rico": "pr",
+          "Saint Pierre and Miquelon": "pm"
+        },
+        {
+          "Greenland": "gl",
+          "Saba": "sx"
+        },
+        {
+          "Saint Martin": "mf",
+          "Sint Maarten": "sx"
+        },
+        {
+          "⬅\uFE0F": "prev_page:2",
+          "3/3": "0",
+          "  ": "0"
+        },
+        {
+          "⬅️\uFE0F To continents": "to_continents",
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "countries_south_america_1": [
+        {
+          "Argentina": "ar",
+          "Brazil": "br"
+        },
+        {
+          "Chile": "cl",
+          "Colombia": "co"
+        },
+        {
+          "Peru": "pe",
+          "Venezuela": "ve"
+        },
+        {
+          "Bolivia": "bo",
+          "Ecuador": "ec"
+        },
+        {
+          "Paraguay": "py",
+          "Suriname": "sr"
+        },
+        {
+          "Guyana": "gy",
+          "Uruguay": "uy"
+        },
+        {
+          "  ": "0",
+          "1/2": "0",
+          "➡\uFE0F": "next_page:2"
+        },
+        {
+          "⬅️\uFE0F To continents": "to_continents",
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "countries_south_america_2": [
+        {
+          "French Guiana": "gf",
+          "Falkland Islands": "fk"
+        },
+        {
+          "⬅\uFE0F": "prev_page:1",
+          "2/2": "0",
+          "  ": "0"
+        },
+        {
+          "⬅️\uFE0F To continents": "to_continents",
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "countries_africa_1": [
+        {
+          "Algeria": "dz",
+          "Nigeria": "ng"
+        },
+        {
+          "South Africa": "za",
+          "Egypt": "eg"
+        },
+        {
+          "Kenya": "ke",
+          "Ethiopia": "et"
+        },
+        {
+          "Ghana": "gh",
+          "Ivory Coast": "ci"
+        },
+        {
+          "Senegal": "sn",
+          "Tanzania": "tz"
+        },
+        {
+          "Uganda": "ug",
+          "Somalia": "so"
+        },
+        {
+          "  ": "0",
+          "1/3": "0",
+          "➡\uFE0F": "next_page:2"
+        },
+        {
+          "⬅️\uFE0F To continents": "to_continents",
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "countries_africa_2": [
+        {
+          "Mali": "ml",
+          "Gabon": "ga"
+        },
+        {
+          "Guinea": "gn",
+          "Cameroon": "cm"
+        },
+        {
+          "Congo": "cg",
+          "Democratic Republic of the Congo": "cd"
+        },
+        {
+          "Togo": "tg",
+          "Ivory Coast": "ci"
+        },
+        {
+          "Mozambique": "mz",
+          "Namibia": "na"
+        },
+        {
+          "Burkina Faso": "bf",
+          "Zimbabwe": "zw"
+        },
+        {
+          "⬅\uFE0F": "prev_page:1",
+          "2/3": "0",
+          "➡\uFE0F": "next_page:3"
+        },
+        {
+          "⬅️\uFE0F To continents": "to_continents",
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "countries_africa_3": [
+        {
+          "Madagascar": "mg",
+          "Mauritania": "mr"
+        },
+        {
+          "Libya": "ly",
+          "Sudan": "sd"
+        },
+        {
+          "Tunisia": "tn",
+          "Central African Republic": "cf"
+        },
+        {
+          "Malawi": "mw",
+          "Rwanda": "rw"
+        },
+        {
+          "Seychelles": "sc",
+          "Eswatini": "sz"
+        },
+        {
+          "⬅\uFE0F": "prev_page:2",
+          "3/3": "0",
+          "  ": "0"
+        },
+        {
+          "⬅️\uFE0F To continents": "to_continents",
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "countries_oceania_1": [
+        {
+          "Australia": "au",
+          "New Zealand": "nz"
+        },
+        {
+          "Papua New Guinea": "pg",
+          "Fiji": "fj"
+        },
+        {
+          "Solomon Islands": "sb",
+          "Vanuatu": "vu"
+        },
+        {
+          "Tonga": "to",
+          "Samoa": "ws"
+        },
+        {
+          "Kiribati": "ki",
+          "Tuvalu": "tv"
+        },
+        {
+          "Marshall Islands": "mh",
+          "Palau": "pw"
+        },
+        {
+          "   ": "0",
+          "1/1": "0",
+          "  ": "0"
+        },
+        {
+          "⬅️\uFE0F To continents": "to_continents",
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "basis_of_stay": [
+        {
+          "Visa-free travel to the EU": "0"
+        },
+        {
+          "National visa with a Pole card": "1"
+        },
+        {
+          "Oświadczenie 180 days": "2"
+        },
+        {
+          "Polish work visa": "3"
+        },
+        {
+          "Visa of another EU country": "4"
+        },
+        {
+          "Pobyt czasowy": "5"
+        },
+        {
+          "Pobyt stały": "6"
+        },
+        {
+          "Residence permit of a European country": "7"
+        },
+        {
+          "EU citizenship": "8"
+        },
+        {
+          "None of the above": "9"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "availability_95_code": [
+        {
+          "Have": "0",
+          "Don't have": "1"
+        },
+        {
+          "In the manufacturing process": "2"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "language_skills": [
+        {
+          "  ": "-",
+          "Don't speak": "col:0",
+          "Understand, but don't say": "col:1",
+          "Entry level": "col:2",
+          "Speak well": "col:3"
+        },
+        {
+          "Polish": "row:pl",
+          "⚪\uFE0F": "pl:0",
+          "⚪\uFE0F ": "pl:1",
+          "⚪\uFE0F  ": "pl:2",
+          "⚪\uFE0F   ": "pl:3"
+        },
+        {
+          "English": "row:en",
+          "⚪\uFE0F": "en:0",
+          "⚪\uFE0F ": "en:1",
+          "⚪\uFE0F  ": "en:2",
+          "⚪\uFE0F   ": "en:3"
+        },
+        {
+          "German": "row:de",
+          "⚪\uFE0F": "de:0",
+          "⚪\uFE0F ": "de:1",
+          "⚪\uFE0F  ": "de:2",
+          "⚪\uFE0F   ": "de:3"
+        },
+        {
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "job_experience": [
+        {
+          "  ": "-",
+          "Don't have": "col:0",
+          "Up to half a year": "col:1",
+          "From half to 2 years": "col:2",
+          "Over 2 years": "col:3"
+        },
+        {
+          "D/C/CE in Europe": "row:a",
+          "⚪\uFE0F": "a:0",
+          "⚪\uFE0F ": "a:1",
+          "⚪\uFE0F  ": "a:2",
+          "⚪\uFE0F   ": "a:3"
+        },
+        {
+          "D/C/CE outside Europe": "row:b",
+          "⚪\uFE0F": "b:0",
+          "⚪\uFE0F ": "b:1",
+          "⚪\uFE0F  ": "b:2",
+          "⚪\uFE0F   ": "b:3"
+        },
+        {
+          "B - buses 3.5t in Europe": "row:c",
+          "⚪\uFE0F": "c:0",
+          "⚪\uFE0F ": "c:1",
+          "⚪\uFE0F  ": "c:2",
+          "⚪\uFE0F   ": "c:3"
+        },
+        {
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "need_internship": [
+        {
+          "An unpaid internship will do": "0"
+        },
+        {
+          "Looking for a paid internship": "1"
+        },
+        {
+          "I'll start with any internship": "2"
+        },
+        {
+          "Can go right away without an internship": "3"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "documents_availability": [
+        {
+          "Category С": "0",
+          "Category CE": "1"
+        },
+        {
+          "Category D": "2",
+          "Tachograph chip card": "3"
+        },
+        {
+          "“Dangerous goods” standard": "4"
+        },
+        {
+          "“Dangerous goods” with tankers": "5"
+        },
+        {
+          "\uD83D\uDFE2 Select all": "check",
+          "\uD83D\uDD34 Unselect all": "uncheck"
+        },
+        {
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "categories_availability": [
+        {
+          "B": "0",
+          "BE": "1",
+          "C": "2"
+        },
+        {
+          "CE": "3",
+          "D": "4",
+          "DE": "5"
+        },
+        {
+          "\uD83D\uDFE2 Select all": "check",
+          "\uD83D\uDD34 Unselect all": "uncheck"
+        },
+        {
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "work_types": [
+        {
+          "Only within one country": "0"
+        },
+        {
+          "International routes": "1"
+        },
+        {
+          "Any option": "2"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "cadence": [
+        {
+          "4/1": "0",
+          "6/2": "1",
+          "8/4": "2"
+        },
+        {
+          "From Monday to Friday": "3"
+        },
+        {
+          "Adaptable to any schedule": "any"
+        },
+        {
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "crew": [
+        {
+          "Solo only": "0"
+        },
+        {
+          "Team only": "1"
+        },
+        {
+          "Any": "2"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "genders": [
+        {
+          "Male": "0",
+          "Female": "1"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "confirmation": [
+        {
+          "\uD83D\uDCDD Confirm": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "driver_menu": [
+        {
+          "\uD83D\uDCC3 My form": "driver_my_form"
+        }
+      ],
+      "driver_menu_my_form": [
+        {
+          "✏\uFE0F Edit": "driver_my_form_change"
+        },
+        {
+          "\uD83D\uDD18 Re-fill": "driver_my_form_reset_all"
+        }
+      ]
+    }
+  },
+  "misc": {
+    "form_completion_driver": {
+      "name": "Name:",
+      "birth_year": "Year of birth:",
+      "phone_number": "Phone number:",
+      "car_types": "Types of cars:",
+      "citizenships": "Citizenships:",
+      "basis_of_stay": "Grounds of stay:",
+      "availability_95_code": "Code 95 Availability:",
+      "date_stark_work": "Availability Date:",
+      "language_skills": "Language skills",
+      "job_experience": "Experience:",
+      "need_internship": "Internship:",
+      "unsuitable_countries": "Unsuitable countries:",
+      "documents_availability": "Documents:",
+      "expected_salary": "Expected salary:",
+      "categories_availability": "Categories:",
+      "country_driving_licence": "Country of issue of driving licence:",
+      "country_current_live": "Country of current stay:",
+      "work_type": "Work type:",
+      "cadence": "Cadence:",
+      "crew": "Crew:",
+      "driver_gender": "Gender:"
+    },
+    "calendar": {
+      "weekdays": [
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat",
+        "Sun"
+      ],
+      "months": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ]
+    }
+  }
+}
