@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 localization: Dict[str, Dict] = {}
 corrections: Dict[str, Dict[str, float]] = {}
 msg_to_delete = {"secondary": {}}
+call_functions = {}
 
 
 class Utils:

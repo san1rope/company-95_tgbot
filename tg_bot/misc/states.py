@@ -7,6 +7,7 @@ class AfterStart(StatesGroup):
 
 
 class DriverRegistration(StatesGroup):
+    MOTDMessage = State()
     WriteName = State()
     ChooseBirthYear = State()
     WritePhoneNumber = State()
@@ -29,3 +30,9 @@ class DriverRegistration(StatesGroup):
     ChooseCrew = State()
     ChooseGender = State()
     FormConfirmation = State()
+
+
+class DriverFormStates(StatesGroup):
+    ChooseAction = State()
+    FormResetConfirmation = State()
+    ChooseFieldToEdit = State()

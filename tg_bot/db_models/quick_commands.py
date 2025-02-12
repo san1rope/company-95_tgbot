@@ -103,6 +103,23 @@ class DbDriver:
             logger.error(traceback.format_exc())
             return False
 
+    async def remove(self) -> Union[bool, List[bool]]:
+        try:
+            target = await self.select()
+            if isinstance(target, list):
+                results = []
+                for i in target:
+                    results.append(await i.delete())
+
+                return results
+
+            elif isinstance(target, Driver):
+                return await target.delete()
+
+        except Exception:
+            logger.error(traceback.format_exc())
+            return False
+
 
 class DbCompany:
     def __init__(

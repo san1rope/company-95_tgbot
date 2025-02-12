@@ -13,6 +13,20 @@
       "<b>Choose your role at work</b>",
       "\n<b>⬇ Use the keyboard below</b>"
     ],
+    "driver_reg_motd": [
+      "<b>I am your personal assistant in finding a driver job. If you want to find a reliable and profitable vacancy quickly and effortlessly, you've come to the right place!</b>",
+      "\n<b>What can I do for you?</b>",
+      "<b>✅ Find a transport company that perfectly matches your experience and preferences.</b>",
+      "<b>✅ Offer real companies with good working conditions.</b>",
+      "<b>✅ Save you time – no more searching for job ads yourself.</b>",
+      "\n<b>Why trust me?</b>",
+      "<b>\uD83D\uDCBC Instant access to the best employers on the market.</b>",
+      "<b>\uD83D\uDCCD You can choose jobs in convenient regions of Europe.</b>",
+      "<b>\uD83D\uDD50 Quick registration – you provide the details, and I take care of the rest!</b>",
+      "\n<b>To get started, simply fill out a short form, and I will immediately find suitable vacancies for you. You provide the information – I ensure the perfect match.</b>",
+      "\n<b>\uD83D\uDE80 Don't miss your chance to find your dream job!</b>",
+      "\n<b>Click the button below and start now \uD83D\uDC47</b>"
+    ],
     "driver_reg_write_name": [
       "<b>❇\uFE0F Driver registration</b>\n",
       "<b>Write your full name</b>",
@@ -165,9 +179,37 @@
       "<b>\uD83D\uDCD6 The opening of your profile: %form_opens%</b>",
       "\n<b>⬇ Use the keyboard below</b>"
     ],
+    "driver_menu_change_form_status": [
+      "<b>✅\uFE0F You have successfully changed the status of your profile!</b>"
+    ],
     "driver_menu_my_form": [
       "<b>\uD83D\uDCC4 My form</b>\n",
       "<b>You can view your profile and optionally use the buttons below ⬇</b>"
+    ],
+    "driver_menu_my_form_reset_confirmation": [
+      "<b>\uD83D\uDCC4 My form</b>\n",
+      "<b>Are you sure you want to delete your profile data?</b>\n",
+      "\n<b>ℹ\uFE0F After deleting, you will be able to fill it out again.\n</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "driver_menu_my_form_reset_completed": [
+      "<b>\uD83D\uDCC4 My form</b>\n",
+      "<b>✅ You have successfully deleted your profile data!</b>",
+      "\n<b>With /start you can re-fill a new form</b>"
+    ],
+    "driver_menu_my_form_reset_error": [
+      "<b>\uD83D\uDED1 Failed to delete profile! Try again...</b>"
+    ],
+    "driver_menu_my_form_choose_field": [
+      "<b>\uD83D\uDCC4 My form</b>\n",
+      "<b>Select the field in the keyboard that you want to edit</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "driver_menu_my_form_param_changed": [
+      "<b>✅ Parameter changed successfully!</b>"
+    ],
+    "driver_menu_my_form_error_param_change": [
+      "<b>\uD83D\uDED1 An error occurred while writing the parameter! Try again...</b>"
     ]
   },
   "markups": {
@@ -177,7 +219,8 @@
         "skip": "Skip",
         "back": "\uD83D\uDD19 Back",
         "driver_change_form_status:off": "\uD83D\uDD34 Deactivate",
-        "driver_change_form_status:on": "\uD83D\uDFE2 Activate"
+        "driver_change_form_status:on": "\uD83D\uDFE2 Activate",
+        "fill_data": "\uD83D\uDCDD Fill in the details"
       },
       "choose_lang": [
         {
@@ -1131,7 +1174,62 @@
           "✏\uFE0F Edit": "driver_my_form_change"
         },
         {
-          "\uD83D\uDD18 Re-fill": "driver_my_form_reset_all"
+          "\uD83D\uDD18 Re-fill": "driver_my_form_reset"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "driver_menu_my_form_change_options_list": [
+        {
+          "Name": "name",
+          "Birth year": "birth_year"
+        },
+        {
+          "Phone": "phone_number",
+          "Car types": "car_types"
+        },
+        {
+          "Citizenships": "citizenships",
+          "95 code": "availability_95_code"
+        },
+        {
+          "Basis of stay": "basis_of_stay"
+        },
+        {
+          "Availability date": "date_stark_work",
+          "Languages": "language_skills"
+        },
+        {
+          "Experience": "job_experience",
+          "Internship": "need_internship"
+        },
+        {
+          "Unsuitable countries": "unsuitable_countries"
+        },
+        {
+          "Documents": "documents_availability",
+          "Categories": "categories_availability"
+        },
+        {
+          "Expected salary": "expected_salary"
+        },
+        {
+          "Country of issue driving licence": "country_driving_licence"
+        },
+        {
+          "Country current stay": "country_current_live"
+        },
+        {
+          "Work type": "work_type",
+          "Cadence": "cadence"
+        },
+        {
+          "Crew": "crew",
+          "Gender": "driver_gender"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
         }
       ]
     }

@@ -1,4 +1,5 @@
 import logging
+from typing import Union
 
 from aiogram import Router, F, enums, types
 from aiogram.filters import CommandStart
@@ -11,10 +12,14 @@ logger = logging.getLogger(__name__)
 router = Router()
 
 
-@router.message(CommandStart(), DriverFilter())
-async def show_menu(message: types.Message):
+@router.message(F.chat.type == enums.ChatType.PRIVATE, CommandStart(), DriverFilter())
+async def show_menu(message: Union[types.Message, types.CallbackQuery]):
     uid = message.from_user.id
     await Ut.handler_log(logger, uid)
+
+    if isinstance(message, types.CallbackQuery):
+        await message.answer()
+        message = message.message
 
     driver = await DbDriver(tg_user_id=uid).select()
     forms_count = len(await DbDriver(status=1).select())

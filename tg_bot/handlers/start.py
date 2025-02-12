@@ -32,18 +32,39 @@ async def choose_language(message: Union[types.Message, types.CallbackQuery], st
 
 
 @router.callback_query(AfterStart.ChooseLang)
-async def choose_role(callback: types.CallbackQuery, state: FSMContext):
+async def choose_role(message: [types.CallbackQuery, types.Message], state: FSMContext):
+    await message.answer()
+    uid = message.from_user.id
+    await Ut.handler_log(logger, uid)
+
+    if isinstance(message, types.CallbackQuery):
+        cd = message.data
+        if cd == "back":
+            data = await state.get_data()
+            ulang = data["ulang"]
+
+        else:
+            await state.update_data(ulang=cd)
+            ulang = cd
+
+        message = message.message
+
+    else:
+        ulang = ""
+
+    text = await Ut.get_message_text(key="choose_role", lang=ulang)
+    markup = await Ut.get_markup(mtype="inline", key="choose_role", lang=ulang, add_btn="back")
+    await Ut.delete_messages(user_id=uid)
+    msg = await message.answer(text=text, reply_markup=markup)
+    await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+
+    await state.set_state(AfterStart.ChooseRole)
+
+
+@router.callback_query(AfterStart.ChooseRole, F.data == "back")
+async def back_from_roles(callback: types.CallbackQuery, state: FSMContext):
     await callback.answer()
     uid = callback.from_user.id
     await Ut.handler_log(logger, uid)
 
-    cd = callback.data
-    await state.update_data(ulang=cd)
-
-    text = await Ut.get_message_text(key="choose_role", lang=cd)
-    markup = await Ut.get_markup(mtype="inline", key="choose_role", lang=cd, user_id=uid)
-    await Ut.delete_messages(user_id=uid)
-    msg = await callback.message.answer(text=text, reply_markup=markup)
-    await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
-
-    await state.set_state(AfterStart.ChooseRole)
+    await choose_language(message=callback, state=state)

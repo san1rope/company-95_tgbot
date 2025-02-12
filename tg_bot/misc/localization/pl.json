@@ -13,6 +13,20 @@
       "<b>Wybierz swoją rolę w pracy</b>",
       "\n<b>⬇ Użyj poniższej klawiatury</b>"
     ],
+    "driver_reg_motd": [
+      "<b>Jestem Twoim osobistym asystentem w poszukiwaniu pracy jako kierowca. Jeśli chcesz szybko i bez wysiłku znaleźć pewną i korzystną ofertę pracy, trafiłeś we właściwe miejsce!</b>",
+      "\n<b>Co mogę dla Ciebie zrobić?</b>",
+      "<b>✅ Znaleźć firmę transportową, która idealnie odpowiada Twojemu doświadczeniu i preferencjom.</b>",
+      "<b>✅ Zaproponować rzeczywiste firmy z dobrymi warunkami pracy.</b>",
+      "<b>✅ Zaoszczędzić Twój czas – koniec z samodzielnym przeszukiwaniem ofert pracy.</b>",
+      "\n<b>Dlaczego warto mi zaufać?</b>",
+      "<b>\uD83D\uDCBC Natychmiastowe dodanie do bazy najlepszych pracodawców na rynku.</b>",
+      "<b>\uD83D\uDCCD Możesz wybierać oferty pracy w dogodnych dla Ciebie regionach Europy.</b>",
+      "<b>\uD83D\uDD50 Szybka rejestracja – podajesz dane, a ja zajmuję się resztą!</b>",
+      "\n<b>Aby rozpocząć, wystarczy wypełnić krótki formularz, a ja natychmiast znajdę dla Ciebie odpowiednie oferty. Ty podajesz informacje – ja zajmuję się resztą.</b>",
+      "\n<b>\uD83D\uDE80 Nie przegap szansy na znalezienie wymarzonej pracy!</b>",
+      "\n<b>Kliknij poniższy przycisk i zacznij już teraz \uD83D\uDC47</b>"
+    ],
     "driver_reg_write_name": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
       "<b>Wpisz swoje imię i nazwisko</b>",
@@ -165,9 +179,37 @@
       "<b\uD83D\uDCD6 >Otwarcie profilu użytkownika: %form_opens%</b>",
       "\n<b>⬇ Użyj poniższej klawiatury</b>"
     ],
+    "driver_menu_change_form_status": [
+      "<b>✅\uFE0F Pomyślnie zmieniłeś status swojego profilu!</b>"
+    ],
     "driver_menu_my_form": [
       "<b>\uD83D\uDCC4 Mój profil</b>\n",
       "<b>Możesz wyświetlić swój profil i opcjonalnie użyć poniższych przycisków ⬇</b>"
+    ],
+    "driver_menu_my_form_reset_confirmation": [
+      "<b>\uD83D\uDCC4 Mój profil</b>\n",
+      "<b>Czy na pewno chcesz usunąć dane swojego profilu?</b>\n",
+      "\n<b>ℹ\uFE0F Po usunięciu będziesz mógł wypełnić je ponownie.</b>",
+      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+    ],
+    "driver_menu_my_form_reset_completed": [
+      "<b>\uD83D\uDCC4 Mój profil</b>\n",
+      "<b>✅ Pomyślnie usunąłeś dane swojego profilu!</b>",
+      "\n<b>Za pomocą /start możesz ponownie wypełnić nowy formularz</b>"
+    ],
+    "driver_menu_my_form_reset_error": [
+      "<b>\uD83D\uDED1 Nie udało się usunąć profilu! Spróbuj ponownie...</b>"
+    ],
+    "driver_menu_my_form_choose_field": [
+      "<b>\uD83D\uDCC4 Mój profil</b>\n",
+      "<b>Zaznacz na klawiaturze pole, które chcesz edytować</b>",
+      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+    ],
+    "driver_menu_my_form_param_changed": [
+      "<b>✅ Parametr został pomyślnie zmieniony!</b>"
+    ],
+    "driver_menu_my_form_error_param_change": [
+      "<b>\uD83D\uDED1 Wystąpił błąd podczas zapisu parametru! Spróbuj ponownie...</b>"
     ]
   },
   "markups": {
@@ -177,7 +219,8 @@
         "skip": "Skip",
         "back": "\uD83D\uDD19 Powrót",
         "driver_change_form_status:off": "\uD83D\uDD34 Dezaktywuj",
-        "driver_change_form_status:on": "\uD83D\uDFE2 Aktywuj"
+        "driver_change_form_status:on": "\uD83D\uDFE2 Aktywuj",
+        "fill_data": "\uD83D\uDCDD Wypełnij szczegóły"
       },
       "choose_lang": [
         {
@@ -1131,7 +1174,62 @@
           "✏\uFE0F Edytuj": "driver_my_form_change"
         },
         {
-          "\uD83D\uDD18 Ponowne napełnianie": "driver_my_form_reset_all"
+          "\uD83D\uDD18 Ponowne napełnianie": "driver_my_form_reset"
+        },
+        {
+          "\uD83D\uDD19 Powrót": "back"
+        }
+      ],
+      "driver_menu_my_form_change_options_list": [
+        {
+          "Nazwa": "name",
+          "Rok urodzenia": "birth_year"
+        },
+        {
+          "Telefon": "phone_number",
+          "Rodzaje samochodów": "car_types"
+        },
+        {
+          "Narodowości": "citizenships",
+          "Kod 95": "availability_95_code"
+        },
+        {
+          "Podstawy pobytu": "basis_of_stay"
+        },
+        {
+          "Data dostępności": "date_stark_work",
+          "Języki": "language_skills"
+        },
+        {
+          "Doświadczenie": "job_experience",
+          "Staż": "need_internship"
+        },
+        {
+          "Niewłaściwe kraje": "unsuitable_countries"
+        },
+        {
+          "Dokumenty": "documents_availability",
+          "Kategorie": "categories_availability"
+        },
+        {
+          "Oczekiwane wynagrodzenie": "expected_salary"
+        },
+        {
+          "Kraj wydania licencji": "country_driving_licence"
+        },
+        {
+          "Kraj obecnego zamieszkania": "country_current_live"
+        },
+        {
+          "Rodzaj pracy": "work_type",
+          "Załoga": "cadence"
+        },
+        {
+          "Załoga": "crew",
+          "Płeć": "driver_gender"
+        },
+        {
+          "\uD83D\uDD19 Powrót": "back"
         }
       ]
     }
