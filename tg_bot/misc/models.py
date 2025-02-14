@@ -157,7 +157,7 @@ class DriverForm(BaseModel):
 
         if not (model.unsuitable_countries is None):
             model.unsuitable_countries = model.unsuitable_countries.split(',') if isinstance(
-                model.unsuitable_countries,str) else model.unsuitable_countries
+                model.unsuitable_countries, str) else model.unsuitable_countries
             localized_text = await self.codes_to_text_checkboxes_countries(
                 lang_inline_markups=lang_inline_markups, codes=model.unsuitable_countries)
             text.append(f"<b>{hcode(fcd['unsuitable_countries'])} {', '.join(localized_text)}</b>")
@@ -211,25 +211,30 @@ class DriverForm(BaseModel):
 
         return "\n".join(text)
 
-    async def calculate_form_data(self) -> float:
+    async def calculate_form_data(self, db_model: Optional[Driver] = None) -> float:
         form_price = Config.BASE_FORM_PRICE
 
-        if not (self.car_types is None):
+        model = db_model if db_model else self
+
+        if not (model.car_types is None):
             curr_cor = corrections["car_types"]
-            for sel_val in self.car_types:
+            car_types = model.car_types if isinstance(model, DriverForm) else model.car_types.split(',')
+            for sel_val in car_types:
                 form_price += curr_cor[sel_val] if sel_val in curr_cor else 0
 
-        if not (self.basis_of_stay is None):
+        if not (model.basis_of_stay is None):
             curr_cor = corrections["basis_of_stay"]
-            form_price += curr_cor[self.basis_of_stay] if self.basis_of_stay in curr_cor else 0
+            form_price += curr_cor[model.basis_of_stay] if model.basis_of_stay in curr_cor else 0
 
-        if not (self.availability_95_code is None):
+        if not (model.availability_95_code is None):
             curr_cor = corrections["availability_95_code"]
-            form_price += curr_cor[self.availability_95_code] if self.availability_95_code in curr_cor else 0
+            form_price += curr_cor[model.availability_95_code] if model.availability_95_code in curr_cor else 0
 
-        if not (self.language_skills is None):
+        if not (model.language_skills is None):
             curr_cor = corrections["language_skills"]
-            for sel_val in self.language_skills:
+            language_skills = model.language_skills if isinstance(
+                model, DriverForm) else model.language_skills.split(',')
+            for sel_val in language_skills:
                 for curr_el, curr_value in curr_cor.items():
                     if curr_el == sel_val:
                         form_price += curr_value
@@ -239,9 +244,11 @@ class DriverForm(BaseModel):
                         if curr_el.split(':')[1] == col:
                             form_price += curr_value
 
-        if not (self.job_experience is None):
+        if not (model.job_experience is None):
             curr_cor = corrections["job_experience"]
-            for sel_val in self.job_experience:
+            job_experience = model.job_experience if isinstance(
+                model, DriverForm) else model.job_experience.split(',')
+            for sel_val in job_experience:
                 for curr_el, curr_value in curr_cor.items():
                     if curr_el == sel_val:
                         form_price += curr_value
@@ -251,28 +258,32 @@ class DriverForm(BaseModel):
                         if curr_el.split(':')[1] == col:
                             form_price += curr_value
 
-        if not (self.need_internship is None):
+        if not (model.need_internship is None):
             curr_cor = corrections["need_internship"]
-            form_price += curr_cor[self.need_internship] if self.need_internship in curr_cor else 0
+            form_price += curr_cor[model.need_internship] if model.need_internship in curr_cor else 0
 
-        if not (self.unsuitable_countries is None):
+        if not (model.unsuitable_countries is None):
             curr_cor = corrections["unsuitable_countries"]
+            unsuitable_countries = model.unsuitable_countries if isinstance(
+                model, DriverForm) else model.unsuitable_countries.split(',')
             for curr_el, curr_value in curr_cor.items():
-                if (curr_el == "%unselected%") and (not self.unsuitable_countries):
+                if (curr_el == "%unselected%") and (not unsuitable_countries):
                     form_price += curr_value
 
-        if not (self.documents_availability is None):
+        if not (model.documents_availability is None):
             curr_cor = corrections["documents_availability"]
-            for sel_val in self.documents_availability:
+            documents_availability = model.documents_availability if isinstance(
+                model, DriverForm) else model.documents_availability.split(',')
+            for sel_val in documents_availability:
                 form_price += curr_cor[sel_val] if sel_val in curr_cor else 0
 
-        if not (self.expected_salary is None):
+        if not (model.expected_salary is None):
             curr_cor = corrections["expected_salary"]
             for corr_el, corr_value in curr_cor.items():
                 min_value, max_value = list(map(float, corr_el.split("-")))
-                form_price += corr_value if min_value <= self.expected_salary <= max_value else 0
+                form_price += corr_value if min_value <= model.expected_salary <= max_value else 0
 
-        if not (self.country_current_live is None):
+        if not (model.country_current_live is None):
             curr_cor = corrections["country_current_living"]
             for corr_el, corr_value in curr_cor.items():
                 if "cont:" in corr_el:
@@ -294,13 +305,15 @@ class DriverForm(BaseModel):
                             if flag:
                                 break
 
-        if not (self.work_type is None):
+        if not (model.work_type is None):
             curr_cor = corrections["work_types"]
-            form_price += curr_cor[self.work_type] if self.work_type in curr_cor else 0
+            form_price += curr_cor[model.work_type] if model.work_type in curr_cor else 0
 
-        if not (self.cadence is None):
+        if not (model.cadence is None):
             curr_cor = corrections["cadence"]
-            for sel_val in self.cadence:
+            cadence = model.cadence if isinstance(
+                model, DriverForm) else model.cadence.split(',')
+            for sel_val in cadence:
                 form_price += curr_cor[sel_val] if sel_val in curr_cor else 0
 
         return form_price

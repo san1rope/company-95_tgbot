@@ -131,7 +131,9 @@ async def field_has_changed(tg_user_id: int, state: FSMContext, returned_data: U
 
     driver = await DbDriver(tg_user_id=tg_user_id).select()
 
-    result = await DbDriver(tg_user_id=tg_user_id).update(**{field_name: returned_data})
+    form_price = await DriverForm().calculate_form_data(db_model=driver)
+    result = await DbDriver(tg_user_id=tg_user_id).update(opens_count=0, form_price=form_price,
+                                                          **{field_name: returned_data})
     if result:
         text = await Ut.get_message_text(key="driver_menu_my_form_param_changed", lang=driver.lang)
         await RegistrationSteps.send_step_message(user_id=tg_user_id, text=text)
