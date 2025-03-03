@@ -22,6 +22,12 @@ class Utils:
         logger_from_caller.info(f"Handler called. user_id={user_id}")
 
     @staticmethod
+    async def send_step_message(user_id: int, text: str, markup: Optional[InlineKeyboardMarkup] = None):
+        await Utils.delete_messages(user_id=user_id)
+        msg = await Config.BOT.send_message(chat_id=user_id, text=text, reply_markup=markup)
+        await Utils.add_msg_to_delete(user_id=user_id, msg_id=msg.message_id)
+
+    @staticmethod
     async def get_message_text(key: str, lang: str) -> str:
         lang_data = localization[lang] if localization.get(lang) else localization[Config.DEFAULT_LANG]
         return "\n".join(lang_data["messages"][key])

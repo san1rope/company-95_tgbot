@@ -11,6 +11,7 @@ class DriverRegistration(StatesGroup):
     WriteName = State()
     ChooseBirthYear = State()
     WritePhoneNumber = State()
+    ChooseMessangersAvailabilities = State()
     ChooseCarType = State()
     ChooseCitizenship = State()
     ChooseBasisOfStay = State()
@@ -20,7 +21,7 @@ class DriverRegistration(StatesGroup):
     IndicateJobExperience = State()
     ChooseNeedInternship = State()
     ChooseUnsuitableCountries = State()
-    SelectDocumentsAvailability = State()
+    ChooseDangerousGoods = State()
     WriteExpectedSalary = State()
     ChooseAvailabilityCategories = State()
     ChooseCountryDrivingLicense = State()
@@ -32,7 +33,15 @@ class DriverRegistration(StatesGroup):
     FormConfirmation = State()
 
 
+class CompanyRegistration(StatesGroup):
+    MOTDMessage = State()
+
+
 class DriverFormStates(StatesGroup):
     ChooseAction = State()
     FormResetConfirmation = State()
     ChooseFieldToEdit = State()
+
+
+class CompanyFilters(StatesGroup):
+    ChooseParam = State()

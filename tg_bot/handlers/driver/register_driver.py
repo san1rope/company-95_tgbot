@@ -1,0 +1,1122 @@
+import logging
+from datetime import datetime
+from typing import Optional, Union, Dict, List, Any
+
+from aiogram import Router, types
+from aiogram.exceptions import TelegramBadRequest
+from aiogram.fsm.context import FSMContext
+
+from config import Config
+from tg_bot.db_models.quick_commands import DbDriver, DbCompany
+from tg_bot.db_models.schemas import Driver
+from tg_bot.handlers.start import choose_role
+from tg_bot.keyboards.default import request_contact_default
+from tg_bot.keyboards.inline import year_inline, calendar_inline
+from tg_bot.misc.models import DriverForm
+from tg_bot.misc.states import DriverRegistration
+from tg_bot.misc.utils import Utils as Ut, call_functions
+
+logger = logging.getLogger(__name__)
+router = Router()
+
+
+class RegistrationSteps:
+
+    @staticmethod
+    async def model_form_correct(title: str, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
+        if isinstance(data_model, DriverForm):
+            title = await data_model.form_completion(title=title, lang=lang)
+
+        elif isinstance(data_model, Driver):
+            title = await DriverForm().form_completion(title=title, lang=lang, db_model=data_model)
+
+        return title
+
+    @staticmethod
+    async def get_lang(state_data: Dict, user_id: int) -> str:
+        status = state_data.get("status")
+        if status == 0:
+            lang = state_data["ulang"]
+
+        elif status == 1:
+            driver = await DbDriver(tg_user_id=user_id).select()
+            lang = driver.lang
+
+        elif status == 2:
+            company = await DbCompany(tg_user_id=user_id).select()
+            lang = company.lang
+
+        else:
+            lang = Config.DEFAULT_LANG
+
+        return lang
+
+    @staticmethod
+    async def processing_back_btn(callback: types.CallbackQuery, state: FSMContext, lang: str, model_attr: str = None,
+                                  function_for_back=None, next_function=None) -> bool:
+        cd = callback.data
+        if cd != "back":
+            return False
+
+        data = await state.get_data()
+        status = data["status"]
+        params = []
+        if status == 0:
+            dmodel: DriverForm = data["dmodel"]
+            if model_attr:
+                setattr(dmodel, model_attr, None)
+
+            await state.update_data(dmodel=dmodel, function_for_back=function_for_back, call_function=next_function)
+            params = {"state": state, "lang": lang, "data_model": dmodel}
+
+        elif status == 1:
+            params = {"callback": callback, "state": state, "from_reg_steps": True}
+
+        elif status == 2:
+            params = {"callback": callback, "state": state}
+
+        data = await state.get_data()
+        await data["function_for_back"](**params)
+        return True
+
+    @staticmethod
+    async def handler_finish(state: FSMContext, returned_value: Any, additional_field: str = None) -> bool:
+        data = await state.get_data()
+
+        func_params = [state, returned_value]
+        if data["status"] in [1, 2]:
+            if isinstance(returned_value, list):
+                func_params[1] = ",".join(returned_value)
+
+            func_params.append(additional_field)
+
+        await data["call_function"](*func_params)
+        return True
+
+    @staticmethod
+    async def processing_checkboxes(callback: types.CallbackQuery, state: FSMContext, lang: str, markup_key: str,
+                                    error_msg_key: str, markup_without_buttons: List[str] = [],
+                                    additional_button: Optional[str] = None,
+                                    additional_button_index: Optional[int] = None) -> Union[list, bool]:
+        cd = callback.data
+        uid = callback.from_user.id
+        data = await state.get_data()
+        saved_data = data.get("saved_data") if data.get("saved_data") else []
+
+        markup = await Ut.get_markup(mtype="inline", key=markup_key, lang=lang, add_btn_index=additional_button_index,
+                                     without_inline_buttons=markup_without_buttons, add_btn=additional_button)
+        if callback.data == "confirm":
+            if not saved_data:
+                text = await Ut.get_message_text(key=error_msg_key, lang=lang)
+                msg = await callback.message.answer(text=text)
+                await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+                return False
+
+        elif cd == "skip":
+            saved_data = []
+
+        else:
+            if cd == "check":
+                for block_buttons in markup.inline_keyboard:
+                    for btn in block_buttons:
+                        if btn.callback_data in ["check", "uncheck", "confirm", "back", "skip"]:
+                            continue
+
+                        if btn.callback_data not in saved_data:
+                            saved_data.append(btn.callback_data)
+
+                        btn.text = f"✅ {btn.text}"
+
+                await state.update_data(saved_data=saved_data)
+
+            elif cd == "uncheck":
+                await state.update_data(saved_data=[])
+
+            else:
+                if cd in saved_data:
+                    saved_data.remove(cd)
+
+                else:
+                    saved_data.append(cd)
+
+                await state.update_data(saved_data=saved_data)
+                for row in markup.inline_keyboard:
+                    for btn in row:
+                        if btn.callback_data in saved_data:
+                            btn.text = f"✅ {btn.text}"
+
+            try:
+                await callback.message.edit_reply_markup(reply_markup=markup)
+                return False
+
+            except TelegramBadRequest:
+                return False
+
+        await state.update_data(saved_data=[])
+        return saved_data
+
+    @staticmethod
+    async def processing_countries_markup(callback: types.CallbackQuery, state: FSMContext, lang: str,
+                                          error_msg_key: str, without_inline_buttons: Optional[List[str]] = [],
+                                          add_btn: Optional[str] = None, choose_one_country: bool = False
+                                          ) -> Union[list, str, bool]:
+        cd = callback.data
+        uid = callback.from_user.id
+        data = await state.get_data()
+        saved_data = data.get("saved_data") if data.get("saved_data") else []
+
+        if "cont:" in cd:
+            selected_continent = cd.replace('cont:', '')
+            await state.update_data(sc=selected_continent, sp=1)
+
+            markup = await Ut.get_markup(mtype="inline", key=f"countries_{selected_continent}_1", lang=lang,
+                                         add_btn=add_btn, without_inline_buttons=without_inline_buttons)
+            markup = await Ut.recognize_selected_values(
+                markup=markup, datalist=saved_data, text_placeholder="✅ %btn.text%")
+
+            await callback.message.edit_reply_markup(reply_markup=markup)
+            return False
+
+        elif "next_page:" in cd:
+            next_page = int(cd.replace('next_page:', ''))
+            await state.update_data(sp=next_page)
+            markup = await Ut.get_markup(mtype="inline", key=f"countries_{data['sc']}_{next_page}", lang=lang,
+                                         add_btn=add_btn, without_inline_buttons=without_inline_buttons)
+            markup = await Ut.recognize_selected_values(markup=markup, datalist=saved_data,
+                                                        text_placeholder="✅ %btn.text%")
+
+            await callback.message.edit_reply_markup(reply_markup=markup)
+            return False
+
+        elif "prev_page:" in cd:
+            prev_page = int(cd.replace('prev_page:', ''))
+            await state.update_data(sp=prev_page)
+            markup = await Ut.get_markup(mtype="inline", key=f"countries_{data['sc']}_{prev_page}", lang=lang,
+                                         add_btn=add_btn, without_inline_buttons=without_inline_buttons)
+            markup = await Ut.recognize_selected_values(markup=markup, datalist=saved_data,
+                                                        text_placeholder="✅ %btn.text%")
+
+            await callback.message.edit_reply_markup(reply_markup=markup)
+            return False
+
+        elif "to_continents" == cd:
+            markup = await Ut.get_markup(mtype="inline", key="continents", lang=lang,
+                                         add_btn=add_btn, without_inline_buttons=without_inline_buttons)
+            await callback.message.edit_reply_markup(reply_markup=markup)
+            return False
+
+        elif "skip" == cd:
+            saved_data = []
+
+        elif "confirm" == cd:
+            if not saved_data:
+                text = await Ut.get_message_text(key=error_msg_key, lang=lang)
+                msg = await callback.message.answer(text=text)
+                await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+                return False
+
+        else:
+            if cd == "0":
+                return False
+
+            if choose_one_country:
+                saved_data = cd
+
+            else:
+                if cd in saved_data:
+                    saved_data.remove(cd)
+
+                else:
+                    saved_data.append(cd)
+
+                await state.update_data(saved_data=saved_data)
+
+                markup = await Ut.get_markup(mtype="inline", key=f"countries_{data['sc']}_{data['sp']}", lang=lang,
+                                             add_btn=add_btn, without_inline_buttons=without_inline_buttons)
+                markup = await Ut.recognize_selected_values(
+                    markup=markup, datalist=saved_data, text_placeholder="✅ %btn.text%")
+
+                await callback.message.edit_reply_markup(reply_markup=markup)
+                return False
+
+        await state.update_data(saved_data=[])
+        return saved_data
+
+    @classmethod
+    async def name(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
+        text = await Ut.get_message_text(key="driver_reg_write_name", lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(mtype="inline", lang=lang, add_btn="back")
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        await state.set_state(DriverRegistration.WriteName)
+
+    @classmethod
+    async def name_handler(cls, message: Union[types.Message, types.CallbackQuery], state: FSMContext):
+        uid = message.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        if isinstance(message, types.CallbackQuery):
+            await message.answer()
+            result = await cls.processing_back_btn(callback=message, state=state, lang=lang,
+                                                   function_for_back=choose_role)
+            if result:
+                return
+
+        name = message.text.strip()
+        if not await Ut.is_valid_name(name=name):
+            text = await Ut.get_message_text(key="wrong_name_format", lang=lang)
+            msg = await message.answer(text=text)
+            return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+
+        await cls.handler_finish(state=state, returned_value=name, additional_field="name")
+
+    @classmethod
+    async def birth_year(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
+        text = await Ut.get_message_text(key="driver_reg_choose_birth_year", lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await year_inline(from_year=datetime.now(tz=Config.TIMEZONE).year - 42, lang=lang)
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        await state.set_state(DriverRegistration.ChooseBirthYear)
+
+    @classmethod
+    async def birth_year_handler(cls, callback: types.CallbackQuery, state: FSMContext):
+        await callback.answer()
+        uid = callback.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        cd = callback.data
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        result = await cls.processing_back_btn(
+            callback=callback, state=state, lang=lang, function_for_back=cls.name,
+            next_function=call_functions["birth_year"], model_attr="name")
+        if result:
+            return
+
+        try:
+            direction, old_from_year = cd.split(':')
+
+            if direction == "left":
+                old_from_year = int(old_from_year) - 25
+                markup = await year_inline(from_year=old_from_year, lang=lang)
+                return await callback.message.edit_reply_markup(reply_markup=markup)
+
+            elif direction == "right":
+                old_from_year = int(old_from_year) + 25
+                if old_from_year > datetime.now(tz=Config.TIMEZONE).year - 18:
+                    return
+
+                markup = await year_inline(from_year=old_from_year, lang=lang)
+                return await callback.message.edit_reply_markup(reply_markup=markup)
+
+            else:
+                return
+
+        except ValueError:
+            birth_year = int(cd)
+
+        await cls.handler_finish(state=state, returned_value=birth_year, additional_field="birth_year")
+
+    @classmethod
+    async def phone_number(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
+        text = await Ut.get_message_text(key="driver_reg_write_contact_number", lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(mtype="inline", lang=lang, add_btn="back")
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        text = await Ut.get_message_text(key="driver_reg_request_contact", lang=lang)
+        msg = await Config.BOT.send_message(chat_id=state.key.user_id, text=text,
+                                            reply_markup=await request_contact_default(lang=lang))
+        await Ut.add_msg_to_delete(user_id=state.key.user_id, msg_id=msg.message_id)
+
+        await state.set_state(DriverRegistration.WritePhoneNumber)
+
+    @classmethod
+    async def phone_number_handler(cls, message: [types.Message, types.CallbackQuery], state: FSMContext):
+        uid = message.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        if isinstance(message, types.CallbackQuery):
+            await message.answer()
+
+            result = await cls.processing_back_btn(
+                callback=message, state=state, lang=lang, next_function=call_functions["phone_number"],
+                function_for_back=cls.birth_year, model_attr="birth_year")
+            if result:
+                return
+
+        else:
+            if message.contact:
+                phone_number = message.contact.phone_number.replace("+", "")
+
+            else:
+                phone_number = message.text.strip().replace("+", "")
+                if not phone_number.isdigit():
+                    text = await Ut.get_message_text(key="wrong_phone_number_format", lang=lang)
+                    msg = await message.answer(text=text)
+                    return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+
+        await cls.handler_finish(state=state, returned_value=phone_number, additional_field="phone_number")
+
+    @classmethod
+    async def messangers_availabilities(cls, state: FSMContext, lang: str,
+                                        data_model: Optional[Union[DriverForm, Driver]] = None):
+        text = await Ut.get_message_text(key="driver_reg_choose_messangers_availabilities", lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(mtype="inline", lang=lang, key="messangers_availabilities")
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        await state.update_data(selected_messangers=[])
+        await state.set_state(DriverRegistration.ChooseMessangersAvailabilities)
+
+    @classmethod
+    async def messangers_availabilities_handler(cls, callback: types.CallbackQuery, state: FSMContext):
+        await callback.answer()
+        uid = callback.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        result = await cls.processing_back_btn(
+            callback=callback, state=state, lang=lang, next_function=call_functions["messangers"],
+            function_for_back=cls.phone_number, model_attr="phone_number")
+        if result:
+            return
+
+        data_from_checkboxes = await cls.processing_checkboxes(
+            callback=callback, state=state, lang=lang, markup_key="messangers_availabilities",
+            error_msg_key="wrong_confirm"
+        )
+        if data_from_checkboxes is False:
+            return
+
+        await cls.handler_finish(state=state, returned_value=data_from_checkboxes, additional_field="messangers")
+
+    @classmethod
+    async def car_types(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
+        data = await state.get_data()
+        status = data["status"]
+        if status == 2:
+            text_key = "company_filters_car_types"
+
+        else:
+            text_key = "driver_reg_choose_car_type"
+
+        text = await Ut.get_message_text(key=text_key, lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(mtype="inline", lang=lang, key="car_types")
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        await state.update_data(selected_car_types=[])
+        await state.set_state(DriverRegistration.ChooseCarType)
+
+    @classmethod
+    async def car_types_handler(cls, callback: types.CallbackQuery, state: FSMContext):
+        await callback.answer()
+        uid = callback.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        result = await cls.processing_back_btn(
+            callback=callback, state=state, lang=lang, function_for_back=cls.messangers_availabilities,
+            next_function=call_functions["car_types"], model_attr="messangers")
+        if result:
+            return
+
+        data_from_checkboxes = await cls.processing_checkboxes(
+            callback=callback, state=state, lang=lang, markup_key="car_types", error_msg_key="wrong_confirm"
+        )
+        if data_from_checkboxes is False:
+            return
+
+        await cls.handler_finish(state=state, returned_value=data_from_checkboxes, additional_field="car_types")
+
+    @classmethod
+    async def citizenships(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
+        text = await Ut.get_message_text(key="driver_reg_choose_citizenship", lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(mtype="inline", lang=lang, key="continents")
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        await state.update_data(selected_countries=[])
+        await state.set_state(DriverRegistration.ChooseCitizenship)
+
+    @classmethod
+    async def citizenships_handler(cls, callback: types.CallbackQuery, state: FSMContext):
+        await callback.answer()
+        uid = callback.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        result = await cls.processing_back_btn(
+            callback=callback, state=state, lang=lang, function_for_back=cls.car_types,
+            next_function=call_functions["citizenships"], model_attr="car_types")
+        if result:
+            return
+
+        data_from_countries = await cls.processing_countries_markup(
+            callback=callback, state=state, lang=lang, error_msg_key="wrong_confirm")
+        if data_from_countries is False:
+            return
+
+        await cls.handler_finish(state=state, returned_value=data_from_countries, additional_field="citizenships")
+
+    @classmethod
+    async def basis_of_stay(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
+        text = await Ut.get_message_text(key="driver_reg_basis_of_stay", lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(mtype="inline", lang=lang, key="basis_of_stay")
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        await state.set_state(DriverRegistration.ChooseBasisOfStay)
+
+    @classmethod
+    async def basis_of_stay_handler(cls, callback: types.CallbackQuery, state: FSMContext):
+        await callback.answer()
+        uid = callback.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = data["ulang"]
+
+        cd = callback.data
+
+        result = await cls.processing_back_btn(
+            callback=callback, state=state, lang=lang, function_for_back=cls.citizenships,
+            next_function=call_functions["basis_of_stay"], model_attr="citizenships")
+        if result:
+            return
+
+        await cls.handler_finish(state=state, returned_value=cd, additional_field="basis_of_stay")
+
+    @classmethod
+    async def availability_95_code(cls, state: FSMContext, lang: str,
+                                   data_model: Optional[Union[DriverForm, Driver]] = None):
+        text = await Ut.get_message_text(key="driver_reg_availability_95_code", lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(mtype="inline", lang=lang, key="availability_95_code")
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        await state.set_state(DriverRegistration.Availability95Code)
+
+    @classmethod
+    async def availability_95_code_handler(cls, callback: types.CallbackQuery, state: FSMContext):
+        await callback.answer()
+        uid = callback.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        result = await cls.processing_back_btn(
+            callback=callback, state=state, lang=lang, function_for_back=cls.basis_of_stay,
+            next_function=call_functions["95_code"], model_attr="basis_of_stay")
+        if result:
+            return
+
+        cd = callback.data
+        await cls.handler_finish(state=state, returned_value=cd, additional_field="availability_95_code")
+
+    @classmethod
+    async def date_stark_work(cls, state: FSMContext, lang: str,
+                              data_model: Optional[Union[DriverForm, Driver]] = None):
+        text = await Ut.get_message_text(key="driver_reg_date_start_work", lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await calendar_inline(date_time=datetime.now(tz=Config.TIMEZONE), lang=lang)
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        await state.set_state(DriverRegistration.ChooseDateReadyToStartWork)
+
+    @classmethod
+    async def date_stark_work_handler(cls, callback: types.CallbackQuery, state: FSMContext):
+        await callback.answer()
+        uid = callback.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        result = await cls.processing_back_btn(
+            callback=callback, state=state, lang=lang, function_for_back=cls.availability_95_code,
+            next_function=call_functions["date_start_work"], model_attr="availability_95_code")
+        if result:
+            return
+
+        cd = callback.data
+        if "l:" in cd:
+            date_time = datetime.strptime(cd.replace("l:", ""), "%d.%m.%Y")
+            return await callback.message.edit_reply_markup(
+                reply_markup=await calendar_inline(date_time=date_time, lang=lang))
+
+        elif "r:" in cd:
+            date_time = datetime.strptime(cd.replace("r:", ""), "%d.%m.%Y")
+            return await callback.message.edit_reply_markup(
+                reply_markup=await calendar_inline(date_time=date_time, lang=lang))
+
+        elif "." in cd:
+            value = datetime.strptime(cd, "%d.%m.%Y")
+            await cls.handler_finish(state=state, returned_value=value, additional_field="date_stark_work")
+
+    @classmethod
+    async def language_skills(cls, state: FSMContext, lang: str,
+                              data_model: Optional[Union[DriverForm, Driver]] = None):
+        text = await Ut.get_message_text(key="driver_reg_language_skills", lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(mtype="inline", key="language_skills", lang=lang)
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        await state.update_data(languages_skills=[])
+        await state.set_state(DriverRegistration.IndicateLanguageSkills)
+
+    @classmethod
+    async def language_skills_handler(cls, callback: types.CallbackQuery, state: FSMContext):
+        await callback.answer()
+        uid = callback.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        result = await cls.processing_back_btn(
+            callback=callback, state=state, lang=lang, function_for_back=cls.date_stark_work,
+            next_function=call_functions["language_skills"], model_attr="date_stark_work")
+        if result:
+            return
+
+        cd = callback.data
+
+        try:
+            languages_skills: List[str] = data["languages_skills"]
+
+        except KeyError:
+            languages_skills = []
+            await state.update_data(languages_skills=languages_skills)
+
+        if ":" in cd:
+            cd_lang = cd.split(":")[0]
+            for el in languages_skills.copy():
+                if cd_lang in el:
+                    languages_skills.remove(el)
+
+            languages_skills.append(cd)
+            await state.update_data(languages_skills=languages_skills)
+
+            markup = await Ut.get_markup(mtype="inline", key="language_skills", lang=lang)
+            markup = await Ut.recognize_selected_values(markup=markup, datalist=languages_skills, text_placeholder="🟢")
+
+            try:
+                return await callback.message.edit_reply_markup(reply_markup=markup)
+
+            except TelegramBadRequest:
+                return
+
+        elif "confirm" == cd:
+            if len(languages_skills) < 3:
+                text = await Ut.get_message_text(key="wrong_language_skills", lang=lang)
+                msg = await callback.message.answer(text=text)
+                return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+
+        await cls.handler_finish(state=state, returned_value=languages_skills, additional_field="language_skills")
+
+    @classmethod
+    async def job_experience(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
+        text = await Ut.get_message_text(key="driver_reg_job_experience", lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(mtype="inline", key="job_experience", lang=lang)
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        await state.update_data(job_experience=[])
+        await state.set_state(DriverRegistration.IndicateJobExperience)
+
+    @classmethod
+    async def job_experience_handler(cls, callback: types.CallbackQuery, state: FSMContext):
+        await callback.answer()
+        uid = callback.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        result = await cls.processing_back_btn(
+            callback=callback, state=state, lang=lang, function_for_back=cls.language_skills,
+            next_function=call_functions["job_experience"], model_attr="language_skills")
+        if result:
+            return
+
+        cd = callback.data
+
+        try:
+            job_experience: List[str] = data["job_experience"]
+
+        except KeyError:
+            job_experience = []
+            await state.update_data(job_experience=job_experience)
+
+        if ":" in cd:
+            row_val = cd.split(":")[0]
+            for el in job_experience.copy():
+                if row_val in el:
+                    job_experience.remove(el)
+
+            job_experience.append(cd)
+            await state.update_data(job_experience=job_experience)
+
+            markup = await Ut.get_markup(mtype="inline", key="job_experience", lang=lang)
+            markup = await Ut.recognize_selected_values(markup=markup, datalist=job_experience, text_placeholder="🟢")
+
+            try:
+                return await callback.message.edit_reply_markup(reply_markup=markup)
+
+            except TelegramBadRequest:
+                return
+
+        elif "confirm" == cd:
+            if len(job_experience) < 3:
+                text = await Ut.get_message_text(key="wrong_job_experience", lang=lang)
+                msg = await callback.message.answer(text=text)
+                return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+
+            await cls.handler_finish(state=state, returned_value=job_experience, additional_field="job_experience")
+
+    @classmethod
+    async def need_internship(cls, state: FSMContext, lang: str,
+                              data_model: Optional[Union[DriverForm, Driver]] = None):
+        text = await Ut.get_message_text(key="driver_reg_need_internship", lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(mtype="inline", key="need_internship", lang=lang)
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        await state.set_state(DriverRegistration.ChooseNeedInternship)
+
+    @classmethod
+    async def need_internship_handler(cls, callback: types.CallbackQuery, state: FSMContext):
+        await callback.answer()
+        uid = callback.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        result = await cls.processing_back_btn(
+            callback=callback, state=state, lang=lang, function_for_back=cls.job_experience,
+            next_function=call_functions["need_internship"], model_attr="job_experience")
+        if result:
+            return
+
+        cd = callback.data
+        await cls.handler_finish(state=state, returned_value=cd, additional_field="need_internship")
+
+    @classmethod
+    async def unsuitable_countries(cls, state: FSMContext, lang: str,
+                                   data_model: Optional[Union[DriverForm, Driver]] = None):
+        text = await Ut.get_message_text(key="driver_reg_unsuitable_countries", lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(mtype="inline", key="continents", add_btn="skip", add_btn_index=-1, lang=lang,
+                                     without_inline_buttons=["cont:north_america", "cont:south_america", "cont:africa",
+                                                             "cont:oceania"])
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        await state.update_data(unsuitable_countries=[])
+        await state.set_state(DriverRegistration.ChooseUnsuitableCountries)
+
+    @classmethod
+    async def unsuitable_countries_handler(cls, callback: types.CallbackQuery, state: FSMContext):
+        await callback.answer()
+        uid = callback.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        result = await cls.processing_back_btn(
+            callback=callback, state=state, lang=lang, function_for_back=cls.need_internship,
+            next_function=call_functions["unsuitable_countries"], model_attr="need_internship")
+        if result:
+            return
+
+        data_from_countries = await cls.processing_countries_markup(
+            callback=callback, state=state, lang=lang, error_msg_key="wrong_confirm", add_btn="skip",
+            without_inline_buttons=["cont:north_america", "cont:south_america", "cont:africa", "cont:oceania"]
+        )
+        if data_from_countries is False:
+            return
+
+        await cls.handler_finish(
+            state=state, returned_value=data_from_countries, additional_field="unsuitable_countries")
+
+    @classmethod
+    async def dangerous_goods(cls, state: FSMContext, lang: str,
+                              data_model: Optional[Union[DriverForm, Driver]] = None):
+        text = await Ut.get_message_text(key="driver_reg_dangerous_goods", lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(mtype="inline", key="dangerous_goods", lang=lang)
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        await state.update_data(dangerous_goods=[])
+        await state.set_state(DriverRegistration.ChooseDangerousGoods)
+
+    @classmethod
+    async def dangerous_goods_handler(cls, callback: types.CallbackQuery, state: FSMContext):
+        await callback.answer()
+        uid = callback.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        result = await cls.processing_back_btn(
+            callback=callback, state=state, lang=lang, function_for_back=cls.unsuitable_countries,
+            next_function=call_functions["dangerous_goods"], model_attr="unsuitable_countries")
+        if result:
+            return
+
+        data_from_checkboxes = await cls.processing_checkboxes(
+            callback=callback, state=state, lang=lang, markup_key="dangerous_goods", error_msg_key="wrong_confirm"
+        )
+        if data_from_checkboxes is False:
+            return
+
+        await cls.handler_finish(state=state, returned_value=data_from_checkboxes, additional_field="dangerous_goods")
+
+    @classmethod
+    async def expected_salary(cls, state: FSMContext, lang: str,
+                              data_model: Optional[Union[DriverForm, Driver]] = None):
+        text = await Ut.get_message_text(key="driver_reg_expected_salary", lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(mtype="inline", lang=lang, add_btn="back")
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        await state.set_state(DriverRegistration.WriteExpectedSalary)
+
+    @classmethod
+    async def expected_salary_handler(cls, message: [types.Message, types.CallbackQuery], state: FSMContext):
+        uid = message.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        if isinstance(message, types.CallbackQuery):
+            await message.answer()
+
+            result = await cls.processing_back_btn(
+                callback=message, state=state, lang=lang, function_for_back=cls.dangerous_goods,
+                next_function=call_functions["expected_salary"], model_attr="dangerous_goods")
+            if result:
+                return
+
+        value = message.text.strip()
+        if (not (await Ut.is_number(value))) or (float(value) < 0):
+            text = await Ut.get_message_text(key="wrong_number", lang=lang)
+            msg = await message.answer(text=text)
+            return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+
+        value = float(value)
+        if not (Config.SALARY_MIN <= value <= Config.SALARY_MAX):
+            text = await Ut.get_message_text(key="wrong_salary_value_range", lang=lang)
+            msg = await message.answer(
+                text=text.replace("%value_min%", str(Config.SALARY_MIN)).replace("%value_max%", str(Config.SALARY_MAX)))
+            return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+
+        await cls.handler_finish(state=state, returned_value=value, additional_field="expected_salary")
+
+    @classmethod
+    async def categories_availability(cls, state: FSMContext, lang: str,
+                                      data_model: Optional[Union[DriverForm, Driver]] = None):
+        text = await Ut.get_message_text(key="driver_reg_availability_categories", lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(mtype="inline", key="categories_availability", lang=lang)
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        await state.update_data(categories=[])
+        await state.set_state(DriverRegistration.ChooseAvailabilityCategories)
+
+    @classmethod
+    async def categories_availability_handler(cls, callback: types.CallbackQuery, state: FSMContext):
+        await callback.answer()
+        uid = callback.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        result = await cls.processing_back_btn(
+            callback=callback, state=state, lang=lang, function_for_back=cls.expected_salary,
+            next_function=call_functions["categories"], model_attr="expected_salary")
+        if result:
+            return
+
+        data_from_checkboxes = await cls.processing_checkboxes(
+            callback=callback, state=state, lang=lang, markup_key="categories_availability",
+            error_msg_key="wrong_confirm"
+        )
+        if data_from_checkboxes is False:
+            return
+
+        await cls.handler_finish(
+            state=state, returned_value=data_from_checkboxes, additional_field="categories_availability")
+
+    @classmethod
+    async def country_driving_licence(cls, state: FSMContext, lang: str,
+                                      data_model: Optional[Union[DriverForm, Driver]] = None):
+        text = await Ut.get_message_text(key="driver_reg_country_driving_license", lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(mtype="inline", key="continents", lang=lang)
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        await state.set_state(DriverRegistration.ChooseCountryDrivingLicense)
+
+    @classmethod
+    async def country_driving_licence_handler(cls, callback: types.CallbackQuery, state: FSMContext):
+        await callback.answer()
+        uid = callback.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        result = await cls.processing_back_btn(
+            callback=callback, state=state, lang=lang, function_for_back=cls.categories_availability,
+            next_function=call_functions["country_driving_licence"], model_attr="categories_availability"
+        )
+        if result:
+            return
+
+        status = data["status"]
+        if status == 2:
+            data_from_countries = await cls.processing_countries_markup(
+                callback=callback, state=state, lang=lang, error_msg_key="wrong_confirm"
+            )
+            if data_from_countries is False:
+                return
+
+        else:
+            data_from_countries = await cls.processing_countries_markup(
+                callback=callback, state=state, lang=lang, error_msg_key="wrong_confirm",
+                without_inline_buttons=["confirm"], choose_one_country=True
+            )
+            if data_from_countries is False:
+                return
+
+        await cls.handler_finish(state=state, returned_value=data_from_countries,
+                                 additional_field="country_driving_licence")
+
+    @classmethod
+    async def country_current_live(cls, state: FSMContext, lang: str,
+                                   data_model: Optional[Union[DriverForm, Driver]] = None):
+        text = await Ut.get_message_text(key="driver_reg_country_current_living", lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(mtype="inline", key="continents", lang=lang, without_inline_buttons=["confirm"])
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        await state.set_state(DriverRegistration.ChooseCountryCurrentLiving)
+
+    @classmethod
+    async def country_current_live_handler(cls, callback: types.CallbackQuery, state: FSMContext):
+        await callback.answer()
+        uid = callback.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        result = await cls.processing_back_btn(
+            callback=callback, state=state, lang=lang, function_for_back=cls.country_driving_licence,
+            next_function=call_functions["country_current_live"], model_attr="country_driving_licence")
+        if result:
+            return
+
+        data_from_countries = await cls.processing_countries_markup(
+            callback=callback, state=state, lang=lang, error_msg_key="wrong_confirm",
+            without_inline_buttons=["confirm"], choose_one_country=True
+        )
+        if data_from_countries is False:
+            return
+
+        await cls.handler_finish(
+            state=state, returned_value=data_from_countries, additional_field="country_current_live")
+
+    @classmethod
+    async def work_type(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
+        data = await state.get_data()
+        status = data["status"]
+        if status == 2:
+            text_key = "company_filters_work_type"
+
+        else:
+            text_key = "driver_reg_work_type"
+
+        text = await Ut.get_message_text(key=text_key, lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+
+        markup = await Ut.get_markup(mtype="inline", key="work_types", lang=lang, add_btn="confirm", add_btn_index=-1,
+                                     without_inline_buttons=["skip" if status == 2 else []])
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        await state.set_state(DriverRegistration.ChooseWorkType)
+
+    @classmethod
+    async def work_type_handler(cls, callback: types.CallbackQuery, state: FSMContext):
+        await callback.answer()
+        uid = callback.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        result = await cls.processing_back_btn(
+            callback=callback, state=state, lang=lang, function_for_back=cls.country_current_live,
+            next_function=call_functions["work_type"], model_attr="country_current_live"
+        )
+        if result:
+            return
+
+        status = data["status"]
+        if status == 2:
+            returned_value = await cls.processing_checkboxes(
+                callback=callback, state=state, lang=lang, error_msg_key="wrong_confirm", markup_key="work_types",
+                markup_without_buttons=["skip"], additional_button="confirm", additional_button_index=-1
+            )
+            if returned_value is False:
+                return
+
+        else:
+            returned_value = callback.data
+            if returned_value == "skip":
+                returned_value = ""
+
+        await cls.handler_finish(state=state, returned_value=returned_value, additional_field="work_type")
+
+    @classmethod
+    async def cadence(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
+        text = await Ut.get_message_text(key="driver_reg_choose_cadence", lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(mtype="inline", key="cadence", lang=lang)
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        await state.update_data(selected_cadence=[])
+        await state.set_state(DriverRegistration.WriteCadence)
+
+    @classmethod
+    async def cadence_handler(cls, callback: types.CallbackQuery, state: FSMContext):
+        await callback.answer()
+        uid = callback.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        result = await cls.processing_back_btn(
+            callback=callback, state=state, lang=lang, function_for_back=cls.work_type,
+            next_function=call_functions["cadence"], model_attr="work_type")
+        if result:
+            return
+
+        data_from_checkboxes = await cls.processing_checkboxes(
+            callback=callback, state=state, lang=lang, markup_key="cadence", error_msg_key="wrong_confirm"
+        )
+        if data_from_checkboxes is False:
+            return
+
+        await cls.handler_finish(state=state, returned_value=data_from_checkboxes, additional_field="cadence")
+
+    @classmethod
+    async def crew(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
+        text = await Ut.get_message_text(key="driver_reg_crew", lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(mtype="inline", key="crew", lang=lang)
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        await state.set_state(DriverRegistration.ChooseCrew)
+
+    @classmethod
+    async def crew_handler(cls, callback: types.CallbackQuery, state: FSMContext):
+        await callback.answer()
+        uid = callback.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        result = await cls.processing_back_btn(
+            callback=callback, state=state, lang=lang, function_for_back=cls.cadence,
+            next_function=call_functions["crew"], model_attr="cadence")
+        if result:
+            return
+
+        cd = callback.data
+        await cls.handler_finish(state=state, returned_value=cd, additional_field="crew")
+
+    @classmethod
+    async def driver_gender(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
+        text = await Ut.get_message_text(key="driver_reg_gender", lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(mtype="inline", key="genders", lang=lang)
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        await state.set_state(DriverRegistration.ChooseGender)
+
+    @classmethod
+    async def driver_gender_handler(cls, callback: types.CallbackQuery, state: FSMContext):
+        await callback.answer()
+        uid = callback.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        result = await cls.processing_back_btn(
+            callback=callback, state=state, lang=lang, function_for_back=cls.crew,
+            next_function=call_functions["driver_gender"], model_attr="crew")
+        if result:
+            return
+
+        cd = callback.data
+        await cls.handler_finish(state=state, returned_value=cd, additional_field="crew")
+
+
+router.message.register(RegistrationSteps.name_handler, DriverRegistration.WriteName)
+router.callback_query.register(RegistrationSteps.name_handler, DriverRegistration.WriteName)
+router.callback_query.register(RegistrationSteps.birth_year_handler, DriverRegistration.ChooseBirthYear)
+router.message.register(RegistrationSteps.phone_number_handler, DriverRegistration.WritePhoneNumber)
+router.callback_query.register(RegistrationSteps.phone_number_handler, DriverRegistration.WritePhoneNumber),
+router.callback_query.register(RegistrationSteps.messangers_availabilities_handler,
+                               DriverRegistration.ChooseMessangersAvailabilities)
+router.callback_query.register(RegistrationSteps.car_types_handler, DriverRegistration.ChooseCarType)
+router.callback_query.register(RegistrationSteps.citizenships_handler, DriverRegistration.ChooseCitizenship)
+router.callback_query.register(RegistrationSteps.basis_of_stay_handler, DriverRegistration.ChooseBasisOfStay)
+router.callback_query.register(RegistrationSteps.availability_95_code_handler, DriverRegistration.Availability95Code)
+router.callback_query.register(RegistrationSteps.date_stark_work_handler, DriverRegistration.ChooseDateReadyToStartWork)
+router.callback_query.register(RegistrationSteps.language_skills_handler, DriverRegistration.IndicateLanguageSkills)
+router.callback_query.register(RegistrationSteps.job_experience_handler, DriverRegistration.IndicateJobExperience)
+router.callback_query.register(RegistrationSteps.need_internship_handler, DriverRegistration.ChooseNeedInternship)
+router.callback_query.register(RegistrationSteps.unsuitable_countries_handler,
+                               DriverRegistration.ChooseUnsuitableCountries)
+router.callback_query.register(RegistrationSteps.dangerous_goods_handler,
+                               DriverRegistration.ChooseDangerousGoods)
+router.callback_query.register(RegistrationSteps.expected_salary_handler, DriverRegistration.WriteExpectedSalary)
+router.message.register(RegistrationSteps.expected_salary_handler, DriverRegistration.WriteExpectedSalary)
+router.callback_query.register(RegistrationSteps.categories_availability_handler,
+                               DriverRegistration.ChooseAvailabilityCategories)
+router.callback_query.register(RegistrationSteps.country_driving_licence_handler,
+                               DriverRegistration.ChooseCountryDrivingLicense)
+router.callback_query.register(RegistrationSteps.country_current_live_handler,
+                               DriverRegistration.ChooseCountryCurrentLiving)
+router.callback_query.register(RegistrationSteps.work_type_handler, DriverRegistration.ChooseWorkType)
+router.callback_query.register(RegistrationSteps.cadence_handler, DriverRegistration.WriteCadence)
+router.callback_query.register(RegistrationSteps.crew_handler, DriverRegistration.ChooseCrew)
+router.callback_query.register(RegistrationSteps.driver_gender_handler, DriverRegistration.ChooseGender)

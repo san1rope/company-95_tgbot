@@ -8,7 +8,7 @@ from aiogram.fsm.context import FSMContext
 from config import Config
 from tg_bot.db_models.quick_commands import DbDriver
 from tg_bot.handlers.driver.menu import show_menu
-from tg_bot.handlers.driver_registration import RegistrationSteps
+from tg_bot.handlers.driver.register_driver import RegistrationSteps
 from tg_bot.misc.models import DriverForm
 from tg_bot.misc.states import DriverFormStates
 from tg_bot.misc.utils import Utils as Ut
@@ -51,7 +51,6 @@ async def form_reset_confirmation(callback: Optional[Union[types.CallbackQuery, 
         cd = ""
 
     driver = await DbDriver(tg_user_id=uid).select()
-
     if cd == "driver_my_form_reset":
         text = await Ut.get_message_text(key="driver_menu_my_form_reset_confirmation", lang=driver.lang)
         markup = await Ut.get_markup(mtype="inline", lang=driver.lang, key="confirmation")
@@ -120,13 +119,14 @@ async def field_selected(callback: types.CallbackQuery, state: FSMContext):
     if cd == "back":
         return await show_my_form(callback=callback, state=state)
 
-    await state.update_data(status=1, function_for_back=form_reset_confirmation)
+    await state.update_data(status=1, function_for_back=form_reset_confirmation, call_function=field_has_changed)
 
     reg_method = getattr(RegistrationSteps, cd)
-    await reg_method(user_id=uid, state=state, lang=driver.lang, call_function=field_has_changed)
+    await reg_method(state=state, lang=driver.lang)
 
 
-async def field_has_changed(tg_user_id: int, state: FSMContext, returned_data: Union[str, int], field_name: str):
+async def field_has_changed(state: FSMContext, returned_data: Union[str, int], field_name: str):
+    tg_user_id = state.key.user_id
     await Ut.handler_log(logger, tg_user_id)
 
     driver = await DbDriver(tg_user_id=tg_user_id).select()
@@ -136,7 +136,7 @@ async def field_has_changed(tg_user_id: int, state: FSMContext, returned_data: U
                                                           **{field_name: returned_data})
     if result:
         text = await Ut.get_message_text(key="driver_menu_my_form_param_changed", lang=driver.lang)
-        await RegistrationSteps.send_step_message(user_id=tg_user_id, text=text)
+        await Ut.send_step_message(user_id=tg_user_id, text=text)
 
         await asyncio.sleep(1)
 

@@ -12,7 +12,8 @@ from tg_bot.db_models.db_gino import connect_to_db
 
 logger = logging.getLogger(__name__)
 
-
+logging.basicConfig(level=logging.INFO,
+                        format=u'%(filename)s:%(lineno)d #%(levelname)-8s [%(asctime)s] - %(name)s - %(message)s')
 async def main():
     logging.getLogger("aiogram.event").setLevel(logging.WARNING)
     logging.basicConfig(level=logging.INFO,

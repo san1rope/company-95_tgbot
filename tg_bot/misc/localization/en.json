@@ -47,9 +47,17 @@
       "<b>Enter your contact phone number</b>",
       "\n<b>ℹ\uFE0F Must be entered with the country code!</b>"
     ],
+    "driver_reg_request_contact": [
+      "<b>You can send your contact ⬇\uFE0F</b>"
+    ],
     "wrong_phone_number_format": [
       "<b>\uD83D\uDED1 Incorrect phone number format!</b>\n",
       "<b>ℹ\uFE0F The number must consist of digits only!</b>"
+    ],
+    "driver_reg_choose_messangers_availabilities": [
+      "<b>❇\uFE0F Driver registration</b>\n",
+      "<b>Select the presence of the entered phone number in the displayed messengers</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
     ],
     "driver_reg_choose_car_type": [
       "<b>❇\uFE0F Driver registration</b>\n",
@@ -110,9 +118,9 @@
       "<b>Select inappropriate countries for routes</b>",
       "\n<b>⬇ Use the keyboard below</b>"
     ],
-    "driver_reg_documents_availability": [
+    "driver_reg_dangerous_goods": [
       "<b>❇\uFE0F Driver registration</b>\n",
-      "<b>Select the documents you have available</b>",
+      "<b>Select the presence of the document</b>",
       "\n<b>⬇ Use the keyboard below</b>"
     ],
     "driver_reg_expected_salary": [
@@ -210,10 +218,39 @@
     ],
     "driver_menu_my_form_error_param_change": [
       "<b>\uD83D\uDED1 An error occurred while writing the parameter! Try again...</b>"
+    ],
+    "company_reg_motd": [
+      "<b>Welcome! \uD83D\uDE9B</b>",
+      "\n<b>I am your intelligent assistant for finding qualified drivers. With my help, you can simplify the hiring process and find the perfect candidate for your vacancies.</b>",
+      "\n<b>What can I do for you?</b>",
+      "<b>✅ Help you quickly find drivers that meet your requirements.</b>",
+      "<b>✅ Sort candidates by experience, driver's license category, place of residence, and other important criteria.</b>",
+      "<b>✅ Ensure fast recruitment – no unnecessary bureaucracy or long waiting times.</b>",
+      "\n<b>Why should you trust me?</b>",
+      "<b>\uD83D\uDCBC I already work with a large number of drivers ready for employment.</b>",
+      "<b>\uD83D\uDD0D Thanks to convenient filters, you can easily find employees with experience, as well as beginner truck drivers without high salary expectations.</b>",
+      "<b>⏳ Time-saving – you describe the job vacancy, and I find suitable candidates.</b>",
+      "\n<b>How does it work?</b>",
+      "<b>1. Specify the job requirements (license category, experience, work schedule, salary level, etc.).</b>",
+      "<b>2. I will find drivers that match your criteria.</b>",
+      "<b>3. Contact the candidate and fill the vacancy as quickly as possible.</b>",
+      "\n<b>\uD83D\uDE80 Shall we start now?</b>"
+    ],
+    "company_add_to_db_error": [
+      "<b>\uD83D\uDD34 There was an error adding you to the database! Try again...</b>"
+    ],
+    "company_filters_choose_param": [
+      "<b>⚙\uFE0F Driver filter</b>",
+      "\n<b>Select the parameter you want to filter</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
     ]
   },
   "markups": {
-    "default": {},
+    "default": {
+      "request_contact": [
+        "Send contact"
+      ]
+    },
     "inline": {
       "additional_buttons": {
         "skip": "Skip",
@@ -235,6 +272,28 @@
         },
         {
           "\uD83D\uDCBC I'm a company - looking for a driver": "company_menu"
+        }
+      ],
+      "messangers_availabilities": [
+        {
+          "Viber": "0",
+          "WhatsApp": "1"
+        },
+        {
+          "None of the above": "skip"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        },
+        {
+          "\uD83D\uDFE2 Select all": "check",
+          "\uD83D\uDD34 Deselect all": "uncheck"
+        },
+        {
+          "\uD83D\uDCDD Confirm": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
         }
       ],
       "car_types": [
@@ -309,28 +368,28 @@
       ],
       "countries_europe_1": [
         {
-          "Ukraine": "ua",
-          "Belarus": "by"
+          "🇵🇱 Poland": "pl",
+          "🇺🇦 Ukraine": "ua"
         },
         {
-          "Georgia": "ge",
-          "Moldova": "md"
+          "🇧🇾 Belarus": "by",
+          "🇬🇪 Georgia": "ge"
         },
         {
-          "Albania": "al",
-          "Austria": "at"
+          "🇲🇩 Moldova": "md",
+          "🇦🇱 Albania": "al"
         },
         {
-          "Belgium": "be",
-          "Bosnia and Herzegovina": "ba"
+          "🇦🇩 Andorra": "ad",
+          "🇦🇹 Austria": "at"
         },
         {
-          "Bulgaria": "bg",
-          "Croatia": "hr"
+          "🇧🇪 Belgium": "be",
+          "🇧🇦 Bosnia and Herzegovina": "ba"
         },
         {
-          "Cyprus": "cy",
-          "Czech Republic": "cz"
+          "🇧🇬 Bulgaria": "bg",
+          "🇭🇷 Croatia": "hr"
         },
         {
           "  ": "0",
@@ -347,28 +406,28 @@
       ],
       "countries_europe_2": [
         {
-          "Denmark": "dk",
-          "Estonia": "ee"
+          "🇨🇾 Cyprus": "cy",
+          "🇨🇿 Czechia": "cz"
         },
         {
-          "Finland": "fi",
-          "France": "fr"
+          "🇩🇰 Denmark": "dk",
+          "🇪🇪 Estonia": "ee"
         },
         {
-          "Germany": "de",
-          "Greece": "gr"
+          "🇫🇮 Finland": "fi",
+          "🇫🇷 France": "fr"
         },
         {
-          "Hungary": "hu",
-          "Iceland": "is"
+          "🇩🇪 Germany": "de",
+          "🇬🇷 Greece": "gr"
         },
         {
-          "Ireland": "ie",
-          "Italy": "it"
+          "🇭🇺 Hungary": "hu",
+          "🇮🇸 Iceland": "is"
         },
         {
-          "Kosovo": "xk",
-          "Latvia": "lv"
+          "🇮🇪 Ireland": "ie",
+          "🇮🇹 Italy": "it"
         },
         {
           "⬅\uFE0F": "prev_page:1",
@@ -385,28 +444,28 @@
       ],
       "countries_europe_3": [
         {
-          "Liechtenstein": "li",
-          "Lithuania": "lt"
+          "🇽🇰 Kosovo": "xk",
+          "🇱🇻 Latvia": "lv"
         },
         {
-          "Luxembourg": "lu",
-          "Malta": "mt"
+          "🇱🇮 Liechtenstein": "li",
+          "🇱🇹 Lithuania": "lt"
         },
         {
-          "Monaco": "mc",
-          "Montenegro": "me"
+          "🇱🇺 Luxembourg": "lu",
+          "🇲🇹 Malta": "mt"
         },
         {
-          "Netherlands": "nl",
-          "North Macedonia": "mk"
+          "🇲🇨 Monaco": "mc",
+          "🇲🇪 Montenegro": "me"
         },
         {
-          "Norway": "no",
-          "Poland": "pl"
+          "🇳🇱 Netherlands": "nl",
+          "🇲🇰 North Macedonia": "mk"
         },
         {
-          "Portugal": "pt",
-          "Romania": "ro"
+          "🇳🇴 Norway": "no",
+          "🇵🇹 Portugal": "pt"
         },
         {
           "⬅\uFE0F": "prev_page:2",
@@ -423,23 +482,20 @@
       ],
       "countries_europe_4": [
         {
-          "Russia": "ru",
-          "Serbia": "rs"
+          "🇷🇴 Romania": "ro",
+          "🇷🇸 Serbia": "rs"
         },
         {
-          "Slovakia": "sk",
-          "Slovenia": "si"
+          "🇸🇰 Slovakia": "sk",
+          "🇸🇮 Slovenia": "si"
         },
         {
-          "Spain": "es",
-          "Sweden": "se"
+          "🇪🇸 Spain": "es",
+          "🇸🇪 Sweden": "se"
         },
         {
-          "Switzerland": "ch",
-          "Turkey": "tr"
-        },
-        {
-          "United Kingdom": "gb"
+          "🇨🇭 Switzerland": "ch",
+          "🇬🇧 United Kingdom": "gb"
         },
         {
           "⬅\uFE0F": "prev_page:3",
@@ -456,28 +512,28 @@
       ],
       "countries_asia_1": [
         {
-          "India": "in",
-          "Kazakhstan": "kz"
+          "🇰🇿 Kazakhstan": "kz",
+          "🇺🇿 Uzbekistan": "uz"
         },
         {
-          "Uzbekistan": "uz",
-          "Philippines": "ph"
+          "🇵🇭 Philippines": "ph",
+          "🇮🇳 India": "in"
         },
         {
-          "Nepal": "np",
-          "Afghanistan": "af"
+          "🇳🇵 Nepal": "np",
+          "🇨🇳 China": "cn"
         },
         {
-          "Armenia": "am",
-          "Azerbaijan": "az"
+          "🇯🇵 Japan": "jp",
+          "🇰🇷 South Korea": "kr"
         },
         {
-          "Bahrain": "bh",
-          "Bangladesh": "bd"
+          "🇮🇩 Indonesia": "id",
+          "🇵🇰 Pakistan": "pk"
         },
         {
-          "Bhutan": "bt",
-          "Brunei": "bn"
+          "🇧🇩 Bangladesh": "bd",
+          "🇹🇷 Turkey": "tr"
         },
         {
           "  ": "0",
@@ -494,28 +550,28 @@
       ],
       "countries_asia_2": [
         {
-          "Cambodia": "kh",
-          "China": "cn"
+          "🇮🇷 Iran": "ir",
+          "🇸🇦 Saudi Arabia": "sa"
         },
         {
-          "Georgia": "ge",
-          "Indonesia": "id"
+          "🇻🇳 Vietnam": "vn",
+          "🇹🇭 Thailand": "th"
         },
         {
-          "Iran": "ir",
-          "Iraq": "iq"
+          "🇲🇲 Myanmar": "mm",
+          "🇲🇾 Malaysia": "my"
         },
         {
-          "Israel": "il",
-          "Japan": "jp"
+          "🇮🇶 Iraq": "iq",
+          "🇦🇫 Afghanistan": "af"
         },
         {
-          "Jordan": "jo",
-          "Kuwait": "kw"
+          "🇾🇪 Yemen": "ye",
+          "🇰🇼 Kuwait": "kw"
         },
         {
-          "Kyrgyzstan": "kg",
-          "Laos": "la"
+          "🇦🇪 UAE": "ae",
+          "🇸🇾 Syria": "sy"
         },
         {
           "⬅\uFE0F": "prev_page:1",
@@ -532,28 +588,28 @@
       ],
       "countries_asia_3": [
         {
-          "Lebanon": "lb",
-          "Malaysia": "my"
+          "🇱🇰 Sri Lanka": "lk",
+          "🇱🇦 Laos": "la"
         },
         {
-          "Maldives": "mv",
-          "Mongolia": "mn"
+          "🇰🇭 Cambodia": "kh",
+          "🇲🇳 Mongolia": "mn"
         },
         {
-          "Myanmar": "mm",
-          "North Korea": "kp"
+          "🇧🇭 Bahrain": "bh",
+          "🇶🇦 Qatar": "qa"
         },
         {
-          "Oman": "om",
-          "Pakistan": "pk"
+          "🇦🇲 Armenia": "am",
+          "🇦🇿 Azerbaijan": "az"
         },
         {
-          "Palestine": "ps",
-          "Qatar": "qa"
+          "🇬🇪 Georgia": "ge",
+          "🇯🇴 Jordan": "jo"
         },
         {
-          "Saudi Arabia": "sa",
-          "Singapore": "sg"
+          "🇸🇬 Singapore": "sg",
+          "🇹🇯 Tajikistan": "tj"
         },
         {
           "⬅\uFE0F": "prev_page:2",
@@ -570,24 +626,16 @@
       ],
       "countries_asia_4": [
         {
-          "South Korea": "kr",
-          "Sri Lanka": "lk"
+          "🇹🇲 Turkmenistan": "tm",
+          "🇵🇸 Palestine": "ps"
         },
         {
-          "Syria": "sy",
-          "Tajikistan": "tj"
+          "🇱🇧 Lebanon": "lb",
+          "🇧🇳 Brunei": "bn"
         },
         {
-          "Thailand": "th",
-          "Timor-Leste": "tl"
-        },
-        {
-          "Turkmenistan": "tm",
-          "United Arab Emirates": "ae"
-        },
-        {
-          "Vietnam": "vn",
-          "Yemen": "ye"
+          "🇲🇻 Maldives": "mv",
+          "🇹🇼 Taiwan": "tw"
         },
         {
           "⬅\uFE0F": "prev_page:3",
@@ -604,138 +652,28 @@
       ],
       "countries_north_america_1": [
         {
-          "Canada": "ca",
-          "United States": "us"
+          "🇦🇬 Antigua and Barbuda": "ag",
+          "🇧🇸 Bahamas": "bs"
         },
         {
-          "Mexico": "mx",
-          "Guatemala": "gt"
+          "🇧🇧 Barbados": "bb",
+          "🇧🇿 Belize": "bz"
         },
         {
-          "Belize": "bz",
-          "Honduras": "hn"
+          "🇨🇦 Canada": "ca",
+          "🇨🇷 Costa Rica": "cr"
         },
         {
-          "El Salvador": "sv",
-          "Nicaragua": "ni"
+          "🇨🇺 Cuba": "cu",
+          "🇩🇲 Dominica": "dm"
         },
         {
-          "Costa Rica": "cr",
-          "Panama": "pa"
+          "🇩🇴 Dominican Republic": "do",
+          "🇸🇻 El Salvador": "sv"
         },
         {
-          "Jamaica": "jm",
-          "Cuba": "cu"
-        },
-        {
-          "  ": "0",
-          "1/3": "0",
-          "➡\uFE0F": "next_page:2"
-        },
-        {
-          "⬅️\uFE0F To continents": "to_continents",
-          "\uD83D\uDCDD Confirm selection": "confirm"
-        },
-        {
-          "\uD83D\uDD19 Back": "back"
-        }
-      ],
-      "countries_north_america_2": [
-        {
-          "Dominican Republic": "do",
-          "Haiti": "ht"
-        },
-        {
-          "Bahamas": "bs",
-          "Barbados": "bb"
-        },
-        {
-          "Trinidad and Tobago": "tt",
-          "Grenada": "gd"
-        },
-        {
-          "Saint Lucia": "lc",
-          "Saint Vincent and the Grenadines": "vc"
-        },
-        {
-          "Antigua and Barbuda": "ag",
-          "Saint Kitts and Nevis": "kn"
-        },
-        {
-          "Anguilla": "ai",
-          "Aruba": "aw"
-        },
-        {
-          "⬅\uFE0F": "prev_page:1",
-          "2/3": "0",
-          "➡\uFE0F": "next_page:3"
-        },
-        {
-          "⬅️\uFE0F To continents": "to_continents",
-          "\uD83D\uDCDD Confirm selection": "confirm"
-        },
-        {
-          "\uD83D\uDD19 Back": "back"
-        }
-      ],
-      "countries_north_america_3": [
-        {
-          "Bermuda": "bm",
-          "Cayman Islands": "ky"
-        },
-        {
-          "Saint Barthélemy": "gp",
-          "Montserrat": "ms"
-        },
-        {
-          "Puerto Rico": "pr",
-          "Saint Pierre and Miquelon": "pm"
-        },
-        {
-          "Greenland": "gl",
-          "Saba": "sx"
-        },
-        {
-          "Saint Martin": "mf",
-          "Sint Maarten": "sx"
-        },
-        {
-          "⬅\uFE0F": "prev_page:2",
-          "3/3": "0",
-          "  ": "0"
-        },
-        {
-          "⬅️\uFE0F To continents": "to_continents",
-          "\uD83D\uDCDD Confirm selection": "confirm"
-        },
-        {
-          "\uD83D\uDD19 Back": "back"
-        }
-      ],
-      "countries_south_america_1": [
-        {
-          "Argentina": "ar",
-          "Brazil": "br"
-        },
-        {
-          "Chile": "cl",
-          "Colombia": "co"
-        },
-        {
-          "Peru": "pe",
-          "Venezuela": "ve"
-        },
-        {
-          "Bolivia": "bo",
-          "Ecuador": "ec"
-        },
-        {
-          "Paraguay": "py",
-          "Suriname": "sr"
-        },
-        {
-          "Guyana": "gy",
-          "Uruguay": "uy"
+          "🇬🇩 Grenada": "gd",
+          "🇬🇹 Guatemala": "gt"
         },
         {
           "  ": "0",
@@ -750,10 +688,29 @@
           "\uD83D\uDD19 Back": "back"
         }
       ],
-      "countries_south_america_2": [
+      "countries_north_america_2": [
         {
-          "French Guiana": "gf",
-          "Falkland Islands": "fk"
+          "🇭🇹 Haiti": "ht",
+          "🇭🇳 Honduras": "hn"
+        },
+        {
+          "🇯🇲 Jamaica": "jm",
+          "🇲🇽 Mexico": "mx"
+        },
+        {
+          "🇳🇮 Nicaragua": "ni",
+          "🇵🇦 Panama": "pa"
+        },
+        {
+          "🇰🇳 Saint Kitts and Nevis": "kn",
+          "🇱🇨 Saint Lucia": "lc"
+        },
+        {
+          "🇻🇨 Saint Vincent and the Grenadines": "vc",
+          "🇹🇹 Trinidad and Tobago": "tt"
+        },
+        {
+          "🇺🇸 USA": "us"
         },
         {
           "⬅\uFE0F": "prev_page:1",
@@ -768,34 +725,72 @@
           "\uD83D\uDD19 Back": "back"
         }
       ],
-      "countries_africa_1": [
+      "countries_south_america_1": [
         {
-          "Algeria": "dz",
-          "Nigeria": "ng"
+          "🇦🇷 Argentina": "ar",
+          "🇧🇴 Bolivia": "bo"
         },
         {
-          "South Africa": "za",
-          "Egypt": "eg"
+          "🇧🇷 Brazil": "br",
+          "🇨🇱 Chile": "cl"
         },
         {
-          "Kenya": "ke",
-          "Ethiopia": "et"
+          "🇨🇴 Colombia": "co",
+          "🇪🇨 Ecuador": "ec"
         },
         {
-          "Ghana": "gh",
-          "Ivory Coast": "ci"
+          "🇬🇾 Guyana": "gy",
+          "🇵🇾 Paraguay": "py"
         },
         {
-          "Senegal": "sn",
-          "Tanzania": "tz"
+          "🇵🇪 Peru": "pe",
+          "🇸🇷 Suriname": "sr"
         },
         {
-          "Uganda": "ug",
-          "Somalia": "so"
+          "🇺🇾 Uruguay": "uy",
+          "🇻🇪 Venezuela": "ve"
         },
         {
           "  ": "0",
-          "1/3": "0",
+          "1/1": "0",
+          "   ": "0"
+        },
+        {
+          "⬅️\uFE0F To continents": "to_continents",
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "countries_africa_1": [
+        {
+          "🇩🇿 Algeria": "dz",
+          "🇦🇴 Angola": "ao"
+        },
+        {
+          "🇧🇯 Benin": "bj",
+          "🇧🇼 Botswana": "bw"
+        },
+        {
+          "🇧🇫 Burkina Faso": "bf",
+          "🇧🇮 Burundi": "bi"
+        },
+        {
+          "🇬🇦 Gabon": "ga",
+          "🇬🇲 Gambia": "gm"
+        },
+        {
+          "🇬🇭 Ghana": "gh",
+          "🇬🇳 Guinea": "gn"
+        },
+        {
+          "🇬🇼 Guinea-Bissau": "gw",
+          "🇩🇯 Djibouti": "dj"
+        },
+        {
+          "  ": "0",
+          "1/4": "0",
           "➡\uFE0F": "next_page:2"
         },
         {
@@ -808,32 +803,32 @@
       ],
       "countries_africa_2": [
         {
-          "Mali": "ml",
-          "Gabon": "ga"
+          "🇪🇬 Egypt": "eg",
+          "🇿🇲 Zambia": "zm"
         },
         {
-          "Guinea": "gn",
-          "Cameroon": "cm"
+          "🇿🇼 Zimbabwe": "zw",
+          "🇨🇩 DR Congo": "cd"
         },
         {
-          "Congo": "cg",
-          "Democratic Republic of the Congo": "cd"
+          "🇨🇻 Cape Verde": "cv",
+          "🇨🇲 Cameroon": "cm"
         },
         {
-          "Togo": "tg",
-          "Ivory Coast": "ci"
+          "🇰🇪 Kenya": "ke",
+          "🇨🇮 Ivory Coast": "ci"
         },
         {
-          "Mozambique": "mz",
-          "Namibia": "na"
+          "🇱🇸 Lesotho": "ls",
+          "🇱🇷 Liberia": "lr"
         },
         {
-          "Burkina Faso": "bf",
-          "Zimbabwe": "zw"
+          "🇱🇾 Libya": "ly",
+          "🇲🇺 Mauritius": "mu"
         },
         {
           "⬅\uFE0F": "prev_page:1",
-          "2/3": "0",
+          "2/4": "0",
           "➡\uFE0F": "next_page:3"
         },
         {
@@ -846,28 +841,70 @@
       ],
       "countries_africa_3": [
         {
-          "Madagascar": "mg",
-          "Mauritania": "mr"
+          "🇲🇷 Mauritania": "mr",
+          "🇲🇬 Madagascar": "mg"
         },
         {
-          "Libya": "ly",
-          "Sudan": "sd"
+          "🇲🇼 Malawi": "mw",
+          "🇲🇱 Mali": "ml"
         },
         {
-          "Tunisia": "tn",
-          "Central African Republic": "cf"
+          "🇲🇦 Morocco": "ma",
+          "🇲🇿 Mozambique": "mz"
         },
         {
-          "Malawi": "mw",
-          "Rwanda": "rw"
+          "🇳🇦 Namibia": "na",
+          "🇳🇪 Niger": "ne"
         },
         {
-          "Seychelles": "sc",
-          "Eswatini": "sz"
+          "🇳🇬 Nigeria": "ng",
+          "🇨🇫 Central African Republic": "cf"
+        },
+        {
+          "🇷🇼 Rwanda": "rw",
+          "🇸🇳 Senegal": "sn"
         },
         {
           "⬅\uFE0F": "prev_page:2",
-          "3/3": "0",
+          "3/4": "0",
+          "➡\uFE0F": "next_page:4"
+        },
+        {
+          "⬅️\uFE0F To continents": "to_continents",
+          "\uD83D\uDCDD Confirm selection": "confirm"
+        },
+        {
+          "\uD83D\uDD19 Back": "back"
+        }
+      ],
+      "countries_africa_4": [
+        {
+          "🇸🇨 Seychelles": "sc",
+          "🇸🇱 Sierra Leone": "sl"
+        },
+        {
+          "🇸🇴 Somalia": "so",
+          "🇿🇦 South Africa": "za"
+        },
+        {
+          "🇸🇩 Sudan": "sd",
+          "🇸🇸 South Sudan": "ss"
+        },
+        {
+          "🇹🇿 Tanzania": "tz",
+          "🇹🇬 Togo": "tg"
+        },
+        {
+          "🇹🇳 Tunisia": "tn",
+          "🇺🇬 Uganda": "ug"
+        },
+        {
+          "🇹🇩 Chad": "td",
+          "🇪🇷 Eritrea": "er"
+        },
+        {
+          "⬅\uFE0F": "prev_page:3",
+          "4/4": "0",
           "  ": "0"
         },
         {
@@ -880,28 +917,28 @@
       ],
       "countries_oceania_1": [
         {
-          "Australia": "au",
-          "New Zealand": "nz"
+          "🇦🇺 Australia": "au",
+          "🇫🇯 Fiji": "fj"
         },
         {
-          "Papua New Guinea": "pg",
-          "Fiji": "fj"
+          "🇰🇮 Kiribati": "ki",
+          "🇲🇭 Marshall Islands": "mh"
         },
         {
-          "Solomon Islands": "sb",
-          "Vanuatu": "vu"
+          "🇫🇲 Micronesia": "fm",
+          "🇳🇷 Nauru": "nr"
         },
         {
-          "Tonga": "to",
-          "Samoa": "ws"
+          "🇳🇿 New Zealand": "nz",
+          "🇵🇼 Palau": "pw"
         },
         {
-          "Kiribati": "ki",
-          "Tuvalu": "tv"
+          "🇵🇬 Papua New Guinea": "pg",
+          "🇼🇸 Samoa": "ws"
         },
         {
-          "Marshall Islands": "mh",
-          "Palau": "pw"
+          "🇸🇧 Solomon Islands": "sb",
+          "🇹🇴 Tonga": "to"
         },
         {
           "   ": "0",
@@ -1052,20 +1089,15 @@
           "\uD83D\uDD19 Back": "back"
         }
       ],
-      "documents_availability": [
+      "dangerous_goods": [
         {
-          "Category С": "0",
-          "Category CE": "1"
+          "“Dangerous goods” standard": "0"
         },
         {
-          "Category D": "2",
-          "Tachograph chip card": "3"
+          "“Dangerous goods” with tankers": "1"
         },
         {
-          "“Dangerous goods” standard": "4"
-        },
-        {
-          "“Dangerous goods” with tankers": "5"
+          "No access to “Dangerous Goods”": "2"
         },
         {
           "\uD83D\uDFE2 Select all": "check",
@@ -1108,7 +1140,7 @@
           "International routes": "1"
         },
         {
-          "Any option": "2"
+          "Any option": "skip"
         },
         {
           "\uD83D\uDD19 Back": "back"
@@ -1124,7 +1156,7 @@
           "From Monday to Friday": "3"
         },
         {
-          "Adaptable to any schedule": "any"
+          "Adaptable to any schedule": "skip"
         },
         {
           "\uD83D\uDCDD Confirm selection": "confirm"
@@ -1186,6 +1218,9 @@
           "Birth year": "birth_year"
         },
         {
+          "Messangers": "messangers"
+        },
+        {
           "Phone": "phone_number",
           "Car types": "car_types"
         },
@@ -1208,7 +1243,7 @@
           "Unsuitable countries": "unsuitable_countries"
         },
         {
-          "Documents": "documents_availability",
+          "Dangerous goods": "dangerous_goods",
           "Categories": "categories_availability"
         },
         {
@@ -1231,6 +1266,74 @@
         {
           "\uD83D\uDD19 Back": "back"
         }
+      ],
+      "start_search_driver": [
+        {
+          "Start searching driver": "start_search"
+        }
+      ],
+      "filter_params_1": [
+        {
+          "Car Types": "car_types",
+          "Work Type": "work_type"
+        },
+        {
+          "License Categories": "categories_availability",
+          "Citizenship": "citizenships"
+        },
+        {
+          "Country of Driving License Issuance": "country_driving_licence"
+        },
+        {
+          "Current Country of Residence": "country_current_live"
+        },
+        {
+          "Route Countries": "unsuitable_countries",
+          "95th Code": "availability_95_code"
+        },
+        {
+          "Basis of Stay in Europe": "basis_of_stay"
+        },
+        {
+          "  ": "0",
+          "1/2": "0",
+          "➡️": "next_page:2"
+        },
+        {
+          "🔙 Back to menu": "back_to_menu"
+        }
+      ],
+      "filter_params_2": [
+        {
+          "Language Skills": "language_skills",
+          "Work Experience": "job_experience"
+        },
+        {
+          "Availability Date": "date_start_work",
+          "Year of Birth": "birth_year"
+        },
+        {
+          "Internship": "need_internship",
+          "Expected Salary": "expected_salary"
+        },
+        {
+          "Cadence": "cadence",
+          "Crew": "crew"
+        },
+        {
+          "Competency Documents": "documents"
+        },
+        {
+          "Driver's Gender": "driver_gender"
+        },
+        {
+          "⬅️": "prev_page:1",
+          "2/2": "0",
+          "  ": "0"
+        },
+        {
+          "🔙 Back to menu": "back_to_menu"
+        }
       ]
     }
   },
@@ -1239,6 +1342,7 @@
       "name": "Name:",
       "birth_year": "Year of birth:",
       "phone_number": "Phone number:",
+      "messangers": "Messangers:",
       "car_types": "Types of cars:",
       "citizenships": "Citizenships:",
       "basis_of_stay": "Grounds of stay:",
@@ -1248,7 +1352,7 @@
       "job_experience": "Experience:",
       "need_internship": "Internship:",
       "unsuitable_countries": "Unsuitable countries:",
-      "documents_availability": "Documents:",
+      "dangerous_goods": "Dangerous goods:",
       "expected_salary": "Expected salary:",
       "categories_availability": "Categories:",
       "country_driving_licence": "Country of issue of driving licence:",

@@ -42,9 +42,9 @@
   "unsuitable_countries": {
     "%unselected%": 20
   },
-  "documents_availability": {
-    "4": 100,
-    "5": 150
+  "dangerous_goods": {
+    "0": 100,
+    "1": 150
   },
   "expected_salary": {
     "40-70": 150

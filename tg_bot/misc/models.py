@@ -14,6 +14,7 @@ class DriverForm(BaseModel):
     name: Optional[str] = None
     birth_year: Optional[int] = None
     phone_number: Optional[str] = None
+    messangers: Optional[List[str]] = None
     car_types: Optional[List[str]] = None
     citizenships: Optional[List[str]] = None
     basis_of_stay: Optional[str] = None
@@ -23,7 +24,7 @@ class DriverForm(BaseModel):
     job_experience: Optional[List[str]] = None
     need_internship: Optional[str] = None
     unsuitable_countries: Optional[List[str]] = None
-    documents_availability: Optional[List[str]] = None
+    dangerous_goods: Optional[List[str]] = None
     expected_salary: Optional[float] = None
     categories_availability: Optional[List[str]] = None
     country_driving_licence: Optional[str] = None
@@ -108,6 +109,12 @@ class DriverForm(BaseModel):
         if not (model.phone_number is None):
             text.append(f"<b>{hcode(fcd['phone_number'])} {model.phone_number}</b>")
 
+        if not (model.messangers is None):
+            model.messangers = model.messangers.split(',') if isinstance(model.messangers, str) else model.messangers
+            localized_text = await self.codes_to_text_checkboxes(
+                input_localized_text=lang_inline_markups["messangers_availabilities"], codes=model.messangers)
+            text.append(f"<b>{hcode(fcd['messangers'])} {', '.join(localized_text)}</b>")
+
         if not (model.car_types is None):
             model.car_types = model.car_types.split(',') if isinstance(model.car_types, str) else model.car_types
             localized_text = await self.codes_to_text_checkboxes(
@@ -162,12 +169,12 @@ class DriverForm(BaseModel):
                 lang_inline_markups=lang_inline_markups, codes=model.unsuitable_countries)
             text.append(f"<b>{hcode(fcd['unsuitable_countries'])} {', '.join(localized_text)}</b>")
 
-        if not (model.documents_availability is None):
-            model.documents_availability = model.documents_availability.split(',') if isinstance(
-                model.documents_availability, str) else model.documents_availability
+        if not (model.dangerous_goods is None):
+            model.dangerous_goods = model.dangerous_goods.split(',') if isinstance(
+                model.dangerous_goods, str) else model.dangerous_goods
             localized_text = await self.codes_to_text_checkboxes(
-                input_localized_text=lang_inline_markups["documents_availability"], codes=model.documents_availability)
-            text.append(f"<b>{hcode(fcd['documents_availability'])} {', '.join(localized_text)}</b>")
+                input_localized_text=lang_inline_markups["dangerous_goods"], codes=model.dangerous_goods)
+            text.append(f"<b>{hcode(fcd['dangerous_goods'])} {', '.join(localized_text)}</b>")
 
         if not (model.expected_salary is None):
             text.append(f"<b>{hcode(fcd['expected_salary'])} €{model.expected_salary}</b>")
@@ -270,11 +277,11 @@ class DriverForm(BaseModel):
                 if (curr_el == "%unselected%") and (not unsuitable_countries):
                     form_price += curr_value
 
-        if not (model.documents_availability is None):
-            curr_cor = corrections["documents_availability"]
-            documents_availability = model.documents_availability if isinstance(
-                model, DriverForm) else model.documents_availability.split(',')
-            for sel_val in documents_availability:
+        if not (model.dangerous_goods is None):
+            curr_cor = corrections["dangerous_goods"]
+            dangerous_goods = model.dangerous_goods if isinstance(
+                model, DriverForm) else model.dangerous_goods.split(',')
+            for sel_val in dangerous_goods:
                 form_price += curr_cor[sel_val] if sel_val in curr_cor else 0
 
         if not (model.expected_salary is None):
@@ -357,8 +364,8 @@ class DriverForm(BaseModel):
         if not (self.unsuitable_countries is None):
             out_data["unsuitable_countries"] = ",".join(self.unsuitable_countries)
 
-        if not (self.documents_availability is None):
-            out_data["documents_availability"] = ",".join(self.documents_availability)
+        if not (self.dangerous_goods is None):
+            out_data["dangerous_goods"] = ",".join(self.dangerous_goods)
 
         if not (self.expected_salary is None):
             out_data["expected_salary"] = self.expected_salary
