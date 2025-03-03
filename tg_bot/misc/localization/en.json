@@ -243,6 +243,30 @@
       "<b>⚙\uFE0F Driver filter</b>",
       "\n<b>Select the parameter you want to filter</b>",
       "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_filters_param_changed": [
+        "<b>✅ Filter parameters successfully changed!</b>"
+    ],
+    "company_filters_error_filter_params_changed": [
+        "<b>🚑 An error occurred while saving the filter parameters! Please try again...</b>"
+    ],
+    "company_filters_car_types": [
+        "<b>⚙️ Driver Filter</b>",
+        "<b>➖ Car Types</b>",
+        "\n<b>Select the car types you want to include in the search</b>",
+        "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_filters_work_type": [
+        "<b>⚙️ Driver Filter</b>",
+        "<b>➖ Work Types</b>",
+        "\n<b>Select the work types you want to include in the search</b>",
+        "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_filters_95_code": [
+        "<b>⚙️ Driver Filter</b>",
+        "<b>➖ Code 95 Availability</b>",
+        "\n<b>Select the state of Code 95</b>",
+        "\n<b>⬇ Use the keyboard below</b>"
     ]
   },
   "markups": {
@@ -257,7 +281,10 @@
         "back": "\uD83D\uDD19 Back",
         "driver_change_form_status:off": "\uD83D\uDD34 Deactivate",
         "driver_change_form_status:on": "\uD83D\uDFE2 Activate",
-        "fill_data": "\uD83D\uDCDD Fill in the details"
+        "fill_data": "\uD83D\uDCDD Fill in the details",
+        "confirm": "\uD83D\uDCDD Confirm",
+        "select_all": "\uD83D\uDFE2 Select all",
+        "deselect_all": "\uD83D\uDD34 Unselect all"
       },
       "choose_lang": [
         {

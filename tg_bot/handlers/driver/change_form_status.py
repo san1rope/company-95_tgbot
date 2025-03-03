@@ -3,7 +3,7 @@ import logging
 from aiogram import Router, F, types, enums
 
 from tg_bot.db_models.quick_commands import DbDriver
-from tg_bot.misc.utils import Utils as Ut
+from tg_bot.misc.utils import Utils as Ut, AdditionalButtons
 
 logger = logging.getLogger(__name__)
 router = Router()
@@ -24,8 +24,11 @@ async def change_status(callback: types.CallbackQuery):
     text_menu = await Ut.get_message_text(key="driver_menu_text", lang=driver.lang)
     text_menu = text_menu.replace("%forms_count%", str(forms_count))
     text_menu = text_menu.replace("%form_opens%", str(driver.opens_count))
-    markup = await Ut.get_markup(mtype="inline", lang=driver.lang, key="driver_menu",
-                                 add_btn=f"driver_change_form_status:{'off' if new_status else 'on'}")
+    markup = await Ut.get_markup(
+        mtype="inline", lang=driver.lang, key="driver_menu",
+        additional_buttons=[
+            AdditionalButtons(buttons={f"driver_change_form_status:{'off' if new_status else 'on'}": None})]
+    )
 
     await Ut.delete_messages(user_id=uid)
     msg_notify = await callback.message.answer(text=text_notify)

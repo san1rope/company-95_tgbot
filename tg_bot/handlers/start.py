@@ -6,7 +6,7 @@ from aiogram.filters import CommandStart
 from aiogram.fsm.context import FSMContext
 
 from tg_bot.misc.states import AfterStart
-from tg_bot.misc.utils import Utils as Ut
+from tg_bot.misc.utils import Utils as Ut, AdditionalButtons
 
 logger = logging.getLogger(__name__)
 router = Router()
@@ -53,7 +53,8 @@ async def choose_role(message: [types.CallbackQuery, types.Message], state: FSMC
         ulang = ""
 
     text = await Ut.get_message_text(key="choose_role", lang=ulang)
-    markup = await Ut.get_markup(mtype="inline", key="choose_role", lang=ulang, add_btn="back")
+    markup = await Ut.get_markup(mtype="inline", key="choose_role", lang=ulang,
+                                 additional_buttons=[AdditionalButtons(buttons={"back": None})])
     await Ut.delete_messages(user_id=uid)
     msg = await message.answer(text=text, reply_markup=markup)
     await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)

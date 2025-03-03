@@ -5,6 +5,7 @@ from typing import Union, Optional, Dict, List
 
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import ReplyKeyboardMarkup, InlineKeyboardMarkup, KeyboardButton, InlineKeyboardButton
+from pydantic import BaseModel
 
 from config import Config
 
@@ -13,6 +14,12 @@ localization: Dict[str, Dict] = {}
 corrections: Dict[str, Dict[str, float]] = {}
 msg_to_delete = {"secondary": {}}
 call_functions = {}
+
+
+class AdditionalButtons(BaseModel):
+    index: Optional[int] = None
+    action: str = "exist"
+    buttons: Dict[str, Optional[int]]
 
 
 class Utils:
@@ -33,9 +40,41 @@ class Utils:
         return "\n".join(lang_data["messages"][key])
 
     @staticmethod
+    async def processing_additional_buttons(
+            markup_data: Dict, markup: InlineKeyboardMarkup, additional_buttons: List[AdditionalButtons] = []):
+        for add_buttons_obj in additional_buttons:
+            if (not (add_buttons_obj.index is None)) and add_buttons_obj.action == "new":
+                markup.inline_keyboard.insert(add_buttons_obj.index, [])
+                add_buttons_obj.index -= 1
+
+            elif add_buttons_obj.index is None:
+                markup.inline_keyboard.append([])
+
+            for btn_key, btn_index in add_buttons_obj.buttons.items():
+                btn_text = markup_data["markups"]["inline"]["additional_buttons"][btn_key]
+                btn_key = btn_key[:btn_key.find(":")] if btn_key.find(":") != -1 else btn_key
+                btn_obj = InlineKeyboardButton(text=btn_text, callback_data=btn_key)
+
+                row_ind_bool = not (add_buttons_obj.index is None)
+                btn_ind_bool = not (btn_index is None)
+                if row_ind_bool and btn_ind_bool:
+                    markup.inline_keyboard[add_buttons_obj.index].insert(btn_index, btn_obj)
+
+                elif row_ind_bool and (not btn_ind_bool):
+                    markup.inline_keyboard[add_buttons_obj.index].append(btn_obj)
+
+                elif (not row_ind_bool) and btn_ind_bool:
+                    markup.inline_keyboard[-1].insert(btn_index, btn_obj)
+
+                else:
+                    markup.inline_keyboard[-1].append(btn_obj)
+
+        return markup
+
+    @classmethod
     async def get_markup(
-            mtype: str, lang: str, key: Optional[str] = None, add_btn: Optional[str] = None,
-            add_btn_index: Optional[int] = None, without_inline_buttons: List = [], user_id: Union[str, int] = None
+            cls, mtype: str, lang: str, key: Optional[str] = None, additional_buttons: List[AdditionalButtons] = [],
+            without_buttons: List[str] = [], user_id: Union[str, int] = None
     ) -> Union[ReplyKeyboardMarkup, InlineKeyboardMarkup, None]:
         markup_data = localization[lang] if localization.get(lang) else localization[Config.DEFAULT_LANG]
 
@@ -57,9 +96,10 @@ class Utils:
                     markup.inline_keyboard.append([])
                     for btn_text, callback_data in row.items():
                         if (("&a|" in btn_text) and (user_id not in Config.ADMINS)) or (
-                                callback_data in without_inline_buttons):
+                                callback_data in without_buttons):
                             continue
 
+                        # callback_data = callback_data[:callback_data.find(":")] if callback_data.find(":") != -1 else callback_data
                         new_btn = InlineKeyboardButton(text=btn_text.replace("&a|", ""), callback_data=callback_data)
                         markup.inline_keyboard[-1].append(new_btn)
 
@@ -67,24 +107,26 @@ class Utils:
                 logger.error(f"Incorrect mtype parameter! mtype={mtype}; key={key}; lang={lang}; user_id={user_id}")
                 return
 
-            if add_btn:
-                btn_text = markup_data["markups"][mtype]["additional_buttons"][add_btn]
+            if additional_buttons:
                 if isinstance(markup, InlineKeyboardMarkup):
-                    callback_data = add_btn[:add_btn.find(":")] if add_btn.find(":") != -1 else add_btn
-                    btn = InlineKeyboardButton(text=btn_text, callback_data=callback_data)
-                    if add_btn_index:
-                        markup.inline_keyboard.insert(add_btn_index, [btn])
+                    markup = await cls.processing_additional_buttons(
+                        markup_data=markup_data, markup=markup, additional_buttons=additional_buttons)
 
-                    else:
-                        markup.inline_keyboard.append([btn])
+                    # callback_data = add_btn[:add_btn.find(":")] if add_btn.find(":") != -1 else add_btn
+                    # btn = InlineKeyboardButton(text=btn_text, callback_data=callback_data)
+                    # if add_btn_index:
+                    #     markup.inline_keyboard.insert(add_btn_index, [btn])
+                    #
+                    # else:
+                    #     markup.inline_keyboard.append([btn])
 
                 elif isinstance(markup, ReplyKeyboardMarkup):
                     markup.keyboard.append([KeyboardButton(text=btn_text)])
 
-        elif add_btn:
-            btn_text = markup_data["markups"][mtype]["additional_buttons"][add_btn]
-            markup = InlineKeyboardMarkup(
-                inline_keyboard=[[InlineKeyboardButton(text=btn_text, callback_data=add_btn)]])
+        elif additional_buttons:
+            markup = InlineKeyboardMarkup(inline_keyboard=[])
+            markup = await cls.processing_additional_buttons(
+                markup_data=markup_data, markup=markup, additional_buttons=additional_buttons)
 
         else:
             markup = InlineKeyboardMarkup(inline_keyboard=[])

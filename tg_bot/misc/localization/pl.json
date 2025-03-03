@@ -243,6 +243,30 @@
       "<b>⚙\uFE0F Filtr sterownika</b>",
       "\n<b>Wybierz parametr, który chcesz filtrować\n</b>",
       "\n<b>⬇ Użyj poniższej klawiatury</b>"
+    ],
+    "company_filters_param_changed": [
+      "<b>✅ Parametry filtra zostały pomyślnie zmienione!</b>"
+    ],
+    "company_filters_error_filter_params_changed": [
+      "<b>🚑 Wystąpił błąd podczas zapisywania parametrów filtra! Spróbuj ponownie...</b>"
+    ],
+    "company_filters_car_types": [
+      "<b>⚙️ Filtr kierowców</b>",
+      "<b>➖ Typy samochodów</b>",
+      "\n<b>Wybierz typy samochodów, które chcesz uwzględnić w wyszukiwaniu</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_filters_work_type": [
+      "<b>⚙️ Filtr kierowców</b>",
+      "<b>➖ Typy prac</b>",
+      "\n<b>Wybierz typy prac, które chcesz uwzględnić w wyszukiwaniu</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_filters_95_code": [
+      "<b>⚙️ Filtr kierowców</b>",
+      "<b>➖ Dostępność kodu 95</b>",
+      "\n<b>Wybierz stan kodu 95</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
     ]
   },
   "markups": {
@@ -257,7 +281,10 @@
         "back": "\uD83D\uDD19 Powrót",
         "driver_change_form_status:off": "\uD83D\uDD34 Dezaktywuj",
         "driver_change_form_status:on": "\uD83D\uDFE2 Aktywuj",
-        "fill_data": "\uD83D\uDCDD Wypełnij szczegóły"
+        "fill_data": "\uD83D\uDCDD Wypełnij szczegóły",
+        "confirm": "\uD83D\uDCDD Potwierdź",
+        "select_all": "\uD83D\uDFE2 Zaznacz wszystkie",
+        "deselect_all": "\uD83D\uDD34 Odznacz wszystkie"
       },
       "choose_lang": [
         {

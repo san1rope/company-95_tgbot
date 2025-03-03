@@ -8,7 +8,7 @@ from tg_bot.db_models.quick_commands import DbDriver
 from tg_bot.handlers.driver.register_driver import RegistrationSteps
 from tg_bot.misc.models import DriverForm
 from tg_bot.misc.states import AfterStart, DriverRegistration
-from tg_bot.misc.utils import Utils as Ut, call_functions
+from tg_bot.misc.utils import Utils as Ut, call_functions, AdditionalButtons
 
 logger = logging.getLogger(__name__)
 router = Router()
@@ -24,7 +24,8 @@ async def motd_message(callback: types.CallbackQuery, state: FSMContext):
     ulang = data["ulang"]
 
     text = await Ut.get_message_text(key="driver_reg_motd", lang=ulang)
-    markup = await Ut.get_markup(mtype="inline", lang=ulang, add_btn="fill_data")
+    markup = await Ut.get_markup(mtype="inline", lang=ulang,
+                                 additional_buttons=[AdditionalButtons(buttons={"fill_data": None})])
     await Ut.send_step_message(user_id=uid, text=text, markup=markup)
 
     await state.set_state(DriverRegistration.MOTDMessage)

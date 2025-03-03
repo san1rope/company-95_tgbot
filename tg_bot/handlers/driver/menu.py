@@ -6,7 +6,7 @@ from aiogram.filters import CommandStart
 
 from tg_bot.db_models.quick_commands import DbDriver
 from tg_bot.filters.driver import IsDriver
-from tg_bot.misc.utils import Utils as Ut
+from tg_bot.misc.utils import Utils as Ut, AdditionalButtons
 
 logger = logging.getLogger(__name__)
 router = Router()
@@ -29,7 +29,7 @@ async def show_menu(message: Union[types.Message, types.CallbackQuery]):
     text = text.replace("%form_opens%", str(driver.opens_count))
     markup = await Ut.get_markup(
         mtype="inline", lang=driver.lang, key="driver_menu",
-        add_btn=f"driver_change_form_status:{'off' if driver.status else 'on'}"
+        additional_buttons=[AdditionalButtons(buttons={'off' if driver.status else 'on': None})]
     )
     await Ut.delete_messages(user_id=uid)
     msg = await message.answer(text=text, reply_markup=markup)
