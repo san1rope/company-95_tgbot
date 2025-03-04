@@ -267,6 +267,72 @@
       "<b>➖ Dostępność kodu 95</b>",
       "\n<b>Wybierz stan kodu 95</b>",
       "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_filters_basis_of_stay": [
+      "<b>⚙️ Filtr kierowców</b>",
+      "<b>➖ Podstawa pobytu</b>",
+      "\n<b>Wybierz żądane parametry do zastosowania w filtrze</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_filters_categories": [
+      "<b>⚙️ Filtr kierowców</b>",
+      "<b>➖ Podstawa pobytu</b>",
+      "\n<b>Wybierz żądane parametry do zastosowania w filtrze</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_filters_citizenships": [
+      "<b>⚙️ Filtr kierowców</b>",
+      "<b>➖ Obywatelstwo</b>",
+      "\n<b>Wybierz żądane kraje obywatelstwa kierowcy</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_filters_country_driving_license": [
+      "<b>⚙️ Filtr kierowców</b>",
+      "<b>➖ Kraj wydania prawa jazdy</b>",
+      "\n<b>Wybierz żądane kraje obywatelstwa kierowcy</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_filters_country_current_live": [
+      "<b>⚙️ Filtr kierowców</b>",
+      "<b>➖ Kraj obecnego zamieszkania</b>",
+      "\n<b>Wybierz żądane kraje zamieszkania kierowcy</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_filters_unsuitable_countries": [
+      "<b>⚙️ Filtr kierowców</b>",
+      "<b>➖ Kraje na trasy</b>",
+      "\n<b>Wybierz żądane kraje do planowania trasy</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_filters_need_internship": [
+      "<b>⚙️ Filtr kierowców</b>",
+      "<b>➖ Staż</b>",
+      "\n<b>Wybierz żądane parametry wyszukiwania</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_filters_cadence": [
+      "<b>⚙️ Filtr kierowców</b>",
+      "<b>➖ Kadencja</b>",
+      "\n<b>Wybierz żądane parametry wyszukiwania</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_filters_crew": [
+      "<b>⚙️ Filtr kierowców</b>",
+      "<b>➖ Skład</b>",
+      "\n<b>Wybierz żądane parametry wyszukiwania</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_filters_dangerous_goods": [
+      "<b>⚙️ Filtr kierowców</b>",
+      "<b>➖ Skład</b>",
+      "\n<b>Wybierz żądane dokumenty kierowcy</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_filters_driver_gender": [
+      "<b>⚙️ Filtr kierowców</b>",
+      "<b>➖ Płeć kierowcy</b>",
+      "\n<b>Wybierz żądaną płeć kierowcy</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
     ]
   },
   "markups": {
@@ -283,8 +349,8 @@
         "driver_change_form_status:on": "\uD83D\uDFE2 Aktywuj",
         "fill_data": "\uD83D\uDCDD Wypełnij szczegóły",
         "confirm": "\uD83D\uDCDD Potwierdź",
-        "select_all": "\uD83D\uDFE2 Zaznacz wszystkie",
-        "deselect_all": "\uD83D\uDD34 Odznacz wszystkie"
+        "check": "\uD83D\uDFE2 Zaznacz wszystkie",
+        "uncheck": "\uD83D\uDD34 Odznacz wszystkie"
       },
       "choose_lang": [
         {
@@ -1346,7 +1412,7 @@
           "Załoga": "crew"
         },
         {
-          "Dokumenty kompetencyjne": "documents"
+          "Dokumenty kompetencyjne": "dangerous_goods"
         },
         {
           "Płeć kierowcy": "driver_gender"

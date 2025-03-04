@@ -14,7 +14,7 @@ from tg_bot.keyboards.default import request_contact_default
 from tg_bot.keyboards.inline import year_inline, calendar_inline
 from tg_bot.misc.models import DriverForm
 from tg_bot.misc.states import DriverRegistration
-from tg_bot.misc.utils import Utils as Ut, call_functions, AdditionalButtons
+from tg_bot.misc.utils import Utils as Ut, call_functions, AdditionalButtons, localization
 
 logger = logging.getLogger(__name__)
 router = Router()
@@ -154,9 +154,37 @@ class RegistrationSteps:
         await state.update_data(saved_data=[])
         return saved_data
 
-    @staticmethod
+    @classmethod
+    async def iteration_by_countries(cls, lang: str, entrance_data: List[Optional[str]], action: str,
+                                     markup_key: Optional[str] = None):
+        current_localization = localization[lang] if localization.get(lang) else localization[Config.DEFAULT_LANG]
+        inline_markups_data = current_localization["markups"]["inline"]
+        if markup_key:
+            for row in inline_markups_data[markup_key]:
+                for value in row.values():
+                    if (value in ["check", "uncheck", "confirm", "back", "skip", "0", "to_continents"]
+                    ) or ("next_page" in value) or ("prev_page" in value):
+                        continue
+
+                    if action == "+" and value not in entrance_data:
+                        entrance_data.append(value)
+
+                    elif action == "-" and value in entrance_data:
+                        entrance_data.remove(value)
+
+        else:
+            for markup_key, markup_data in inline_markups_data.items():
+                if "countries_" not in markup_key:
+                    continue
+
+                entrance_data = await cls.iteration_by_countries(
+                    lang=lang, entrance_data=entrance_data, action=action, markup_key=markup_key)
+
+        return entrance_data
+
+    @classmethod
     async def processing_countries_markup(
-            callback: types.CallbackQuery, state: FSMContext, lang: str, error_msg_key: str,
+            cls, callback: types.CallbackQuery, state: FSMContext, lang: str, error_msg_key: str,
             without_inline_buttons: Optional[List[str]] = [], additional_buttons: List[AdditionalButtons] = [],
             choose_one_country: bool = False) -> Union[list, str, bool]:
         cd = callback.data
@@ -164,9 +192,7 @@ class RegistrationSteps:
         data = await state.get_data()
         saved_data = data.get("saved_data") if data.get("saved_data") else []
 
-        print(f"cd = {cd}")
         if "cont:" in cd:
-            print(f"cd = {cd}")
             selected_continent = cd.replace('cont:', '')
             await state.update_data(sc=selected_continent, sp=1)
 
@@ -205,6 +231,7 @@ class RegistrationSteps:
             markup = await Ut.get_markup(mtype="inline", key="continents", lang=lang,
                                          additional_buttons=additional_buttons, without_buttons=without_inline_buttons)
             await callback.message.edit_reply_markup(reply_markup=markup)
+            await state.update_data(sc=None)
             return False
 
         elif "skip" == cd:
@@ -216,6 +243,29 @@ class RegistrationSteps:
                 msg = await callback.message.answer(text=text)
                 await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
                 return False
+
+        elif cd in ["check", "uncheck"]:
+            sc = data.get("sc")
+            markup_key = None
+            if sc:
+                markup_key = f"countries_{sc}_{data['sp']}"
+
+            saved_data = await cls.iteration_by_countries(
+                lang=lang, entrance_data=saved_data, action="+" if cd == "check" else "-", markup_key=markup_key)
+
+            await state.update_data(saved_data=saved_data)
+
+            if sc:
+                markup = await Ut.get_markup(
+                    mtype="inline", key=markup_key, lang=lang, additional_buttons=additional_buttons,
+                    without_buttons=without_inline_buttons
+                )
+                markup = await Ut.recognize_selected_values(
+                    markup=markup, datalist=saved_data, text_placeholder="✅ %btn.text%")
+
+                await callback.message.edit_reply_markup(reply_markup=markup)
+
+            return False
 
         else:
             if cd == "0":
@@ -450,9 +500,19 @@ class RegistrationSteps:
 
     @classmethod
     async def citizenships(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
-        text = await Ut.get_message_text(key="driver_reg_choose_citizenship", lang=lang)
+        data = await state.get_data()
+        status = data["status"]
+        if status == 2:
+            msg_key = "company_filters_citizenships"
+            additional_buttons = [AdditionalButtons(index=-2, action="new", buttons={"check": None, "uncheck": None})]
+
+        else:
+            msg_key = "driver_reg_choose_citizenship"
+            additional_buttons = []
+
+        text = await Ut.get_message_text(key=msg_key, lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
-        markup = await Ut.get_markup(mtype="inline", lang=lang, key="continents")
+        markup = await Ut.get_markup(mtype="inline", lang=lang, key="continents", additional_buttons=additional_buttons)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.update_data(selected_countries=[])
@@ -473,8 +533,17 @@ class RegistrationSteps:
         if result:
             return
 
+        status = data["status"]
+        if status == 2:
+            additional_buttons = [AdditionalButtons(index=-2, action="new", buttons={"check": None, "uncheck": None})]
+
+        else:
+            additional_buttons = []
+
         data_from_countries = await cls.processing_countries_markup(
-            callback=callback, state=state, lang=lang, error_msg_key="wrong_confirm")
+            callback=callback, state=state, lang=lang, error_msg_key="wrong_confirm",
+            additional_buttons=additional_buttons
+        )
         if data_from_countries is False:
             return
 
@@ -754,9 +823,23 @@ class RegistrationSteps:
     @classmethod
     async def need_internship(cls, state: FSMContext, lang: str,
                               data_model: Optional[Union[DriverForm, Driver]] = None):
-        text = await Ut.get_message_text(key="driver_reg_need_internship", lang=lang)
+        data = await state.get_data()
+        status = data["status"]
+        if status == 2:
+            msg_key = "company_filters_need_internship"
+            additional_buttons = [
+                AdditionalButtons(index=-1, action="new", buttons={"check": None, "uncheck": None}),
+                AdditionalButtons(index=-1, action="new", buttons={"confirm": None})
+            ]
+
+        else:
+            msg_key = "driver_reg_need_internship",
+            additional_buttons = []
+
+        text = await Ut.get_message_text(key=msg_key, lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
-        markup = await Ut.get_markup(mtype="inline", key="need_internship", lang=lang)
+        markup = await Ut.get_markup(mtype="inline", key="need_internship", lang=lang,
+                                     additional_buttons=additional_buttons)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.set_state(DriverRegistration.ChooseNeedInternship)
@@ -776,18 +859,43 @@ class RegistrationSteps:
         if result:
             return
 
-        cd = callback.data
-        await cls.handler_finish(state=state, returned_value=cd, additional_field="need_internship")
+        status = data["status"]
+        if status == 2:
+            additional_buttons = [
+                AdditionalButtons(index=-1, action="new", buttons={"check": None, "uncheck": None}),
+                AdditionalButtons(index=-1, action="new", buttons={"confirm": None})
+            ]
+            returned_value = await cls.processing_checkboxes(
+                callback=callback, state=state, lang=lang, error_msg_key="wrong_confirm", markup_key="need_internship",
+                additional_buttons=additional_buttons
+            )
+            if returned_value is False:
+                return
+
+        else:
+            returned_value = callback.data
+
+        await cls.handler_finish(state=state, returned_value=returned_value, additional_field="need_internship")
 
     @classmethod
     async def unsuitable_countries(cls, state: FSMContext, lang: str,
                                    data_model: Optional[Union[DriverForm, Driver]] = None):
-        text = await Ut.get_message_text(key="driver_reg_unsuitable_countries", lang=lang)
+        data = await state.get_data()
+        status = data["status"]
+        if status == 2:
+            msg_key = "company_filters_unsuitable_countries"
+            additional_buttons = [AdditionalButtons(index=-2, action="new", buttons={"check": None, "uncheck": None})]
+
+        else:
+            msg_key = "driver_reg_unsuitable_countries"
+            additional_buttons = [AdditionalButtons(action="new", index=-1, buttons={"skip": None})]
+
+        text = await Ut.get_message_text(key=msg_key, lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
         markup = await Ut.get_markup(
             mtype="inline", key="continents", lang=lang,
             without_buttons=["cont:north_america", "cont:south_america", "cont:africa", "cont:oceania"],
-            additional_buttons=[AdditionalButtons(action="new", index=-1, buttons={"skip": None})]
+            additional_buttons=additional_buttons
         )
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
@@ -809,10 +917,17 @@ class RegistrationSteps:
         if result:
             return
 
+        status = data["status"]
+        if status == 2:
+            additional_buttons = [AdditionalButtons(index=-2, action="new", buttons={"check": None, "uncheck": None})]
+
+        else:
+            additional_buttons = [AdditionalButtons(buttons={"skip": None})]
+
         data_from_countries = await cls.processing_countries_markup(
             callback=callback, state=state, lang=lang, error_msg_key="wrong_confirm",
             without_inline_buttons=["cont:north_america", "cont:south_america", "cont:africa", "cont:oceania"],
-            additional_buttons=[AdditionalButtons(buttons={"skip": None})]
+            additional_buttons=additional_buttons
         )
         if data_from_countries is False:
             return
@@ -823,7 +938,15 @@ class RegistrationSteps:
     @classmethod
     async def dangerous_goods(cls, state: FSMContext, lang: str,
                               data_model: Optional[Union[DriverForm, Driver]] = None):
-        text = await Ut.get_message_text(key="driver_reg_dangerous_goods", lang=lang)
+        data = await state.get_data()
+        status = data["status"]
+        if status == 2:
+            msg_key = "company_filters_dangerous_goods"
+
+        else:
+            msg_key = "driver_reg_dangerous_goods"
+
+        text = await Ut.get_message_text(key=msg_key, lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
         markup = await Ut.get_markup(mtype="inline", key="dangerous_goods", lang=lang)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
@@ -944,11 +1067,22 @@ class RegistrationSteps:
     @classmethod
     async def country_driving_licence(cls, state: FSMContext, lang: str,
                                       data_model: Optional[Union[DriverForm, Driver]] = None):
-        text = await Ut.get_message_text(key="driver_reg_country_driving_license", lang=lang)
+        data = await state.get_data()
+        status = data["status"]
+        if status == 2:
+            msg_key = "company_filters_country_driving_license"
+            additional_buttons = [AdditionalButtons(index=-2, action="new", buttons={"check": None, "uncheck": None})]
+
+        else:
+            msg_key = "driver_reg_country_driving_license"
+            additional_buttons = []
+
+        text = await Ut.get_message_text(key=msg_key, lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
-        markup = await Ut.get_markup(mtype="inline", key="continents", lang=lang)
+        markup = await Ut.get_markup(mtype="inline", key="continents", lang=lang, additional_buttons=additional_buttons)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
+        await state.update_data(sc=None, sp=None)
         await state.set_state(DriverRegistration.ChooseCountryDrivingLicense)
 
     @classmethod
@@ -969,8 +1103,10 @@ class RegistrationSteps:
 
         status = data["status"]
         if status == 2:
+            additional_buttons = [AdditionalButtons(index=-2, action="new", buttons={"check": None, "uncheck": None})]
             data_from_countries = await cls.processing_countries_markup(
-                callback=callback, state=state, lang=lang, error_msg_key="wrong_confirm", choose_one_country=True
+                callback=callback, state=state, lang=lang, error_msg_key="wrong_confirm",
+                additional_buttons=additional_buttons
             )
             if data_from_countries is False:
                 return
@@ -989,11 +1125,23 @@ class RegistrationSteps:
     @classmethod
     async def country_current_live(cls, state: FSMContext, lang: str,
                                    data_model: Optional[Union[DriverForm, Driver]] = None):
-        text = await Ut.get_message_text(key="driver_reg_country_current_living", lang=lang)
+        data = await state.get_data()
+        status = data["status"]
+        if status == 2:
+            msg_key = "company_filters_country_current_live"
+            additional_buttons = [AdditionalButtons(index=-2, action="new", buttons={"check": None, "uncheck": None})]
+
+        else:
+            msg_key = "driver_reg_country_current_living"
+            additional_buttons = []
+
+        text = await Ut.get_message_text(key=msg_key, lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
-        markup = await Ut.get_markup(mtype="inline", key="continents", lang=lang, without_buttons=["confirm"])
+        markup = await Ut.get_markup(mtype="inline", key="continents", lang=lang, without_buttons=["confirm"],
+                                     additional_buttons=additional_buttons)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
+        await state.update_data(sc=None, sp=None)
         await state.set_state(DriverRegistration.ChooseCountryCurrentLiving)
 
     @classmethod
@@ -1012,10 +1160,11 @@ class RegistrationSteps:
             return
 
         status = data["status"]
-
         if status == 2:
+            additional_buttons = [AdditionalButtons(index=-2, action="new", buttons={"check": None, "uncheck": None})]
             data_from_countries = await cls.processing_countries_markup(
-                callback=callback, state=state, lang=lang, error_msg_key="wrong_confirm", choose_one_country=True
+                callback=callback, state=state, lang=lang, error_msg_key="wrong_confirm",
+                additional_buttons=additional_buttons
             )
             if data_from_countries is False:
                 return
@@ -1088,9 +1237,19 @@ class RegistrationSteps:
 
     @classmethod
     async def cadence(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
-        text = await Ut.get_message_text(key="driver_reg_choose_cadence", lang=lang)
+        data = await state.get_data()
+        status = data["status"]
+        if status == 2:
+            msg_key = "company_filters_cadence"
+            without_buttons = ["skip"]
+
+        else:
+            msg_key = "driver_reg_choose_cadence"
+            without_buttons = []
+
+        text = await Ut.get_message_text(key=msg_key, lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
-        markup = await Ut.get_markup(mtype="inline", key="cadence", lang=lang)
+        markup = await Ut.get_markup(mtype="inline", key="cadence", lang=lang, without_buttons=without_buttons)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.update_data(selected_cadence=[])
@@ -1111,8 +1270,16 @@ class RegistrationSteps:
         if result:
             return
 
+        status = data["status"]
+        if status == 2:
+            without_buttons = ["skip"]
+
+        else:
+            without_buttons = []
+
         data_from_checkboxes = await cls.processing_checkboxes(
-            callback=callback, state=state, lang=lang, markup_key="cadence", error_msg_key="wrong_confirm"
+            callback=callback, state=state, lang=lang, markup_key="cadence", error_msg_key="wrong_confirm",
+            markup_without_buttons=without_buttons
         )
         if data_from_checkboxes is False:
             return
@@ -1121,9 +1288,22 @@ class RegistrationSteps:
 
     @classmethod
     async def crew(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
-        text = await Ut.get_message_text(key="driver_reg_crew", lang=lang)
+        data = await state.get_data()
+        status = data["status"]
+        if status == 2:
+            msg_key = "company_filters_crew"
+            additional_buttons = [AdditionalButtons(index=-1, action="new", buttons={"confirm": None})]
+            without_buttons = ["skip"]
+
+        else:
+            msg_key = "driver_reg_crew"
+            additional_buttons = []
+            without_buttons = []
+
+        text = await Ut.get_message_text(key=msg_key, lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
-        markup = await Ut.get_markup(mtype="inline", key="crew", lang=lang)
+        markup = await Ut.get_markup(mtype="inline", key="crew", lang=lang, additional_buttons=additional_buttons,
+                                     without_buttons=without_buttons)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.set_state(DriverRegistration.ChooseCrew)
@@ -1143,14 +1323,36 @@ class RegistrationSteps:
         if result:
             return
 
-        cd = callback.data
-        await cls.handler_finish(state=state, returned_value=cd, additional_field="crew")
+        status = data["status"]
+        if status == 2:
+            returned_value = await cls.processing_checkboxes(
+                callback=callback, state=state, lang=lang, error_msg_key="wrong_confirm", markup_key="work_types",
+                additional_buttons=[AdditionalButtons(index=-1, action="new", buttons={"confirm": None})],
+                markup_without_buttons=["skip"]
+            )
+            if returned_value is False:
+                return
+
+        else:
+            returned_value = callback.data
+
+        await cls.handler_finish(state=state, returned_value=returned_value, additional_field="crew")
 
     @classmethod
     async def driver_gender(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
-        text = await Ut.get_message_text(key="driver_reg_gender", lang=lang)
+        data = await state.get_data()
+        status = data["status"]
+        if status == 2:
+            msg_key = "company_filters_driver_gender"
+            additional_buttons = [AdditionalButtons(index=-1, action="new", buttons={"confirm": None})]
+
+        else:
+            msg_key = "driver_reg_gender"
+            additional_buttons = []
+
+        text = await Ut.get_message_text(key=msg_key, lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
-        markup = await Ut.get_markup(mtype="inline", key="genders", lang=lang)
+        markup = await Ut.get_markup(mtype="inline", key="genders", lang=lang, additional_buttons=additional_buttons)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.set_state(DriverRegistration.ChooseGender)
@@ -1170,8 +1372,19 @@ class RegistrationSteps:
         if result:
             return
 
-        cd = callback.data
-        await cls.handler_finish(state=state, returned_value=cd, additional_field="crew")
+        status = data["status"]
+        if status == 2:
+            returned_value = await cls.processing_checkboxes(
+                callback=callback, state=state, lang=lang, error_msg_key="wrong_confirm", markup_key="genders",
+                additional_buttons=[AdditionalButtons(index=-1, action="new", buttons={"confirm": None})]
+            )
+            if returned_value is False:
+                return
+
+        else:
+            returned_value = callback.data
+
+        await cls.handler_finish(state=state, returned_value=returned_value, additional_field="crew")
 
 
 router.message.register(RegistrationSteps.name_handler, DriverRegistration.WriteName)

@@ -245,28 +245,94 @@
       "\n<b>⬇ Use the keyboard below</b>"
     ],
     "company_filters_param_changed": [
-        "<b>✅ Filter parameters successfully changed!</b>"
+      "<b>✅ Filter parameters successfully changed!</b>"
     ],
     "company_filters_error_filter_params_changed": [
-        "<b>🚑 An error occurred while saving the filter parameters! Please try again...</b>"
+      "<b>🚑 An error occurred while saving the filter parameters! Please try again...</b>"
     ],
     "company_filters_car_types": [
-        "<b>⚙️ Driver Filter</b>",
-        "<b>➖ Car Types</b>",
-        "\n<b>Select the car types you want to include in the search</b>",
-        "\n<b>⬇ Use the keyboard below</b>"
+      "<b>⚙️ Driver Filter</b>",
+      "<b>➖ Car Types</b>",
+      "\n<b>Select the car types you want to include in the search</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
     ],
     "company_filters_work_type": [
-        "<b>⚙️ Driver Filter</b>",
-        "<b>➖ Work Types</b>",
-        "\n<b>Select the work types you want to include in the search</b>",
-        "\n<b>⬇ Use the keyboard below</b>"
+      "<b>⚙️ Driver Filter</b>",
+      "<b>➖ Work Types</b>",
+      "\n<b>Select the work types you want to include in the search</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
     ],
     "company_filters_95_code": [
-        "<b>⚙️ Driver Filter</b>",
-        "<b>➖ Code 95 Availability</b>",
-        "\n<b>Select the state of Code 95</b>",
-        "\n<b>⬇ Use the keyboard below</b>"
+      "<b>⚙️ Driver Filter</b>",
+      "<b>➖ Code 95 Availability</b>",
+      "\n<b>Select the state of Code 95</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_filters_basis_of_stay": [
+      "<b>⚙️ Driver Filter</b>",
+      "<b>➖ Basis of Stay</b>",
+      "\n<b>Select the desired parameters to apply to the filter</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_filters_categories": [
+      "<b>⚙️ Driver Filter</b>",
+      "<b>➖ Basis of Stay</b>",
+      "\n<b>Select the desired parameters to apply to the filter</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_filters_citizenships": [
+      "<b>⚙️ Driver Filter</b>",
+      "<b>➖ Citizenship</b>",
+      "\n<b>Select the desired driver citizenship countries</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_filters_country_driving_license": [
+      "<b>⚙️ Driver Filter</b>",
+      "<b>➖ Country of Issuance of Driving License</b>",
+      "\n<b>Select the desired driver citizenship countries</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_filters_country_current_live": [
+      "<b>⚙️ Driver Filter</b>",
+      "<b>➖ Country of Current Residence</b>",
+      "\n<b>Select the desired driver residence countries</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_filters_unsuitable_countries": [
+      "<b>⚙️ Driver Filter</b>",
+      "<b>➖ Countries for Routes</b>",
+      "\n<b>Select the desired countries for route planning</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_filters_need_internship": [
+      "<b>⚙️ Driver Filter</b>",
+      "<b>➖ Internship</b>",
+      "\n<b>Select the desired search parameters</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_filters_cadence": [
+      "<b>⚙️ Driver Filter</b>",
+      "<b>➖ Cadence</b>",
+      "\n<b>Select the desired search parameters</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_filters_crew": [
+      "<b>⚙️ Driver Filter</b>",
+      "<b>➖ Crew</b>",
+      "\n<b>Select the desired search parameters</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_filters_dangerous_goods": [
+      "<b>⚙️ Driver Filter</b>",
+      "<b>➖ Composition</b>",
+      "\n<b>Select the desired driver's documents</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_filters_driver_gender": [
+      "<b>⚙️ Driver Filter</b>",
+      "<b>➖ Driver Gender</b>",
+      "\n<b>Select the desired driver gender</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
     ]
   },
   "markups": {
@@ -283,8 +349,8 @@
         "driver_change_form_status:on": "\uD83D\uDFE2 Activate",
         "fill_data": "\uD83D\uDCDD Fill in the details",
         "confirm": "\uD83D\uDCDD Confirm",
-        "select_all": "\uD83D\uDFE2 Select all",
-        "deselect_all": "\uD83D\uDD34 Unselect all"
+        "check": "\uD83D\uDFE2 Select all",
+        "uncheck": "\uD83D\uDD34 Unselect all"
       },
       "choose_lang": [
         {
@@ -1348,7 +1414,7 @@
           "Crew": "crew"
         },
         {
-          "Competency Documents": "documents"
+          "Competency Documents": "dangerous_goods"
         },
         {
           "Driver's Gender": "driver_gender"
