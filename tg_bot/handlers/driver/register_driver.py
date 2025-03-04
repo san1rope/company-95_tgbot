@@ -482,9 +482,23 @@ class RegistrationSteps:
 
     @classmethod
     async def basis_of_stay(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
-        text = await Ut.get_message_text(key="driver_reg_basis_of_stay", lang=lang)
+        data = await state.get_data()
+        status = data["status"]
+        if status == 2:
+            text_key = "company_filters_basis_of_stay"
+            additional_buttons = [
+                AdditionalButtons(index=-1, action="new", buttons={"check": None, "uncheck": None}),
+                AdditionalButtons(index=-1, action="new", buttons={"confirm": None})
+            ]
+
+        else:
+            text_key = "driver_reg_basis_of_stay"
+            additional_buttons = []
+
+        text = await Ut.get_message_text(key=text_key, lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
-        markup = await Ut.get_markup(mtype="inline", lang=lang, key="basis_of_stay")
+        markup = await Ut.get_markup(mtype="inline", lang=lang, key="basis_of_stay",
+                                     additional_buttons=additional_buttons)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.set_state(DriverRegistration.ChooseBasisOfStay)
@@ -506,7 +520,23 @@ class RegistrationSteps:
         if result:
             return
 
-        await cls.handler_finish(state=state, returned_value=cd, additional_field="basis_of_stay")
+        status = data["status"]
+        if status == 2:
+            additional_buttons = [
+                AdditionalButtons(index=-1, action="new", buttons={"check": None, "uncheck": None}),
+                AdditionalButtons(index=-1, action="new", buttons={"confirm": None})
+            ]
+            returned_value = await cls.processing_checkboxes(
+                callback=callback, state=state, lang=lang, error_msg_key="wrong_confirm", markup_key="basis_of_stay",
+                additional_buttons=additional_buttons
+            )
+            if returned_value is False:
+                return
+
+        else:
+            returned_value = cd
+
+        await cls.handler_finish(state=state, returned_value=returned_value, additional_field="basis_of_stay")
 
     @classmethod
     async def availability_95_code(cls, state: FSMContext, lang: str,
@@ -515,16 +545,17 @@ class RegistrationSteps:
         status = data["status"]
         if status == 2:
             text_key = "company_filters_95_code"
+            additional_buttons = [AdditionalButtons(index=-1, action="new", buttons={"confirm": None})]
 
         else:
             text_key = "driver_reg_availability_95_code"
+            additional_buttons = []
 
         text = await Ut.get_message_text(key=text_key, lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+
         markup = await Ut.get_markup(
-            mtype="inline", lang=lang, key="availability_95_code",
-            additional_buttons=[AdditionalButtons(index=-1, action="new", buttons={"confirm": None})]
-        )
+            mtype="inline", lang=lang, key="availability_95_code", additional_buttons=additional_buttons)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.set_state(DriverRegistration.Availability95Code)
@@ -869,7 +900,15 @@ class RegistrationSteps:
     @classmethod
     async def categories_availability(cls, state: FSMContext, lang: str,
                                       data_model: Optional[Union[DriverForm, Driver]] = None):
-        text = await Ut.get_message_text(key="driver_reg_availability_categories", lang=lang)
+        data = await state.get_data()
+        status = data["status"]
+        if status == 2:
+            text_key = "company_filters_categories"
+
+        else:
+            text_key = "driver_reg_availability_categories"
+
+        text = await Ut.get_message_text(key=text_key, lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
         markup = await Ut.get_markup(mtype="inline", key="categories_availability", lang=lang)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
@@ -998,16 +1037,18 @@ class RegistrationSteps:
         status = data["status"]
         if status == 2:
             text_key = "company_filters_work_type"
+            additional_buttons = [AdditionalButtons(index=-1, action="new", buttons={"confirm": None})]
 
         else:
             text_key = "driver_reg_work_type"
+            additional_buttons = []
 
         text = await Ut.get_message_text(key=text_key, lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
 
         markup = await Ut.get_markup(
             mtype="inline", key="work_types", lang=lang, without_buttons=["skip" if status == 2 else []],
-            additional_buttons=[AdditionalButtons(index=-1, action="new", buttons={"confirm": None})])
+            additional_buttons=additional_buttons)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.set_state(DriverRegistration.ChooseWorkType)
