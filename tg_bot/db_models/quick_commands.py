@@ -135,6 +135,7 @@ class DbCompany:
             f_categories_availability: Optional[str] = None, f_country_driving_licence: Optional[str] = None,
             f_country_current_live: Optional[str] = None, f_work_type: Optional[str] = None,
             f_cadence: Optional[str] = None, f_crew: Optional[str] = None, f_driver_gender: Optional[str] = None,
+            f_dangerous_goods: Optional[str] = None
     ):
         self.db_id = db_id
         self.tg_user_id = tg_user_id
@@ -156,6 +157,7 @@ class DbCompany:
         self.f_country_current_live = f_country_current_live
         self.f_work_type = f_work_type
         self.f_cadence = f_cadence
+        self.f_dangerous_goods = f_dangerous_goods
         self.f_crew = f_crew
         self.f_driver_gender = f_driver_gender
 
@@ -171,7 +173,8 @@ class DbCompany:
                 f_categories_availability=self.f_categories_availability,
                 f_country_driving_licence=self.f_country_driving_licence,
                 f_country_current_live=self.f_country_current_live, f_work_type=self.f_work_type,
-                f_cadence=self.f_cadence, f_crew=self.f_crew, f_driver_gender=self.f_driver_gender
+                f_cadence=self.f_cadence, f_crew=self.f_crew, f_driver_gender=self.f_driver_gender,
+                f_dangerous_goods=self.f_dangerous_goods
             )
             return await target.create()
 

@@ -62,6 +62,7 @@ class Company(TimedBaseModel):
     f_country_current_live = Column(String)
     f_work_type = Column(String)
     f_cadence = Column(String)
+    f_dangerous_goods = Column(String)
     f_crew = Column(String)
     f_driver_gender = Column(String)
 

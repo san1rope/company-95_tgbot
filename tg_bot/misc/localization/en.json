@@ -333,6 +333,18 @@
       "<b>➖ Driver Gender</b>",
       "\n<b>Select the desired driver gender</b>",
       "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_filters_language_skills": [
+        "<b>⚙️ Driver Filter</b>",
+        "<b>➖ Language Proficiency</b>",
+        "\n<b>Please select the desired level of language proficiency for the driver</b>",
+        "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_filters_job_experience": [
+        "<b>⚙️ Driver Filter</b>",
+        "<b>➖ Work Experience</b>",
+        "\n<b>Please select the desired work experience for the driver</b>",
+        "\n<b>⬇ Use the keyboard below</b>"
     ]
   },
   "markups": {
@@ -1095,7 +1107,7 @@
       ],
       "language_skills": [
         {
-          "  ": "-",
+          "  ": "0",
           "Don't speak": "col:0",
           "Understand, but don't say": "col:1",
           "Entry level": "col:2",
@@ -1131,7 +1143,7 @@
       ],
       "job_experience": [
         {
-          "  ": "-",
+          "  ": "0",
           "Don't have": "col:0",
           "Up to half a year": "col:1",
           "From half to 2 years": "col:2",

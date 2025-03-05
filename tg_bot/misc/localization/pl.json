@@ -333,6 +333,18 @@
       "<b>➖ Płeć kierowcy</b>",
       "\n<b>Wybierz żądaną płeć kierowcy</b>",
       "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_filters_language_skills": [
+        "<b>⚙️ Filtr kierowców</b>",
+        "<b>➖ Znajomość języków</b>",
+        "\n<b>Należy zaznaczyć pożądany poziom znajomości języka dla kierowcy</b>",
+        "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_filters_job_experience": [
+        "<b>⚙️ Filtr kierowców</b>",
+        "<b>➖ Doświadczenie zawodowe</b>",
+        "\n<b>Należy zaznaczyć pożądane doświadczenie zawodowe dla kierowcy</b>",
+        "\n<b>⬇ Użyj klawiatury poniżej</b>"
     ]
   },
   "markups": {
@@ -1093,7 +1105,7 @@
       ],
       "language_skills": [
         {
-          "  ": "-",
+          "  ": "0",
           "Nie mówię": "col:0",
           "Rozumiem, ale nie mówię": "col:1",
           "Poziom początkujący": "col:2",
@@ -1129,7 +1141,7 @@
       ],
       "job_experience": [
         {
-          "  ": "-",
+          "  ": "0",
           "Nie mam": "col:0",
           "Do pół roku": "col:1",
           "Od pół roku do 2 lat": "col:2",

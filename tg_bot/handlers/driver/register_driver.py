@@ -62,8 +62,8 @@ class RegistrationSteps:
         status = data["status"]
         params = []
         if status == 0:
-            dmodel: DriverForm = data["dmodel"]
-            if model_attr:
+            dmodel: DriverForm = data.get("dmodel")
+            if model_attr and dmodel:
                 setattr(dmodel, model_attr, None)
 
             await state.update_data(dmodel=dmodel, function_for_back=function_for_back, call_function=next_function)
@@ -114,11 +114,19 @@ class RegistrationSteps:
         elif cd == "skip":
             saved_data = []
 
+        elif "row:" in cd or "col:" in cd:
+            return False
+
         else:
+            if cd == "0":
+                return False
+
             if cd == "check":
                 for block_buttons in markup.inline_keyboard:
                     for btn in block_buttons:
-                        if btn.callback_data in ["check", "uncheck", "confirm", "back", "skip"]:
+                        if btn.callback_data in [
+                            "check", "uncheck", "confirm", "back", "skip"
+                        ] or "row:" in btn.callback_data or "col:" in btn.callback_data:
                             continue
 
                         if btn.callback_data not in saved_data:
@@ -152,6 +160,43 @@ class RegistrationSteps:
                 return False
 
         await state.update_data(saved_data=[])
+        return saved_data
+
+    @staticmethod
+    async def processing_slider(
+            callback: types.CallbackQuery, state: FSMContext, lang: str, markup_key: str, error_msg_key: str
+    ) -> Union[list, bool]:
+        cd = callback.data
+        uid = callback.from_user.id
+        data = await state.get_data()
+        saved_data = data.get("saved_data") if data.get("saved_data") else []
+
+        if ":" in cd:
+            cd_lang = cd.split(":")[0]
+            for el in saved_data.copy():
+                if cd_lang in el:
+                    saved_data.remove(el)
+
+            saved_data.append(cd)
+            await state.update_data(saved_data=saved_data)
+
+            markup = await Ut.get_markup(mtype="inline", key=markup_key, lang=lang)
+            markup = await Ut.recognize_selected_values(markup=markup, datalist=saved_data, text_placeholder="🟢")
+
+            try:
+                await callback.message.edit_reply_markup(reply_markup=markup)
+                return False
+
+            except TelegramBadRequest:
+                return False
+
+        elif "confirm" == cd:
+            if len(saved_data) < 3:
+                text = await Ut.get_message_text(key=error_msg_key, lang=lang)
+                msg = await callback.message.answer(text=text)
+                await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+                return False
+
         return saved_data
 
     @classmethod
@@ -330,11 +375,26 @@ class RegistrationSteps:
 
     @classmethod
     async def birth_year(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
-        text = await Ut.get_message_text(key="driver_reg_choose_birth_year", lang=lang)
+        data = await state.get_data()
+        status = data["status"]
+        status_secondary = data.get("status_secondary")
+        if status == 2 or status_secondary == 2:
+            msg_key = "company_filters_birth_year_1"
+            status = 2
+            function_for_back = data[
+                "function_for_back_secondary"] if data.get("function_for_back_secondary") else data["function_for_back"]
+
+        else:
+            msg_key = "driver_reg_choose_birth_year"
+            status = 0
+            function_for_back = cls.name
+
+        text = await Ut.get_message_text(key=msg_key, lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
         markup = await year_inline(from_year=datetime.now(tz=Config.TIMEZONE).year - 42, lang=lang)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
+        await state.update_data(min_year=None, status=status, function_for_back=function_for_back)
         await state.set_state(DriverRegistration.ChooseBirthYear)
 
     @classmethod
@@ -347,9 +407,14 @@ class RegistrationSteps:
         cd = callback.data
         lang = await cls.get_lang(state_data=data, user_id=uid)
 
+        min_year = data["min_year"]
+        status_secondary = data.get("status_secondary")
         result = await cls.processing_back_btn(
-            callback=callback, state=state, lang=lang, function_for_back=cls.name,
-            next_function=call_functions["birth_year"], model_attr="name")
+            callback=callback, state=state, lang=lang,
+            next_function=data["call_function"] if status_secondary else call_functions["birth_year"],
+            model_attr=None if status_secondary else "name",
+            function_for_back=cls.birth_year if status_secondary else cls.name
+        )
         if result:
             return
 
@@ -373,9 +438,32 @@ class RegistrationSteps:
                 return
 
         except ValueError:
-            birth_year = int(cd)
+            returned_value = int(cd)
 
-        await cls.handler_finish(state=state, returned_value=birth_year, additional_field="birth_year")
+        status = data["status"]
+        if (status == 2) and (not min_year):
+            await state.update_data(min_year=returned_value, function_for_back_secondary=data["function_for_back"],
+                                    status_secondary=data["status"], function_for_back=cls.birth_year, status=0)
+
+            text = await Ut.get_message_text(key="company_filters_birth_year_2", lang=lang)
+            markup = await year_inline(from_year=datetime.now(tz=Config.TIMEZONE).year - 42, lang=lang)
+            print(1)
+            return await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        elif (status == 2 or status_secondary == 2) and min_year:
+            print(2)
+            print(f'func = {data["function_for_back_secondary"]}')
+            print(f'status = {data["status_secondary"]}')
+            await state.update_data(
+                function_for_back=data["function_for_back_secondary"], status=data["status_secondary"],
+                status_secondary=None, function_for_back_secondary=None)
+            if min_year > returned_value:
+                returned_value = f"{returned_value}-{min_year}"
+
+            else:
+                returned_value = f"{min_year}-{returned_value}"
+
+        await cls.handler_finish(state=state, returned_value=returned_value, additional_field="birth_year")
 
     @classmethod
     async def phone_number(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
@@ -702,7 +790,15 @@ class RegistrationSteps:
     @classmethod
     async def language_skills(cls, state: FSMContext, lang: str,
                               data_model: Optional[Union[DriverForm, Driver]] = None):
-        text = await Ut.get_message_text(key="driver_reg_language_skills", lang=lang)
+        data = await state.get_data()
+        status = data["status"]
+        if status == 2:
+            msg_key = "company_filters_language_skills"
+
+        else:
+            msg_key = "driver_reg_language_skills"
+
+        text = await Ut.get_message_text(key=msg_key, lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
         markup = await Ut.get_markup(mtype="inline", key="language_skills", lang=lang)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
@@ -725,44 +821,36 @@ class RegistrationSteps:
         if result:
             return
 
-        cd = callback.data
-
-        try:
-            languages_skills: List[str] = data["languages_skills"]
-
-        except KeyError:
-            languages_skills = []
-            await state.update_data(languages_skills=languages_skills)
-
-        if ":" in cd:
-            cd_lang = cd.split(":")[0]
-            for el in languages_skills.copy():
-                if cd_lang in el:
-                    languages_skills.remove(el)
-
-            languages_skills.append(cd)
-            await state.update_data(languages_skills=languages_skills)
-
-            markup = await Ut.get_markup(mtype="inline", key="language_skills", lang=lang)
-            markup = await Ut.recognize_selected_values(markup=markup, datalist=languages_skills, text_placeholder="🟢")
-
-            try:
-                return await callback.message.edit_reply_markup(reply_markup=markup)
-
-            except TelegramBadRequest:
+        status = data["status"]
+        if status == 2:
+            returned_data = await cls.processing_checkboxes(
+                callback=callback, state=state, lang=lang, markup_key="language_skills",
+                error_msg_key="wrong_language_skills"
+            )
+            if returned_data is False:
                 return
 
-        elif "confirm" == cd:
-            if len(languages_skills) < 3:
-                text = await Ut.get_message_text(key="wrong_language_skills", lang=lang)
-                msg = await callback.message.answer(text=text)
-                return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+        else:
+            returned_data = await cls.processing_slider(
+                callback=callback, state=state, lang=lang, markup_key="language_skills",
+                error_msg_key="wrong_language_skills"
+            )
+            if returned_data is False:
+                return
 
-        await cls.handler_finish(state=state, returned_value=languages_skills, additional_field="language_skills")
+        await cls.handler_finish(state=state, returned_value=returned_data, additional_field="language_skills")
 
     @classmethod
     async def job_experience(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
-        text = await Ut.get_message_text(key="driver_reg_job_experience", lang=lang)
+        data = await state.get_data()
+        status = data["status"]
+        if status == 2:
+            msg_key = "company_filters_job_experience"
+
+        else:
+            msg_key = "driver_reg_job_experience"
+
+        text = await Ut.get_message_text(key=msg_key, lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
         markup = await Ut.get_markup(mtype="inline", key="job_experience", lang=lang)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
@@ -785,40 +873,24 @@ class RegistrationSteps:
         if result:
             return
 
-        cd = callback.data
-
-        try:
-            job_experience: List[str] = data["job_experience"]
-
-        except KeyError:
-            job_experience = []
-            await state.update_data(job_experience=job_experience)
-
-        if ":" in cd:
-            row_val = cd.split(":")[0]
-            for el in job_experience.copy():
-                if row_val in el:
-                    job_experience.remove(el)
-
-            job_experience.append(cd)
-            await state.update_data(job_experience=job_experience)
-
-            markup = await Ut.get_markup(mtype="inline", key="job_experience", lang=lang)
-            markup = await Ut.recognize_selected_values(markup=markup, datalist=job_experience, text_placeholder="🟢")
-
-            try:
-                return await callback.message.edit_reply_markup(reply_markup=markup)
-
-            except TelegramBadRequest:
+        status = data["status"]
+        if status == 2:
+            returned_data = await cls.processing_checkboxes(
+                callback=callback, state=state, lang=lang, markup_key="job_experience",
+                error_msg_key="wrong_job_experience"
+            )
+            if returned_data is False:
                 return
 
-        elif "confirm" == cd:
-            if len(job_experience) < 3:
-                text = await Ut.get_message_text(key="wrong_job_experience", lang=lang)
-                msg = await callback.message.answer(text=text)
-                return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+        else:
+            returned_data = await cls.processing_slider(
+                callback=callback, state=state, lang=lang, markup_key="job_experience",
+                error_msg_key="wrong_job_experience"
+            )
+            if returned_data is False:
+                return
 
-            await cls.handler_finish(state=state, returned_value=job_experience, additional_field="job_experience")
+        await cls.handler_finish(state=state, returned_value=returned_data, additional_field="job_experience")
 
     @classmethod
     async def need_internship(cls, state: FSMContext, lang: str,
@@ -980,7 +1052,17 @@ class RegistrationSteps:
     @classmethod
     async def expected_salary(cls, state: FSMContext, lang: str,
                               data_model: Optional[Union[DriverForm, Driver]] = None):
-        text = await Ut.get_message_text(key="driver_reg_expected_salary", lang=lang)
+        data = await state.get_data()
+        status = data["status"]
+        if status == 2:
+            msg_key = "company_filters_expected_salary"
+
+        else:
+            msg_key = "driver_reg_expected_salary"
+
+        text = await Ut.get_message_text(key=msg_key, lang=lang)
+        text = text.replace("%salary_min%", str(Config.SALARY_MIN))
+        text = text.replace("%salary_max%", str(Config.SALARY_MAX))
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
         markup = await Ut.get_markup(mtype="inline", lang=lang,
                                      additional_buttons=[AdditionalButtons(buttons={"back": None})])
@@ -1006,17 +1088,47 @@ class RegistrationSteps:
                 return
 
         value = message.text.strip()
-        if (not (await Ut.is_number(value))) or (float(value) < 0):
-            text = await Ut.get_message_text(key="wrong_number", lang=lang)
-            msg = await message.answer(text=text)
-            return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+        status = data["status"]
+        if status == 2:
+            if ("-" not in value) or (value.count("-") > 1):
+                text = await Ut.get_message_text(key="wrong_salary_format", lang=lang)
+                msg = await message.answer(text=text)
+                return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
 
-        value = float(value)
-        if not (Config.SALARY_MIN <= value <= Config.SALARY_MAX):
-            text = await Ut.get_message_text(key="wrong_salary_value_range", lang=lang)
-            msg = await message.answer(
-                text=text.replace("%value_min%", str(Config.SALARY_MIN)).replace("%value_max%", str(Config.SALARY_MAX)))
-            return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+            salary_min, salary_max = value.split("-")
+            if (not (await Ut.is_number(salary_min))) or (not (await Ut.is_number(salary_max))):
+                text = await Ut.get_message_text(key="wrong_number", lang=lang)
+                msg = await message.answer(text=text)
+                return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+
+            salary_min, salary_max = float(salary_min), float(salary_max)
+            if (not (Config.SALARY_MIN <= salary_min <= Config.SALARY_MAX)) or \
+                    (not (Config.SALARY_MIN <= salary_max <= Config.SALARY_MAX)):
+                text = await Ut.get_message_text(key="wrong_salary_value_range", lang=lang)
+                text = text.replace("%value_min%", str(Config.SALARY_MIN))
+                text = text.replace("%value_max%", str(Config.SALARY_MAX))
+                msg = await message.answer(text=text)
+                return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+
+            if salary_min > salary_max:
+                value = f"{salary_max}-{salary_min}"
+
+            else:
+                value = f"{salary_min}-{salary_max}"
+
+        else:
+            if (not (await Ut.is_number(value))) or (float(value) < 0):
+                text = await Ut.get_message_text(key="wrong_number", lang=lang)
+                msg = await message.answer(text=text)
+                return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+
+            value = float(value)
+            if not (Config.SALARY_MIN <= value <= Config.SALARY_MAX):
+                text = await Ut.get_message_text(key="wrong_salary_value_range", lang=lang)
+                msg = await message.answer(
+                    text=text.replace("%value_min%", str(Config.SALARY_MIN)).replace("%value_max%",
+                                                                                     str(Config.SALARY_MAX)))
+                return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
 
         await cls.handler_finish(state=state, returned_value=value, additional_field="expected_salary")
 
