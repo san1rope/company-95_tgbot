@@ -447,13 +447,9 @@ class RegistrationSteps:
 
             text = await Ut.get_message_text(key="company_filters_birth_year_2", lang=lang)
             markup = await year_inline(from_year=datetime.now(tz=Config.TIMEZONE).year - 42, lang=lang)
-            print(1)
             return await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         elif (status == 2 or status_secondary == 2) and min_year:
-            print(2)
-            print(f'func = {data["function_for_back_secondary"]}')
-            print(f'status = {data["status_secondary"]}')
             await state.update_data(
                 function_for_back=data["function_for_back_secondary"], status=data["status_secondary"],
                 status_secondary=None, function_for_back_secondary=None)
@@ -750,11 +746,26 @@ class RegistrationSteps:
     @classmethod
     async def date_stark_work(cls, state: FSMContext, lang: str,
                               data_model: Optional[Union[DriverForm, Driver]] = None):
-        text = await Ut.get_message_text(key="driver_reg_date_start_work", lang=lang)
+        data = await state.get_data()
+        status = data["status"]
+        status_secondary = data.get("status_secondary")
+        if status == 2 or status_secondary == 2:
+            msg_key = "company_filters_date_start_work_1"
+            status = 2
+            function_for_back = data[
+                "function_for_back_secondary"] if data.get("function_for_back_secondary") else data["function_for_back"]
+
+        else:
+            msg_key = "driver_reg_date_start_work"
+            status = 0
+            function_for_back = cls.name
+
+        text = await Ut.get_message_text(key=msg_key, lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
         markup = await calendar_inline(date_time=datetime.now(tz=Config.TIMEZONE), lang=lang)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
+        await state.update_data(date_start_work_left=None, status=status, function_for_back=function_for_back)
         await state.set_state(DriverRegistration.ChooseDateReadyToStartWork)
 
     @classmethod
@@ -766,9 +777,14 @@ class RegistrationSteps:
         data = await state.get_data()
         lang = await cls.get_lang(state_data=data, user_id=uid)
 
+        date_start_work_left = data["date_start_work_left"]
+        status_secondary = data.get("status_secondary")
         result = await cls.processing_back_btn(
-            callback=callback, state=state, lang=lang, function_for_back=cls.availability_95_code,
-            next_function=call_functions["date_start_work"], model_attr="availability_95_code")
+            callback=callback, state=state, lang=lang,
+            function_for_back=cls.date_stark_work if status_secondary else cls.availability_95_code,
+            next_function=data["call_function"] if status_secondary else call_functions["date_start_work"],
+            model_attr=None if status_secondary else "availability_95_code"
+        )
         if result:
             return
 
@@ -784,8 +800,31 @@ class RegistrationSteps:
                 reply_markup=await calendar_inline(date_time=date_time, lang=lang))
 
         elif "." in cd:
-            value = datetime.strptime(cd, "%d.%m.%Y")
-            await cls.handler_finish(state=state, returned_value=value, additional_field="date_stark_work")
+            returned_value = datetime.strptime(cd, "%d.%m.%Y")
+
+            status = data["status"]
+            if (status == 2) and (not date_start_work_left):
+                await state.update_data(
+                    date_start_work_left=returned_value.strftime("%d.%m.%Y"), function_for_back=cls.date_stark_work,
+                    function_for_back_secondary=data["function_for_back"], status=0,
+                    status_secondary=data["status"]
+                )
+
+                text = await Ut.get_message_text(key="company_filters_date_start_work_2", lang=lang)
+                markup = await calendar_inline(date_time=returned_value, lang=lang)
+                return await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+            elif (status == 2 or status_secondary == 2) and date_start_work_left:
+                await state.update_data(
+                    function_for_back=data["function_for_back_secondary"], status=data["status_secondary"],
+                    status_secondary=None, function_for_back_secondary=None)
+                if datetime.strptime(date_start_work_left, "%d.%m.%Y") > returned_value:
+                    returned_value = f"{returned_value.strftime('%d.%m.%Y')}-{date_start_work_left}"
+
+                else:
+                    returned_value = f"{date_start_work_left}-{returned_value.strftime('%d.%m.%Y')}"
+
+            await cls.handler_finish(state=state, returned_value=returned_value, additional_field="date_stark_work")
 
     @classmethod
     async def language_skills(cls, state: FSMContext, lang: str,
