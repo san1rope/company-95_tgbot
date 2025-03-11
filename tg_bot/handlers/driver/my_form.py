@@ -28,10 +28,8 @@ async def show_my_form(callback: types.CallbackQuery, state: FSMContext):
     text = await Ut.get_message_text(key="driver_menu_my_form", lang=driver.lang)
     markup = await Ut.get_markup(mtype="inline", lang=driver.lang, key="driver_menu_my_form")
 
-    await Ut.delete_messages(user_id=uid)
-    msg = await callback.message.answer(
-        text=await DriverForm().form_completion(db_model=driver, title=text, lang=driver.lang), reply_markup=markup)
-    await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+    text = await DriverForm().form_completion(db_model=driver, title=text, lang=driver.lang)
+    await Ut.send_step_message(user_id=uid, text=text, markup=markup)
 
     await state.set_state(DriverFormStates.ChooseAction)
 
@@ -54,9 +52,7 @@ async def form_reset_confirmation(callback: Optional[Union[types.CallbackQuery, 
     if cd == "driver_my_form_reset":
         text = await Ut.get_message_text(key="driver_menu_my_form_reset_confirmation", lang=driver.lang)
         markup = await Ut.get_markup(mtype="inline", lang=driver.lang, key="confirmation")
-        await Ut.delete_messages(user_id=uid)
-        msg = await callback.message.answer(text=text, reply_markup=markup)
-        await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+        await Ut.send_step_message(user_id=uid, text=text, markup=markup)
 
         await state.set_state(DriverFormStates.FormResetConfirmation)
 

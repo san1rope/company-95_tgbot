@@ -23,5 +23,5 @@ async def show_menu(message: Union[types.Message, types.CallbackQuery]):
     company = await DbCompany(tg_user_id=uid).select()
 
     text = await Ut.get_message_text(key="company_menu_text", lang=company.lang)
-    markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="company_menu_text")
+    markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="company_menu")
     await Ut.send_step_message(user_id=uid, text=text, markup=markup)

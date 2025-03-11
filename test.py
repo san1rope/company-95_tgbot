@@ -1,9 +1,11 @@
-from tg_bot.misc.utils import Utils as Ut, AdditionalButtons
+import asyncio
+
+from tg_bot.db_models.db_gino import connect_to_db
 
 
-async def temp_func():
-    additional_buttons = [AdditionalButtons(index=0, buttons={"skip": 0, "back": None})]
-    markup = await Ut.get_markup(mtype="inline", lang="ru", key="messangers_availabilities",
-                                 additional_buttons=additional_buttons)
-    print(markup.inline_keyboard[0])
-    print(markup.inline_keyboard[1])
+async def main():
+    await connect_to_db(remove_data=False)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

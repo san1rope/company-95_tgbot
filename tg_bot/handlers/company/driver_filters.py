@@ -17,6 +17,18 @@ logger = logging.getLogger(__name__)
 router = Router()
 
 
+@router.callback_query(IsCompany(), F.data == "filters")
+async def selected_filters_btn(callback: types.CallbackQuery):
+    await callback.answer()
+    uid = callback.from_user.id
+    await Ut.handler_log(logger, uid)
+
+    company = await DbCompany(tg_user_id=uid).select()
+
+    text = await Ut.get_message_text(key="", lang=company.lang)
+    markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="company_filters")
+
+
 @router.callback_query(IsCompany(), F.data == "show_filters")
 async def show_filters(callback: Optional[Union[types.CallbackQuery, int]], state: FSMContext):
     if isinstance(callback, types.CallbackQuery):

@@ -99,7 +99,6 @@ class Utils:
                                 callback_data in without_buttons):
                             continue
 
-                        # callback_data = callback_data[:callback_data.find(":")] if callback_data.find(":") != -1 else callback_data
                         new_btn = InlineKeyboardButton(text=btn_text.replace("&a|", ""), callback_data=callback_data)
                         markup.inline_keyboard[-1].append(new_btn)
 
@@ -111,14 +110,6 @@ class Utils:
                 if isinstance(markup, InlineKeyboardMarkup):
                     markup = await cls.processing_additional_buttons(
                         markup_data=markup_data, markup=markup, additional_buttons=additional_buttons)
-
-                    # callback_data = add_btn[:add_btn.find(":")] if add_btn.find(":") != -1 else add_btn
-                    # btn = InlineKeyboardButton(text=btn_text, callback_data=callback_data)
-                    # if add_btn_index:
-                    #     markup.inline_keyboard.insert(add_btn_index, [btn])
-                    #
-                    # else:
-                    #     markup.inline_keyboard.append([btn])
 
                 elif isinstance(markup, ReplyKeyboardMarkup):
                     markup.keyboard.append([KeyboardButton(text=btn_text)])

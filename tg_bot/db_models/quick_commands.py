@@ -14,16 +14,16 @@ class DbDriver:
     def __init__(
             self, db_id: Optional[int] = None, tg_user_id: Optional[int] = None, opens_count: Optional[int] = None,
             form_price: Optional[float] = None, name: Optional[str] = None, birth_year: Optional[int] = None,
-            phone_number: Optional[str] = None, car_types: Optional[str] = None, citizenships: Optional[str] = None,
-            basis_of_stay: Optional[str] = None, availability_95_code: Optional[str] = None,
-            date_stark_work: Optional[datetime] = None, language_skills: Optional[str] = None,
-            job_experience: Optional[str] = None, need_internship: Optional[str] = None,
-            unsuitable_countries: Optional[str] = None, dangerous_goods: Optional[str] = None,
-            expected_salary: Optional[float] = None, categories_availability: Optional[str] = None,
+            phone_number: Optional[str] = None, car_types: Optional[List[str]] = None,
+            citizenships: Optional[List[str]] = None, basis_of_stay: Optional[str] = None,
+            availability_95_code: Optional[str] = None, date_stark_work: Optional[datetime] = None,
+            language_skills: Optional[List[str]] = None, job_experience: Optional[List[str]] = None,
+            unsuitable_countries: Optional[List[str]] = None, dangerous_goods: Optional[List[str]] = None,
+            expected_salary: Optional[float] = None, categories_availability: Optional[List[str]] = None,
             country_driving_licence: Optional[str] = None, country_current_live: Optional[str] = None,
-            work_type: Optional[str] = None, cadence: Optional[str] = None, crew: Optional[str] = None,
+            work_type: Optional[str] = None, cadence: Optional[List[str]] = None, crew: Optional[str] = None,
             driver_gender: Optional[str] = None, lang: Optional[str] = None, status: Optional[int] = None,
-            messangers: Optional[str] = None
+            messangers: Optional[List[str]] = None, need_internship: Optional[str] = None,
     ):
         self.db_id = db_id
         self.tg_user_id = tg_user_id
@@ -127,15 +127,15 @@ class DbCompany:
     def __init__(
             self, db_id: Optional[int] = None, tg_user_id: Optional[int] = None,
             paid_subscription: Optional[int] = None, lang: Optional[str] = None, f_birth_year: Optional[int] = None,
-            f_car_types: Optional[str] = None, f_citizenships: Optional[str] = None,
-            f_basis_of_stay: Optional[str] = None, f_availability_95_code: Optional[str] = None,
-            f_date_stark_work: Optional[str] = None, f_language_skills: Optional[str] = None,
-            f_job_experience: Optional[str] = None, f_need_internship: Optional[str] = None,
-            f_unsuitable_countries: Optional[str] = None, f_expected_salary: Optional[str] = None,
-            f_categories_availability: Optional[str] = None, f_country_driving_licence: Optional[str] = None,
-            f_country_current_live: Optional[str] = None, f_work_type: Optional[str] = None,
-            f_cadence: Optional[str] = None, f_crew: Optional[str] = None, f_driver_gender: Optional[str] = None,
-            f_dangerous_goods: Optional[str] = None
+            f_car_types: Optional[List[str]] = None, f_citizenships: Optional[List[str]] = None,
+            f_basis_of_stay: Optional[List[str]] = None, f_availability_95_code: Optional[List[str]] = None,
+            f_date_stark_work: Optional[str] = None, f_language_skills: Optional[List[str]] = None,
+            f_job_experience: Optional[List[str]] = None, f_need_internship: Optional[List[str]] = None,
+            f_unsuitable_countries: Optional[List[str]] = None, f_expected_salary: Optional[str] = None,
+            f_categories_availability: Optional[List[str]] = None, f_dangerous_goods: Optional[List[str]] = None,
+            f_country_driving_licence: Optional[List[str]] = None, f_work_type: Optional[List[str]] = None,
+            f_country_current_live: Optional[List[str]] = None, f_cadence: Optional[List[str]] = None,
+            f_crew: Optional[List[str]] = None, f_driver_gender: Optional[List[str]] = None
     ):
         self.db_id = db_id
         self.tg_user_id = tg_user_id

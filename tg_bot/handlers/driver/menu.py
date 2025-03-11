@@ -26,5 +26,10 @@ async def show_menu(message: Union[types.Message, types.CallbackQuery]):
     text = await Ut.get_message_text(key="driver_menu_text", lang=driver.lang)
     text = text.replace("%forms_count%", str(forms_count))
     text = text.replace("%form_opens%", str(driver.opens_count))
-    markup = await Ut.get_markup(mtype="inline", lang=driver.lang, key="company_menu")
+    markup = await Ut.get_markup(
+        mtype="inline", lang=driver.lang, key="driver_menu",
+        additional_buttons=[AdditionalButtons(
+            buttons={'driver_change_form_status:off' if driver.status else 'driver_change_form_status:on': None}
+        )]
+    )
     await Ut.send_step_message(user_id=uid, text=text, markup=markup)

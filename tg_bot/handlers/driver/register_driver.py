@@ -85,8 +85,8 @@ class RegistrationSteps:
 
         func_params = [state, returned_value]
         if data["status"] in [1, 2]:
-            if isinstance(returned_value, list):
-                func_params[1] = ",".join(returned_value)
+            # if isinstance(returned_value, list):
+            #     func_params[1] = ",".join(returned_value)
 
             func_params.append(additional_field)
 
@@ -197,6 +197,7 @@ class RegistrationSteps:
                 await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
                 return False
 
+        await state.update_data(saved_data=None)
         return saved_data
 
     @classmethod
@@ -944,7 +945,7 @@ class RegistrationSteps:
             ]
 
         else:
-            msg_key = "driver_reg_need_internship",
+            msg_key = "driver_reg_need_internship"
             additional_buttons = []
 
         text = await Ut.get_message_text(key=msg_key, lang=lang)

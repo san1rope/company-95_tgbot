@@ -313,7 +313,7 @@ async def registration_finish(callback: types.CallbackQuery, state: FSMContext):
         form_price = await dmodel.calculate_form_data()
         result = await DbDriver(
             tg_user_id=uid, opens_count=0, form_price=form_price, lang=ulang, status=1,
-            **(await dmodel.form_data_to_dict())
+            **(dmodel.model_dump())
         ).add()
         if result:
             text = await Ut.get_message_text(key="driver_reg_finish", lang=ulang)

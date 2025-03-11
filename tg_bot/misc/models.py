@@ -10,7 +10,6 @@ from tg_bot.misc.utils import localization, corrections
 
 
 class DriverForm(BaseModel):
-    tg_user_id: Optional[int] = None
     name: Optional[str] = None
     birth_year: Optional[int] = None
     phone_number: Optional[str] = None
@@ -110,20 +109,16 @@ class DriverForm(BaseModel):
             text.append(f"<b>{hcode(fcd['phone_number'])} {model.phone_number}</b>")
 
         if not (model.messangers is None):
-            model.messangers = model.messangers.split(',') if isinstance(model.messangers, str) else model.messangers
             localized_text = await self.codes_to_text_checkboxes(
                 input_localized_text=lang_inline_markups["messangers_availabilities"], codes=model.messangers)
             text.append(f"<b>{hcode(fcd['messangers'])} {', '.join(localized_text)}</b>")
 
         if not (model.car_types is None):
-            model.car_types = model.car_types.split(',') if isinstance(model.car_types, str) else model.car_types
             localized_text = await self.codes_to_text_checkboxes(
                 input_localized_text=lang_inline_markups["car_types"], codes=model.car_types)
             text.append(f"<b>{hcode(fcd['car_types'])} {', '.join(localized_text)}</b>")
 
         if not (model.citizenships is None):
-            model.citizenships = model.citizenships.split(',') if isinstance(model.citizenships,
-                                                                             str) else model.citizenships
             localized_text = await self.codes_to_text_checkboxes_countries(
                 lang_inline_markups=lang_inline_markups, codes=model.citizenships)
             text.append(f"<b>{hcode(fcd['citizenships'])} {', '.join(localized_text)}</b>")
@@ -142,16 +137,12 @@ class DriverForm(BaseModel):
             text.append(f"<b>{hcode(fcd['date_stark_work'])} {model.date_stark_work.strftime('%d.%m.%Y')}</b>")
 
         if not (model.language_skills is None):
-            model.language_skills = model.language_skills.split(',') if isinstance(model.language_skills,
-                                                                                   str) else model.language_skills
             localized_text = await self.codes_to_text_selectors(
                 input_localized_text=lang_inline_markups["language_skills"], codes=model.language_skills)
             text.append(f"<b>{hcode(fcd['language_skills'])}</b>")
             text.extend(localized_text)
 
         if not (model.job_experience is None):
-            model.job_experience = model.job_experience.split(',') if isinstance(model.job_experience,
-                                                                                 str) else model.job_experience
             localized_text = await self.codes_to_text_selectors(
                 input_localized_text=lang_inline_markups["job_experience"], codes=model.job_experience)
             text.append(f"<b>{hcode(fcd['job_experience'])}</b>")
@@ -163,15 +154,11 @@ class DriverForm(BaseModel):
             text.append(f"<b>{hcode(fcd['need_internship'])} {localized_value}</b>")
 
         if not (model.unsuitable_countries is None):
-            model.unsuitable_countries = model.unsuitable_countries.split(',') if isinstance(
-                model.unsuitable_countries, str) else model.unsuitable_countries
             localized_text = await self.codes_to_text_checkboxes_countries(
                 lang_inline_markups=lang_inline_markups, codes=model.unsuitable_countries)
             text.append(f"<b>{hcode(fcd['unsuitable_countries'])} {', '.join(localized_text)}</b>")
 
         if not (model.dangerous_goods is None):
-            model.dangerous_goods = model.dangerous_goods.split(',') if isinstance(
-                model.dangerous_goods, str) else model.dangerous_goods
             localized_text = await self.codes_to_text_checkboxes(
                 input_localized_text=lang_inline_markups["dangerous_goods"], codes=model.dangerous_goods)
             text.append(f"<b>{hcode(fcd['dangerous_goods'])} {', '.join(localized_text)}</b>")
@@ -202,7 +189,6 @@ class DriverForm(BaseModel):
             text.append(f"<b>{hcode(fcd['work_type'])} {localized_value}</b>")
 
         if not (model.cadence is None):
-            model.cadence = model.cadence.split(',') if isinstance(model.cadence, str) else model.cadence
             localized_text = await self.codes_to_text_checkboxes(
                 input_localized_text=lang_inline_markups["cadence"], codes=model.cadence)
             text.append(f"<b>{hcode(fcd['cadence'])} {', '.join(localized_text)}</b>")
@@ -225,8 +211,7 @@ class DriverForm(BaseModel):
 
         if not (model.car_types is None):
             curr_cor = corrections["car_types"]
-            car_types = model.car_types if isinstance(model, DriverForm) else model.car_types.split(',')
-            for sel_val in car_types:
+            for sel_val in model.car_types:
                 form_price += curr_cor[sel_val] if sel_val in curr_cor else 0
 
         if not (model.basis_of_stay is None):
@@ -239,9 +224,7 @@ class DriverForm(BaseModel):
 
         if not (model.language_skills is None):
             curr_cor = corrections["language_skills"]
-            language_skills = model.language_skills if isinstance(
-                model, DriverForm) else model.language_skills.split(',')
-            for sel_val in language_skills:
+            for sel_val in model.language_skills:
                 for curr_el, curr_value in curr_cor.items():
                     if curr_el == sel_val:
                         form_price += curr_value
@@ -253,9 +236,7 @@ class DriverForm(BaseModel):
 
         if not (model.job_experience is None):
             curr_cor = corrections["job_experience"]
-            job_experience = model.job_experience if isinstance(
-                model, DriverForm) else model.job_experience.split(',')
-            for sel_val in job_experience:
+            for sel_val in model.job_experience:
                 for curr_el, curr_value in curr_cor.items():
                     if curr_el == sel_val:
                         form_price += curr_value
@@ -271,17 +252,13 @@ class DriverForm(BaseModel):
 
         if not (model.unsuitable_countries is None):
             curr_cor = corrections["unsuitable_countries"]
-            unsuitable_countries = model.unsuitable_countries if isinstance(
-                model, DriverForm) else model.unsuitable_countries.split(',')
             for curr_el, curr_value in curr_cor.items():
-                if (curr_el == "%unselected%") and (not unsuitable_countries):
+                if (curr_el == "%unselected%") and (not model.unsuitable_countries):
                     form_price += curr_value
 
         if not (model.dangerous_goods is None):
             curr_cor = corrections["dangerous_goods"]
-            dangerous_goods = model.dangerous_goods if isinstance(
-                model, DriverForm) else model.dangerous_goods.split(',')
-            for sel_val in dangerous_goods:
+            for sel_val in model.dangerous_goods:
                 form_price += curr_cor[sel_val] if sel_val in curr_cor else 0
 
         if not (model.expected_salary is None):
@@ -318,77 +295,7 @@ class DriverForm(BaseModel):
 
         if not (model.cadence is None):
             curr_cor = corrections["cadence"]
-            cadence = model.cadence if isinstance(
-                model, DriverForm) else model.cadence.split(',')
-            for sel_val in cadence:
+            for sel_val in model.cadence:
                 form_price += curr_cor[sel_val] if sel_val in curr_cor else 0
 
         return form_price
-
-    async def form_data_to_dict(self) -> Dict[str, Any]:
-        out_data = {}
-
-        if not (self.name is None):
-            out_data["name"] = self.name
-
-        if not (self.birth_year is None):
-            out_data["birth_year"] = self.birth_year
-
-        if not (self.phone_number is None):
-            out_data["phone_number"] = self.phone_number
-
-        if not (self.car_types is None):
-            out_data["car_types"] = ",".join(self.car_types)
-
-        if not (self.citizenships is None):
-            out_data["citizenships"] = ",".join(self.citizenships)
-
-        if not (self.basis_of_stay is None):
-            out_data["basis_of_stay"] = self.basis_of_stay
-
-        if not (self.availability_95_code is None):
-            out_data["availability_95_code"] = self.availability_95_code
-
-        if not (self.date_stark_work is None):
-            out_data["date_stark_work"] = self.date_stark_work
-
-        if not (self.language_skills is None):
-            out_data["language_skills"] = ",".join(self.language_skills)
-
-        if not (self.job_experience is None):
-            out_data["job_experience"] = ",".join(self.job_experience)
-
-        if not (self.need_internship is None):
-            out_data["need_internship"] = self.need_internship
-
-        if not (self.unsuitable_countries is None):
-            out_data["unsuitable_countries"] = ",".join(self.unsuitable_countries)
-
-        if not (self.dangerous_goods is None):
-            out_data["dangerous_goods"] = ",".join(self.dangerous_goods)
-
-        if not (self.expected_salary is None):
-            out_data["expected_salary"] = self.expected_salary
-
-        if not (self.categories_availability is None):
-            out_data["categories_availability"] = ",".join(self.categories_availability)
-
-        if not (self.country_driving_licence is None):
-            out_data["country_driving_licence"] = self.country_driving_licence
-
-        if not (self.country_current_live is None):
-            out_data["country_current_live"] = self.country_current_live
-
-        if not (self.work_type is None):
-            out_data["work_type"] = self.work_type
-
-        if not (self.cadence is None):
-            out_data["cadence"] = ",".join(self.cadence)
-
-        if not (self.crew is None):
-            out_data["crew"] = self.crew
-
-        if not (self.driver_gender is None):
-            out_data["driver_gender"] = self.driver_gender
-
-        return out_data
