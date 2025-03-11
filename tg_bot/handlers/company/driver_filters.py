@@ -8,6 +8,7 @@ from aiogram.fsm.context import FSMContext
 from config import Config
 from tg_bot.db_models.quick_commands import DbCompany
 from tg_bot.filters.company import IsCompany
+from tg_bot.handlers.company.menu import show_menu
 from tg_bot.handlers.driver.register_driver import RegistrationSteps
 from tg_bot.misc.states import CompanyFilters
 from tg_bot.misc.utils import Utils as Ut
@@ -42,7 +43,6 @@ async def show_param_options(callback: types.CallbackQuery, state: FSMContext):
     await Ut.handler_log(logger, uid)
 
     company = await DbCompany(tg_user_id=uid).select()
-    data = await state.get_data()
 
     cd = callback.data
     if "next_page:" in cd:
@@ -56,7 +56,7 @@ async def show_param_options(callback: types.CallbackQuery, state: FSMContext):
         return await callback.message.edit_reply_markup(reply_markup=markup)
 
     elif "back_to_menu" == cd:
-        pass
+        return await show_menu(message=callback)
 
     else:
         await state.update_data(status=2, function_for_back=show_filters, call_function=param_has_changed)

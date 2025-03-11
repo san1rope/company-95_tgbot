@@ -19,7 +19,6 @@ async def show_menu(message: Union[types.Message, types.CallbackQuery]):
 
     if isinstance(message, types.CallbackQuery):
         await message.answer()
-        message = message.message
 
     driver = await DbDriver(tg_user_id=uid).select()
     forms_count = len(await DbDriver(status=1).select())
@@ -27,10 +26,5 @@ async def show_menu(message: Union[types.Message, types.CallbackQuery]):
     text = await Ut.get_message_text(key="driver_menu_text", lang=driver.lang)
     text = text.replace("%forms_count%", str(forms_count))
     text = text.replace("%form_opens%", str(driver.opens_count))
-    markup = await Ut.get_markup(
-        mtype="inline", lang=driver.lang, key="driver_menu",
-        additional_buttons=[AdditionalButtons(buttons={'off' if driver.status else 'on': None})]
-    )
-    await Ut.delete_messages(user_id=uid)
-    msg = await message.answer(text=text, reply_markup=markup)
-    await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+    markup = await Ut.get_markup(mtype="inline", lang=driver.lang, key="company_menu")
+    await Ut.send_step_message(user_id=uid, text=text, markup=markup)
