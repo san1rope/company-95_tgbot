@@ -73,7 +73,7 @@ class RegistrationSteps:
             params = {"callback": callback, "state": state, "from_reg_steps": True}
 
         elif status == 2:
-            params = {"callback": callback, "state": state}
+            params = {"message": state.key.user_id, "state": state}
 
         data = await state.get_data()
         await data["function_for_back"](**params)
@@ -85,9 +85,6 @@ class RegistrationSteps:
 
         func_params = [state, returned_value]
         if data["status"] in [1, 2]:
-            # if isinstance(returned_value, list):
-            #     func_params[1] = ",".join(returned_value)
-
             func_params.append(additional_field)
 
         await data["call_function"](*func_params)
@@ -664,7 +661,7 @@ class RegistrationSteps:
         await Ut.handler_log(logger, uid)
 
         data = await state.get_data()
-        lang = data["ulang"]
+        lang = await cls.get_lang(state_data=data, user_id=uid)
 
         cd = callback.data
 

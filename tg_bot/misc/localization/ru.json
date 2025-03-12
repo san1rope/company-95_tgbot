@@ -398,6 +398,17 @@
     "company_filters": [
       "<b>⚙\uFE0F Фильтр водителей</b>",
       "\n<b>Вы можете посмотреть выбранные параметры к фильтрам и по желанию использовать кнопки ниже ⬇</b>"
+    ],
+    "company_reset_filters_confirmation": [
+      "<b>⚙\uFE0F Фильтр водителей</b>",
+      "\n<b>Вы точно хотите очистить фильтры?</b>",
+      "\n<b>⬇ Используйте клавиатуру ниже</b>"
+    ],
+    "company_reset_filters_completed": [
+      "<b>✅ Фильтры успешно очищены!</b>"
+    ],
+    "company_reset_filters_error": [
+      "<b>\uD83D\uDED1 При очистке фильтров произошла ошибка!</b>"
     ]
   },
   "markups": {
@@ -1460,6 +1471,9 @@
         },
         {
           "\uD83D\uDD19 В меню": "back_to_menu"
+        },
+        {
+          "\uD83D\uDD19 Назад": "back"
         }
       ],
       "filter_params_2": [
@@ -1492,9 +1506,15 @@
         },
         {
           "\uD83D\uDD19 В меню": "back_to_menu"
+        },
+        {
+          "\uD83D\uDD19 Назад": "back"
         }
       ],
       "company_menu": [
+        {
+          "Найти водителя": "find_driver"
+        },
         {
           "Открытые водители": "bought_drivers"
         },
@@ -1507,8 +1527,11 @@
       ],
       "company_filters": [
         {
-          "Редактировать фильтры": "show_filters",
-          "Сбросить фильтры": "reset_filters"
+          "⚙\uFE0F Редактировать фильтры": "show_filters",
+          "⚪\uFE0F Очистить фильтры": "reset_filters"
+        },
+        {
+          "\uD83D\uDD19 Назад": "back"
         }
       ]
     }

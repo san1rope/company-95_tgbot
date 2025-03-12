@@ -4,7 +4,7 @@ from aiogram import Router, F, types
 from aiogram.fsm.context import FSMContext
 
 from tg_bot.db_models.quick_commands import DbCompany
-from tg_bot.handlers.company.driver_filters import show_filters
+from tg_bot.handlers.company.driver_filters import processing_filters_menu
 from tg_bot.misc.states import CompanyRegistration
 from tg_bot.misc.utils import Utils as Ut
 
@@ -45,4 +45,4 @@ async def add_company_to_db(callback: types.CallbackQuery, state: FSMContext):
             msg = await callback.message.answer(text=text)
             return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
 
-        return await show_filters(callback=callback, state=state)
+        return await processing_filters_menu(message=callback, state=state)

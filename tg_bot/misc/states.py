@@ -44,4 +44,6 @@ class DriverFormStates(StatesGroup):
 
 
 class CompanyFilters(StatesGroup):
+    ChooseFilterMenuBtn = State()
     ChooseParam = State()
+    ResetFiltersConfirmation = State()

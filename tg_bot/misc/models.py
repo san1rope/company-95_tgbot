@@ -103,8 +103,18 @@ class DriverForm(BaseModel):
         if (not model_company) and (not (model.name is None)):
             text.append(f"<b>{hcode(fcd['name'])} {model.name}</b>")
 
-        if not (model.birth_year is None):
-            text.append(f"<b>{hcode(fcd['birth_year'])} {model.birth_year}</b>")
+        try:
+            if (not (model.birth_year_left_edge is None)) or (not (model.birth_year is None)):
+                if model_company:
+                    value = f"{model.birth_year_left_edge}-{model.birth_year_right_edge}"
+
+                else:
+                    value = model.birth_year
+
+                text.append(f"<b>{hcode(fcd['birth_year'])} {value}</b>")
+
+        except AttributeError:
+            pass
 
         if (not model_company) and (not (model.phone_number is None)):
             text.append(f"<b>{hcode(fcd['phone_number'])} {model.phone_number}</b>")
@@ -128,7 +138,7 @@ class DriverForm(BaseModel):
             if model_company:
                 localized_text = await self.codes_to_text_checkboxes(
                     input_localized_text=lang_inline_markups["basis_of_stay"], codes=model.basis_of_stay)
-                localized_text = ",".join(localized_text)
+                localized_text = ", ".join(localized_text)
 
             else:
                 localized_text = await self.code_to_text(
@@ -140,7 +150,7 @@ class DriverForm(BaseModel):
             if model_company:
                 localized_text = await self.codes_to_text_checkboxes(
                     input_localized_text=lang_inline_markups["availability_95_code"], codes=model.availability_95_code)
-                localized_text = ",".join(localized_text)
+                localized_text = ", ".join(localized_text)
 
             else:
                 localized_text = await self.code_to_text(
@@ -148,8 +158,18 @@ class DriverForm(BaseModel):
 
             text.append(f"<b>{hcode(fcd['availability_95_code'])} {localized_text}</b>")
 
-        if not (model.date_stark_work is None):  # in process...
-            text.append(f"<b>{hcode(fcd['date_stark_work'])} {model.date_stark_work.strftime('%d.%m.%Y')}</b>")
+        try:
+            if (not (model.date_stark_work_left_edge is None)) or (not (model.date_stark_work is None)):
+                if model_company:
+                    value = model.date_stark_work_left_edge.strftime("%d.%m.%Y") + " - " + model.date_stark_work_right_edge.strftime("%d.%m.%Y")
+
+                else:
+                    value = model.date_stark_work.strftime('%d.%m.%Y')
+
+                text.append(f"<b>{hcode(fcd['date_stark_work'])} {value}</b>")
+
+        except AttributeError:
+            pass
 
         if not (model.language_skills is None):
             localized_text = await self.codes_to_text_selectors(
@@ -167,7 +187,7 @@ class DriverForm(BaseModel):
             if model_company:
                 localized_text = await self.codes_to_text_checkboxes(
                     input_localized_text=lang_inline_markups["need_internship"], codes=model.need_internship)
-                localized_text = ",".join(localized_text)
+                localized_text = ", ".join(localized_text)
 
             else:
                 localized_text = await self.code_to_text(
@@ -185,8 +205,18 @@ class DriverForm(BaseModel):
                 input_localized_text=lang_inline_markups["dangerous_goods"], codes=model.dangerous_goods)
             text.append(f"<b>{hcode(fcd['dangerous_goods'])} {', '.join(localized_text)}</b>")
 
-        if not (model.expected_salary is None):
-            text.append(f"<b>{hcode(fcd['expected_salary'])} €{model.expected_salary}</b>")
+        try:
+            if (not (model.expected_salary_left_edge is None)) or (not (model.expected_salary is None)):
+                if model_company:
+                    value = f"€{model.expected_salary_left_edge} - €{model.expected_salary_right_edge}"
+
+                else:
+                    value = f"€{model.expected_salary}"
+
+                text.append(f"<b>{hcode(fcd['expected_salary'])} {value}</b>")
+
+        except AttributeError:
+            pass
 
         if not (model.categories_availability is None):
             localized_text = await self.codes_to_text_checkboxes(
@@ -199,6 +229,7 @@ class DriverForm(BaseModel):
             if model_company:
                 localized_text = await self.codes_to_text_checkboxes_countries(
                     lang_inline_markups=lang_inline_markups, codes=model.country_driving_licence)
+                localized_text = ", ".join(localized_text)
 
             else:
                 localized_text = await self.code_to_text_country(
@@ -210,6 +241,7 @@ class DriverForm(BaseModel):
             if model_company:
                 localized_text = await self.codes_to_text_checkboxes_countries(
                     lang_inline_markups=lang_inline_markups, codes=model.country_current_live)
+                localized_text = ", ".join(localized_text)
 
             else:
                 localized_text = await self.code_to_text_country(
@@ -221,7 +253,7 @@ class DriverForm(BaseModel):
             if model_company:
                 localized_text = await self.codes_to_text_checkboxes(
                     input_localized_text=lang_inline_markups["work_types"], codes=model.work_type)
-                localized_text = ",".join(localized_text)
+                localized_text = ", ".join(localized_text)
 
             else:
                 localized_text = await self.code_to_text(
@@ -238,7 +270,7 @@ class DriverForm(BaseModel):
             if model_company:
                 localized_text = await self.codes_to_text_checkboxes(
                     input_localized_text=lang_inline_markups["crew"], codes=model.crew)
-                localized_text = ",".join(localized_text)
+                localized_text = ", ".join(localized_text)
 
             else:
                 localized_text = await self.code_to_text(
@@ -250,7 +282,7 @@ class DriverForm(BaseModel):
             if model_company:
                 localized_text = await self.codes_to_text_checkboxes(
                     input_localized_text=lang_inline_markups["genders"], codes=model.driver_gender)
-                localized_text = ",".join(localized_text)
+                localized_text = ", ".join(localized_text)
 
             else:
                 localized_text = await self.code_to_text(

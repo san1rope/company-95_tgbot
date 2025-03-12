@@ -74,20 +74,31 @@ class DbDriver:
             logger.error(ex)
             return False
 
-    async def select(self) -> Union[Driver, List[Driver], bool, None]:
+    async def select(self, by_filters: bool = False) -> Union[Driver, List[Driver], bool, None]:
         try:
             q = Driver.query
-            if not (self.db_id is None):
-                return await q.where(Driver.id == self.db_id).gino.first()
 
-            elif not (self.tg_user_id is None):
-                return await q.where(Driver.tg_user_id == self.tg_user_id).gino.first()
+            if not by_filters:
+                if not (self.db_id is None):
+                    return await q.where(Driver.id == self.db_id).gino.first()
 
-            elif not (self.status is None):
-                return await q.where(Driver.status == self.status).gino.all()
+                elif not (self.tg_user_id is None):
+                    return await q.where(Driver.tg_user_id == self.tg_user_id).gino.first()
 
-            else:
-                return await q.gino.all()
+                elif not (self.status is None):
+                    return await q.where(Driver.status == self.status).gino.all()
+
+                else:
+                    return await q.gino.all()
+
+            filters = []
+            if self.car_types:
+                filters.append(Driver.car_types.op("@>")(self.car_types))
+
+            if self.citizenships:
+                filters.append(Driver.citizenships.op("@>")(self.citizenships))
+
+            return await q.where(*filters).gino.all()
 
         except Exception as ex:
             logger.error(ex)
