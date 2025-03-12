@@ -126,55 +126,62 @@ class DbDriver:
 class DbCompany:
     def __init__(
             self, db_id: Optional[int] = None, tg_user_id: Optional[int] = None,
-            paid_subscription: Optional[int] = None, lang: Optional[str] = None, f_birth_year: Optional[int] = None,
-            f_car_types: Optional[List[str]] = None, f_citizenships: Optional[List[str]] = None,
-            f_basis_of_stay: Optional[List[str]] = None, f_availability_95_code: Optional[List[str]] = None,
-            f_date_stark_work: Optional[str] = None, f_language_skills: Optional[List[str]] = None,
-            f_job_experience: Optional[List[str]] = None, f_need_internship: Optional[List[str]] = None,
-            f_unsuitable_countries: Optional[List[str]] = None, f_expected_salary: Optional[str] = None,
-            f_categories_availability: Optional[List[str]] = None, f_dangerous_goods: Optional[List[str]] = None,
-            f_country_driving_licence: Optional[List[str]] = None, f_work_type: Optional[List[str]] = None,
-            f_country_current_live: Optional[List[str]] = None, f_cadence: Optional[List[str]] = None,
-            f_crew: Optional[List[str]] = None, f_driver_gender: Optional[List[str]] = None
+            paid_subscription: Optional[int] = None, lang: Optional[str] = None,
+            birth_year_left_edge: Optional[int] = None, birth_year_right_edge: Optional[int] = None,
+            car_types: Optional[List[str]] = None, citizenships: Optional[List[str]] = None,
+            basis_of_stay: Optional[List[str]] = None, availability_95_code: Optional[List[str]] = None,
+            date_stark_work_left_edge: Optional[datetime] = None, date_stark_work_right_edge: Optional[datetime] = None,
+            language_skills: Optional[List[str]] = None, job_experience: Optional[List[str]] = None,
+            need_internship: Optional[List[str]] = None, unsuitable_countries: Optional[List[str]] = None,
+            expected_salary_left_edge: Optional[float] = None, expected_salary_right_edge: Optional[float] = None,
+            categories_availability: Optional[List[str]] = None, dangerous_goods: Optional[List[str]] = None,
+            country_driving_licence: Optional[List[str]] = None, work_type: Optional[List[str]] = None,
+            country_current_live: Optional[List[str]] = None, cadence: Optional[List[str]] = None,
+            crew: Optional[List[str]] = None, driver_gender: Optional[List[str]] = None
     ):
         self.db_id = db_id
         self.tg_user_id = tg_user_id
         self.lang = lang
         self.paid_subscription = paid_subscription
-        self.f_birth_year = f_birth_year
-        self.f_car_types = f_car_types
-        self.f_citizenships = f_citizenships
-        self.f_basis_of_stay = f_basis_of_stay
-        self.f_availability_95_code = f_availability_95_code
-        self.f_date_stark_work = f_date_stark_work
-        self.f_language_skills = f_language_skills
-        self.f_job_experience = f_job_experience
-        self.f_need_internship = f_need_internship
-        self.f_unsuitable_countries = f_unsuitable_countries
-        self.f_expected_salary = f_expected_salary
-        self.f_categories_availability = f_categories_availability
-        self.f_country_driving_licence = f_country_driving_licence
-        self.f_country_current_live = f_country_current_live
-        self.f_work_type = f_work_type
-        self.f_cadence = f_cadence
-        self.f_dangerous_goods = f_dangerous_goods
-        self.f_crew = f_crew
-        self.f_driver_gender = f_driver_gender
+        self.birth_year_left_edge = birth_year_left_edge
+        self.birth_year_right_edge = birth_year_right_edge
+        self.car_types = car_types
+        self.citizenships = citizenships
+        self.basis_of_stay = basis_of_stay
+        self.availability_95_code = availability_95_code
+        self.date_stark_work_left_edge = date_stark_work_left_edge
+        self.date_stark_work_right_edge = date_stark_work_right_edge
+        self.language_skills = language_skills
+        self.job_experience = job_experience
+        self.need_internship = need_internship
+        self.unsuitable_countries = unsuitable_countries
+        self.expected_salary_left_edge = expected_salary_left_edge
+        self.expected_salary_right_edge = expected_salary_right_edge
+        self.categories_availability = categories_availability
+        self.country_driving_licence = country_driving_licence
+        self.country_current_live = country_current_live
+        self.work_type = work_type
+        self.cadence = cadence
+        self.dangerous_goods = dangerous_goods
+        self.crew = crew
+        self.driver_gender = driver_gender
 
     async def add(self) -> Union[Driver, bool]:
         try:
             target = Company(
                 tg_user_id=self.tg_user_id, paid_subscription=self.paid_subscription, lang=self.lang,
-                f_birth_year=self.f_birth_year, f_car_types=self.f_car_types, f_citizenships=self.f_citizenships,
-                f_basis_of_stay=self.f_basis_of_stay, f_availability_95_code=self.f_availability_95_code,
-                f_date_stark_work=self.f_date_stark_work, f_language_skills=self.f_language_skills,
-                f_job_experience=self.f_job_experience, f_need_internship=self.f_need_internship,
-                f_unsuitable_countries=self.f_unsuitable_countries, f_expected_salary=self.f_expected_salary,
-                f_categories_availability=self.f_categories_availability,
-                f_country_driving_licence=self.f_country_driving_licence,
-                f_country_current_live=self.f_country_current_live, f_work_type=self.f_work_type,
-                f_cadence=self.f_cadence, f_crew=self.f_crew, f_driver_gender=self.f_driver_gender,
-                f_dangerous_goods=self.f_dangerous_goods
+                birth_year_left_edge=self.birth_year_left_edge, birth_year_right_edge=self.birth_year_right_edge,
+                car_types=self.car_types, citizenships=self.citizenships, driver_gender = self.driver_gender,
+                basis_of_stay=self.basis_of_stay, availability_95_code=self.availability_95_code,
+                date_stark_work_left_edge=self.date_stark_work_left_edge, work_type = self.work_type,
+                date_stark_work_right_edge=self.date_stark_work_right_edge, language_skills=self.language_skills,
+                job_experience=self.job_experience, need_internship=self.need_internship,
+                unsuitable_countries=self.unsuitable_countries, dangerous_goods = self.dangerous_goods,
+                expected_salary_left_edge=self.expected_salary_left_edge,
+                expected_salary_right_edge=self.expected_salary_right_edge,
+                categories_availability = self.categories_availability, cadence = self.cadence,
+                country_driving_licence = self.country_driving_licence, crew = self.crew,
+                country_current_live = self.country_current_live
             )
             return await target.create()
 

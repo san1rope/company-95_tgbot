@@ -5,7 +5,7 @@ from aiogram.utils.markdown import hcode
 from pydantic import BaseModel
 
 from config import Config
-from tg_bot.db_models.schemas import Driver
+from tg_bot.db_models.schemas import Driver, Company
 from tg_bot.misc.utils import localization, corrections
 
 
@@ -97,18 +97,19 @@ class DriverForm(BaseModel):
         fcd = lang_data['misc']['form_completion_driver']
 
         model = db_model if db_model else self
+        model_company = isinstance(model, Company)
 
         text = [f"{title}\n"]
-        if not (model.name is None):
+        if (not model_company) and (not (model.name is None)):
             text.append(f"<b>{hcode(fcd['name'])} {model.name}</b>")
 
         if not (model.birth_year is None):
             text.append(f"<b>{hcode(fcd['birth_year'])} {model.birth_year}</b>")
 
-        if not (model.phone_number is None):
+        if (not model_company) and (not (model.phone_number is None)):
             text.append(f"<b>{hcode(fcd['phone_number'])} {model.phone_number}</b>")
 
-        if not (model.messangers is None):
+        if (not model_company) and (not (model.messangers is None)):
             localized_text = await self.codes_to_text_checkboxes(
                 input_localized_text=lang_inline_markups["messangers_availabilities"], codes=model.messangers)
             text.append(f"<b>{hcode(fcd['messangers'])} {', '.join(localized_text)}</b>")
@@ -124,16 +125,30 @@ class DriverForm(BaseModel):
             text.append(f"<b>{hcode(fcd['citizenships'])} {', '.join(localized_text)}</b>")
 
         if not (model.basis_of_stay is None):
-            localized_value = await self.code_to_text(
-                input_localized_text=lang_inline_markups["basis_of_stay"], code=model.basis_of_stay)
-            text.append(f"<b>{hcode(fcd['basis_of_stay'])} {localized_value}</b>")
+            if model_company:
+                localized_text = await self.codes_to_text_checkboxes(
+                    input_localized_text=lang_inline_markups["basis_of_stay"], codes=model.basis_of_stay)
+                localized_text = ",".join(localized_text)
+
+            else:
+                localized_text = await self.code_to_text(
+                    input_localized_text=lang_inline_markups["basis_of_stay"], code=model.basis_of_stay)
+
+            text.append(f"<b>{hcode(fcd['basis_of_stay'])} {localized_text}</b>")
 
         if not (model.availability_95_code is None):
-            localized_value = await self.code_to_text(
-                input_localized_text=lang_inline_markups["availability_95_code"], code=model.availability_95_code)
-            text.append(f"<b>{hcode(fcd['availability_95_code'])} {localized_value}</b>")
+            if model_company:
+                localized_text = await self.codes_to_text_checkboxes(
+                    input_localized_text=lang_inline_markups["availability_95_code"], codes=model.availability_95_code)
+                localized_text = ",".join(localized_text)
 
-        if not (model.date_stark_work is None):
+            else:
+                localized_text = await self.code_to_text(
+                    input_localized_text=lang_inline_markups["availability_95_code"], code=model.availability_95_code)
+
+            text.append(f"<b>{hcode(fcd['availability_95_code'])} {localized_text}</b>")
+
+        if not (model.date_stark_work is None):  # in process...
             text.append(f"<b>{hcode(fcd['date_stark_work'])} {model.date_stark_work.strftime('%d.%m.%Y')}</b>")
 
         if not (model.language_skills is None):
@@ -149,9 +164,16 @@ class DriverForm(BaseModel):
             text.extend(localized_text)
 
         if not (model.need_internship is None):
-            localized_value = await self.code_to_text(
-                input_localized_text=lang_inline_markups["need_internship"], code=model.need_internship)
-            text.append(f"<b>{hcode(fcd['need_internship'])} {localized_value}</b>")
+            if model_company:
+                localized_text = await self.codes_to_text_checkboxes(
+                    input_localized_text=lang_inline_markups["need_internship"], codes=model.need_internship)
+                localized_text = ",".join(localized_text)
+
+            else:
+                localized_text = await self.code_to_text(
+                    input_localized_text=lang_inline_markups["need_internship"], code=model.need_internship)
+
+            text.append(f"<b>{hcode(fcd['need_internship'])} {localized_text}</b>")
 
         if not (model.unsuitable_countries is None):
             localized_text = await self.codes_to_text_checkboxes_countries(
@@ -174,19 +196,38 @@ class DriverForm(BaseModel):
             text.append(f"<b>{hcode(fcd['categories_availability'])} {', '.join(localized_text)}</b>")
 
         if not (model.country_driving_licence is None):
-            localized_value = await self.code_to_text_country(
-                lang_inline_markups=lang_inline_markups, code=model.country_driving_licence)
-            text.append(f"<b>{hcode(fcd['country_driving_licence'])} {localized_value}</b>")
+            if model_company:
+                localized_text = await self.codes_to_text_checkboxes_countries(
+                    lang_inline_markups=lang_inline_markups, codes=model.country_driving_licence)
+
+            else:
+                localized_text = await self.code_to_text_country(
+                    lang_inline_markups=lang_inline_markups, code=model.country_driving_licence)
+
+            text.append(f"<b>{hcode(fcd['country_driving_licence'])} {localized_text}</b>")
 
         if not (model.country_current_live is None):
-            localized_value = await self.code_to_text_country(
-                lang_inline_markups=lang_inline_markups, code=model.country_current_live)
-            text.append(f"<b>{hcode(fcd['country_current_live'])} {localized_value}</b>")
+            if model_company:
+                localized_text = await self.codes_to_text_checkboxes_countries(
+                    lang_inline_markups=lang_inline_markups, codes=model.country_current_live)
+
+            else:
+                localized_text = await self.code_to_text_country(
+                    lang_inline_markups=lang_inline_markups, code=model.country_current_live)
+
+            text.append(f"<b>{hcode(fcd['country_current_live'])} {localized_text}</b>")
 
         if not (model.work_type is None):
-            localized_value = await self.code_to_text(
-                input_localized_text=lang_inline_markups["work_types"], code=model.work_type)
-            text.append(f"<b>{hcode(fcd['work_type'])} {localized_value}</b>")
+            if model_company:
+                localized_text = await self.codes_to_text_checkboxes(
+                    input_localized_text=lang_inline_markups["work_types"], codes=model.work_type)
+                localized_text = ",".join(localized_text)
+
+            else:
+                localized_text = await self.code_to_text(
+                    input_localized_text=lang_inline_markups["work_types"], code=model.work_type)
+
+            text.append(f"<b>{hcode(fcd['work_type'])} {localized_text}</b>")
 
         if not (model.cadence is None):
             localized_text = await self.codes_to_text_checkboxes(
@@ -194,13 +235,28 @@ class DriverForm(BaseModel):
             text.append(f"<b>{hcode(fcd['cadence'])} {', '.join(localized_text)}</b>")
 
         if not (model.crew is None):
-            localized_value = await self.code_to_text(input_localized_text=lang_inline_markups["crew"], code=model.crew)
-            text.append(f"<b>{hcode(fcd['crew'])} {localized_value}</b>")
+            if model_company:
+                localized_text = await self.codes_to_text_checkboxes(
+                    input_localized_text=lang_inline_markups["crew"], codes=model.crew)
+                localized_text = ",".join(localized_text)
+
+            else:
+                localized_text = await self.code_to_text(
+                    input_localized_text=lang_inline_markups["crew"], code=model.crew)
+
+            text.append(f"<b>{hcode(fcd['crew'])} {localized_text}</b>")
 
         if not (model.driver_gender is None):
-            localized_value = await self.code_to_text(
-                input_localized_text=lang_inline_markups["genders"], code=model.driver_gender)
-            text.append(f"<b>{hcode(fcd['driver_gender'])} {localized_value}</b>")
+            if model_company:
+                localized_text = await self.codes_to_text_checkboxes(
+                    input_localized_text=lang_inline_markups["genders"], codes=model.driver_gender)
+                localized_text = ",".join(localized_text)
+
+            else:
+                localized_text = await self.code_to_text(
+                    input_localized_text=lang_inline_markups["genders"], code=model.driver_gender)
+
+            text.append(f"<b>{hcode(fcd['driver_gender'])} {localized_text}</b>")
 
         return "\n".join(text)
 

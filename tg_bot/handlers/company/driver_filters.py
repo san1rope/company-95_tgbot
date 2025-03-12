@@ -1,6 +1,6 @@
 import logging
 import asyncio
-from typing import Union, Optional
+from typing import Union, Optional, List, Any
 
 from aiogram import Router, types, F
 from aiogram.fsm.context import FSMContext
@@ -10,6 +10,7 @@ from tg_bot.db_models.quick_commands import DbCompany
 from tg_bot.filters.company import IsCompany
 from tg_bot.handlers.company.menu import show_menu
 from tg_bot.handlers.driver.register_driver import RegistrationSteps
+from tg_bot.misc.models import DriverForm
 from tg_bot.misc.states import CompanyFilters
 from tg_bot.misc.utils import Utils as Ut
 
@@ -25,8 +26,10 @@ async def selected_filters_btn(callback: types.CallbackQuery):
 
     company = await DbCompany(tg_user_id=uid).select()
 
-    text = await Ut.get_message_text(key="", lang=company.lang)
+    text = await Ut.get_message_text(key="company_filters", lang=company.lang)
+    text = await DriverForm().form_completion(title=text, lang=company.lang, db_model=company)
     markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="company_filters")
+    await Ut.send_step_message(user_id=uid, text=text, markup=markup)
 
 
 @router.callback_query(IsCompany(), F.data == "show_filters")
@@ -77,19 +80,35 @@ async def show_param_options(callback: types.CallbackQuery, state: FSMContext):
         await reg_method(state=state, lang=company.lang)
 
 
-async def param_has_changed(state: FSMContext, returned_data: Union[str, int], field_name: str):
+async def param_has_changed(state: FSMContext, returned_data: Union[str, int, List[Any]], field_name: str):
     uid = state.key.user_id
     await Ut.handler_log(logger, uid)
 
     company = await DbCompany(tg_user_id=uid).select()
 
-    result = await DbCompany(tg_user_id=uid).update(**{f"f_{field_name}": returned_data})
+    if field_name == "birth_year":
+        year_left, year_right = returned_data
+        result = await DbCompany(tg_user_id=uid).update(
+            birth_year_left_edge=year_left, birth_year_right_edge=year_right)
+
+    elif field_name == "date_stark_work":
+        date_left, date_right = returned_data
+        result = await DbCompany(tg_user_id=uid).update(
+            date_stark_work_left_edge=date_left, date_stark_work_right_edge=date_right)
+
+    elif field_name == "expected_salary":
+        summ_left, summ_right = returned_data
+        result = await DbCompany(tg_user_id=uid).update(
+            expected_salary_left_edge=summ_left, expected_salary_right_edge=summ_right)
+
+    else:
+        result = await DbCompany(tg_user_id=uid).update(**{field_name: returned_data})
+
     if result:
         text = await Ut.get_message_text(key="company_filters_param_changed", lang=company.lang)
         await Ut.send_step_message(user_id=uid, text=text)
 
         await asyncio.sleep(1)
-
         await show_filters(callback=uid, state=state)
 
     else:

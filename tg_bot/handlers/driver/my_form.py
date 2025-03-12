@@ -26,9 +26,8 @@ async def show_my_form(callback: types.CallbackQuery, state: FSMContext):
     driver = await DbDriver(tg_user_id=uid).select()
 
     text = await Ut.get_message_text(key="driver_menu_my_form", lang=driver.lang)
-    markup = await Ut.get_markup(mtype="inline", lang=driver.lang, key="driver_menu_my_form")
-
     text = await DriverForm().form_completion(db_model=driver, title=text, lang=driver.lang)
+    markup = await Ut.get_markup(mtype="inline", lang=driver.lang, key="driver_menu_my_form")
     await Ut.send_step_message(user_id=uid, text=text, markup=markup)
 
     await state.set_state(DriverFormStates.ChooseAction)

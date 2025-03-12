@@ -455,10 +455,10 @@ class RegistrationSteps:
                 function_for_back=data["function_for_back_secondary"], status=data["status_secondary"],
                 status_secondary=None, function_for_back_secondary=None)
             if min_year > returned_value:
-                returned_value = f"{returned_value}-{min_year}"
+                returned_value = [returned_value, min_year]
 
             else:
-                returned_value = f"{min_year}-{returned_value}"
+                returned_value = [min_year, returned_value]
 
         await cls.handler_finish(state=state, returned_value=returned_value, additional_field="birth_year")
 
@@ -806,7 +806,7 @@ class RegistrationSteps:
             status = data["status"]
             if (status == 2) and (not date_start_work_left):
                 await state.update_data(
-                    date_start_work_left=returned_value.strftime("%d.%m.%Y"), function_for_back=cls.date_stark_work,
+                    date_start_work_left=returned_value, function_for_back=cls.date_stark_work,
                     function_for_back_secondary=data["function_for_back"], status=0,
                     status_secondary=data["status"]
                 )
@@ -819,11 +819,11 @@ class RegistrationSteps:
                 await state.update_data(
                     function_for_back=data["function_for_back_secondary"], status=data["status_secondary"],
                     status_secondary=None, function_for_back_secondary=None)
-                if datetime.strptime(date_start_work_left, "%d.%m.%Y") > returned_value:
-                    returned_value = f"{returned_value.strftime('%d.%m.%Y')}-{date_start_work_left}"
+                if date_start_work_left > returned_value:
+                    returned_value = [returned_value, date_start_work_left]
 
                 else:
-                    returned_value = f"{date_start_work_left}-{returned_value.strftime('%d.%m.%Y')}"
+                    returned_value = [date_start_work_left, returned_value]
 
             await cls.handler_finish(state=state, returned_value=returned_value, additional_field="date_stark_work")
 
@@ -1151,10 +1151,10 @@ class RegistrationSteps:
                 return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
 
             if salary_min > salary_max:
-                value = f"{salary_max}-{salary_min}"
+                value = [salary_max, salary_min]
 
             else:
-                value = f"{salary_min}-{salary_max}"
+                value = [salary_min, salary_max]
 
         else:
             if (not (await Ut.is_number(value))) or (float(value) < 0):
