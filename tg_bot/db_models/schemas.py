@@ -46,6 +46,7 @@ class Company(TimedBaseModel):
     tg_user_id = Column(BigInteger, nullable=False, primary_key=True)
     lang = Column(String, nullable=False)
     paid_subscription = Column(Integer)
+    viewed_drivers = Column(ARRAY(Integer))
 
     birth_year_left_edge = Column(Integer)
     birth_year_right_edge = Column(Integer)

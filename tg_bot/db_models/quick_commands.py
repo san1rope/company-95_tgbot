@@ -4,6 +4,7 @@ from datetime import datetime
 from typing import Optional, Union, List
 
 from asyncpg import UniqueViolationError
+from sqlalchemy import and_
 
 from tg_bot.db_models.schemas import *
 
@@ -13,17 +14,19 @@ logger = logging.getLogger(__name__)
 class DbDriver:
     def __init__(
             self, db_id: Optional[int] = None, tg_user_id: Optional[int] = None, opens_count: Optional[int] = None,
-            form_price: Optional[float] = None, name: Optional[str] = None, birth_year: Optional[int] = None,
-            phone_number: Optional[str] = None, car_types: Optional[List[str]] = None,
-            citizenships: Optional[List[str]] = None, basis_of_stay: Optional[str] = None,
-            availability_95_code: Optional[str] = None, date_stark_work: Optional[datetime] = None,
-            language_skills: Optional[List[str]] = None, job_experience: Optional[List[str]] = None,
-            unsuitable_countries: Optional[List[str]] = None, dangerous_goods: Optional[List[str]] = None,
-            expected_salary: Optional[float] = None, categories_availability: Optional[List[str]] = None,
-            country_driving_licence: Optional[str] = None, country_current_live: Optional[str] = None,
-            work_type: Optional[str] = None, cadence: Optional[List[str]] = None, crew: Optional[str] = None,
-            driver_gender: Optional[str] = None, lang: Optional[str] = None, status: Optional[int] = None,
-            messangers: Optional[List[str]] = None, need_internship: Optional[str] = None,
+            form_price: Optional[float] = None, name: Optional[str] = None,
+            birth_year: Optional[Union[int, List[int]]] = None, phone_number: Optional[str] = None,
+            car_types: Optional[List[str]] = None, citizenships: Optional[List[str]] = None,
+            basis_of_stay: Optional[Union[str, List[str]]] = None, availability_95_code: Optional[str] = None,
+            date_stark_work: Optional[Union[datetime, List[datetime]]] = None,
+            language_skills: Optional[List[str]] = None,
+            job_experience: Optional[List[str]] = None, unsuitable_countries: Optional[List[str]] = None,
+            dangerous_goods: Optional[List[str]] = None, expected_salary: Optional[Union[float, List[float]]] = None,
+            categories_availability: Optional[List[str]] = None, country_driving_licence: Optional[str] = None,
+            country_current_live: Optional[str] = None, work_type: Optional[str] = None,
+            cadence: Optional[List[str]] = None, crew: Optional[str] = None, driver_gender: Optional[str] = None,
+            lang: Optional[str] = None, status: Optional[int] = None, messangers: Optional[List[str]] = None,
+            need_internship: Optional[str] = None
     ):
         self.db_id = db_id
         self.tg_user_id = tg_user_id
@@ -74,11 +77,11 @@ class DbDriver:
             logger.error(ex)
             return False
 
-    async def select(self, by_filters: bool = False) -> Union[Driver, List[Driver], bool, None]:
+    async def select(self, viewed_drivers_id: Optional[List[int]] = None) -> Union[Driver, List[Driver], bool, None]:
         try:
             q = Driver.query
 
-            if not by_filters:
+            if viewed_drivers_id is None:
                 if not (self.db_id is None):
                     return await q.where(Driver.id == self.db_id).gino.first()
 
@@ -91,14 +94,71 @@ class DbDriver:
                 else:
                     return await q.gino.all()
 
-            filters = []
+            filters = [~Driver.id.in_(viewed_drivers_id)]
+            if self.birth_year:
+                filters.append(Driver.birth_year >= self.birth_year[0])
+                filters.append(Driver.birth_year <= self.birth_year[1])
+
             if self.car_types:
                 filters.append(Driver.car_types.op("@>")(self.car_types))
 
             if self.citizenships:
                 filters.append(Driver.citizenships.op("@>")(self.citizenships))
 
-            return await q.where(*filters).gino.all()
+            if self.basis_of_stay:
+                filters.append(Driver.basis_of_stay.in_(self.basis_of_stay))
+
+            if self.availability_95_code:
+                filters.append(Driver.availability_95_code.in_(self.availability_95_code))
+
+            if self.date_stark_work:
+                filters.append(Driver.date_stark_work >= self.date_stark_work[0])
+                filters.append(Driver.date_stark_work <= self.date_stark_work[1])
+
+            if self.language_skills:  # in progress...
+                filters.append(Driver.language_skills.op("@>")(self.language_skills))
+
+            if self.job_experience:  # in progress...
+                filters.append(Driver.job_experience.op("@>")(self.job_experience))
+
+            if self.need_internship:
+                filters.append(Driver.need_internship.in_(self.need_internship))
+
+            if self.unsuitable_countries:
+                filters.append(Driver.unsuitable_countries.op("@>")(self.unsuitable_countries))
+
+            if self.expected_salary:
+                filters.append(Driver.expected_salary >= self.expected_salary[0])
+                filters.append(Driver.expected_salary <= self.expected_salary[1])
+
+            if self.categories_availability:
+                filters.append(Driver.categories_availability.op("@>")(self.categories_availability))
+
+            if self.country_driving_licence:
+                filters.append(Driver.country_driving_licence.in_(self.country_driving_licence))
+
+            if self.country_current_live:
+                filters.append(Driver.country_current_live.in_(self.country_current_live))
+
+            if self.work_type:
+                filters.append(Driver.work_type.in_(self.work_type))
+
+            if self.cadence:
+                filters.append(Driver.cadence.op("@>")(self.cadence))
+
+            if self.dangerous_goods:
+                filters.append(Driver.dangerous_goods.op("@>")(self.dangerous_goods))
+
+            if self.crew:
+                filters.append(Driver.crew.in_(self.crew))
+
+            if self.driver_gender:
+                filters.append(Driver.driver_gender.in_(self.driver_gender))
+
+            if filters:
+                q = q.where(and_(*filters))
+
+            return await q.gino.first()
 
         except Exception as ex:
             logger.error(ex)
@@ -148,12 +208,14 @@ class DbCompany:
             categories_availability: Optional[List[str]] = None, dangerous_goods: Optional[List[str]] = None,
             country_driving_licence: Optional[List[str]] = None, work_type: Optional[List[str]] = None,
             country_current_live: Optional[List[str]] = None, cadence: Optional[List[str]] = None,
-            crew: Optional[List[str]] = None, driver_gender: Optional[List[str]] = None
+            crew: Optional[List[str]] = None, driver_gender: Optional[List[str]] = None,
+            viewed_drivers: Optional[List[int]] = None
     ):
         self.db_id = db_id
         self.tg_user_id = tg_user_id
         self.lang = lang
         self.paid_subscription = paid_subscription
+        self.viewed_drivers = viewed_drivers
         self.birth_year_left_edge = birth_year_left_edge
         self.birth_year_right_edge = birth_year_right_edge
         self.car_types = car_types
@@ -182,17 +244,17 @@ class DbCompany:
             target = Company(
                 tg_user_id=self.tg_user_id, paid_subscription=self.paid_subscription, lang=self.lang,
                 birth_year_left_edge=self.birth_year_left_edge, birth_year_right_edge=self.birth_year_right_edge,
-                car_types=self.car_types, citizenships=self.citizenships, driver_gender = self.driver_gender,
+                car_types=self.car_types, citizenships=self.citizenships, driver_gender=self.driver_gender,
                 basis_of_stay=self.basis_of_stay, availability_95_code=self.availability_95_code,
-                date_stark_work_left_edge=self.date_stark_work_left_edge, work_type = self.work_type,
+                date_stark_work_left_edge=self.date_stark_work_left_edge, work_type=self.work_type,
                 date_stark_work_right_edge=self.date_stark_work_right_edge, language_skills=self.language_skills,
                 job_experience=self.job_experience, need_internship=self.need_internship,
-                unsuitable_countries=self.unsuitable_countries, dangerous_goods = self.dangerous_goods,
+                unsuitable_countries=self.unsuitable_countries, dangerous_goods=self.dangerous_goods,
                 expected_salary_left_edge=self.expected_salary_left_edge,
                 expected_salary_right_edge=self.expected_salary_right_edge,
-                categories_availability = self.categories_availability, cadence = self.cadence,
-                country_driving_licence = self.country_driving_licence, crew = self.crew,
-                country_current_live = self.country_current_live
+                categories_availability=self.categories_availability, cadence=self.cadence,
+                country_driving_licence=self.country_driving_licence, crew=self.crew,
+                country_current_live=self.country_current_live, viewed_drivers=self.viewed_drivers
             )
             return await target.create()
 
