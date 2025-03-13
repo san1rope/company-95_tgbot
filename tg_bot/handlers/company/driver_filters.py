@@ -138,22 +138,20 @@ async def param_has_changed(state: FSMContext, returned_data: Union[str, int, Li
 
     if field_name == "birth_year":
         year_left, year_right = returned_data
-        result = await DbCompany(tg_user_id=uid).update(
-            birth_year_left_edge=year_left, birth_year_right_edge=year_right)
+        params = {"birth_year_left_edge": year_left, "birth_year_right_edge": year_right}
 
     elif field_name == "date_stark_work":
         date_left, date_right = returned_data
-        result = await DbCompany(tg_user_id=uid).update(
-            date_stark_work_left_edge=date_left, date_stark_work_right_edge=date_right)
+        params = {"date_stark_work_left_edge": date_left, "date_stark_work_right_edge": date_right}
 
     elif field_name == "expected_salary":
         summ_left, summ_right = returned_data
-        result = await DbCompany(tg_user_id=uid).update(
-            expected_salary_left_edge=summ_left, expected_salary_right_edge=summ_right)
+        params = {"expected_salary_left_edge": summ_left, "expected_salary_right_edge": summ_right}
 
     else:
-        result = await DbCompany(tg_user_id=uid).update(**{field_name: returned_data})
+        params = {field_name: returned_data}
 
+    result = await DbCompany(tg_user_id=uid).update(viewed_drivers=[], **params)
     if result:
         text = await Ut.get_message_text(key="company_filters_param_changed", lang=company.lang)
         await Ut.send_step_message(user_id=uid, text=text)

@@ -47,3 +47,7 @@ class CompanyFilters(StatesGroup):
     ChooseFilterMenuBtn = State()
     ChooseParam = State()
     ResetFiltersConfirmation = State()
+
+
+class CompanyFindDriver(StatesGroup):
+    ActionOnDriver = State()

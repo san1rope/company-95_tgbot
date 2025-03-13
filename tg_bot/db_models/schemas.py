@@ -13,6 +13,7 @@ class Driver(TimedBaseModel):
     opens_count = Column(Integer, nullable=False)
     form_price = Column(Float, nullable=False)
     status = Column(Integer, nullable=False)
+
     name = Column(String, nullable=False)
     birth_year = Column(Integer, nullable=False)
     phone_number = Column(String, nullable=False)
@@ -47,6 +48,7 @@ class Company(TimedBaseModel):
     lang = Column(String, nullable=False)
     paid_subscription = Column(Integer)
     viewed_drivers = Column(ARRAY(Integer))
+    saved_drivers = Column(ARRAY(Integer))
 
     birth_year_left_edge = Column(Integer)
     birth_year_right_edge = Column(Integer)

@@ -39,10 +39,10 @@ async def add_company_to_db(callback: types.CallbackQuery, state: FSMContext):
 
     cd = callback.data
     if cd == "start_search":
-        company = await DbCompany(tg_user_id=uid, lang=ulang, paid_subscription=None).add()
+        company = await DbCompany(tg_user_id=uid, lang=ulang, paid_subscription=None, viewed_drivers=[]).add()
         if not company:
             text = await Ut.get_message_text(lang=ulang, key="company_add_to_db_error")
             msg = await callback.message.answer(text=text)
             return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
 
-        return await processing_filters_menu(message=callback, state=state)
+        return await processing_filters_menu(message=uid, state=state)

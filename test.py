@@ -1,21 +1,22 @@
 import asyncio
-from datetime import datetime, timezone, timedelta
 
-from tg_bot.db_models.db_gino import connect_to_db
-from tg_bot.db_models.quick_commands import DbDriver
+import stripe
 
 
 async def main():
-    await connect_to_db(remove_data=False)
+    api_key = "sk_test_51QkNgeGdotDTv7HK9xGz5DcuanBmjWZjDGlNSzVH7gSEA23R9s88KnDCNEL0XQFYRBfKuzwJEeydr2DtGhRJuUlq00tDshvYQV"
+    stripe.api_key = api_key
 
-    result = await DbDriver(
-        birth_year=[1993, 1995],
-        basis_of_stay=["1", "2", "3", "8"],
-        citizenships=["pl", "al", "be"],
-        date_stark_work=[datetime.now(), datetime.now() + timedelta(days=10)],
-        expected_salary=[60, 120]
-    ).select(viewed_drivers_id=[])
-    print(result)
+    product = stripe.Product.create(name="Toy")
+    price = stripe.Price.create(product=product.id, unit_amount=1000, currency="pln")
+    customer = stripe.Customer.create(name="Maxim Lored", email="valetinles@gmail.com", description="Test customer")
+    invoice = stripe.Invoice.create(
+        customer=customer.id, collection_method="send_invoice", days_until_due=1, description="Invoice for driver"
+    )
+    finalized_invoice = stripe.Invoice.finalize_invoice(invoice=invoice.id)
+    invoice_url = finalized_invoice.hosted_invoice_url
+
+    print(f"invoice_url = {invoice_url}")
 
 
 if __name__ == "__main__":

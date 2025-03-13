@@ -1,8 +1,13 @@
+import asyncio
 import logging
 
 from aiogram import Router, F, types
+from aiogram.fsm.context import FSMContext
 
 from tg_bot.db_models.quick_commands import DbCompany, DbDriver
+from tg_bot.handlers.company.menu import show_menu
+from tg_bot.misc.models import DriverForm
+from tg_bot.misc.states import CompanyFindDriver
 from tg_bot.misc.utils import Utils as Ut
 
 logger = logging.getLogger(__name__)
@@ -10,7 +15,7 @@ router = Router()
 
 
 @router.callback_query(F.data == "find_driver")
-async def show_driver(callback: types.CallbackQuery, retry: bool = False):
+async def show_driver(callback: types.CallbackQuery, state: FSMContext, retry: bool = False):
     await callback.answer()
     uid = callback.from_user.id
     await Ut.handler_log(logger, uid)
@@ -31,7 +36,74 @@ async def show_driver(callback: types.CallbackQuery, retry: bool = False):
         crew=company.crew, driver_gender=company.driver_gender
     ).select(viewed_drivers_id=company.viewed_drivers)
     if not driver:
-        if retry:
-            text = await Ut.get_message_text(lang=company.lang, key="")
-            markup = await Ut.get_markup(mtype="inline", lang=company.lang)
+        if retry and len(company.viewed_drivers) > 0:
+            text = await Ut.get_message_text(lang=company.lang, key="company_find_driver_end")
             await Ut.send_step_message(user_id=uid, text=text)
+            await asyncio.sleep(1.5)
+
+            await DbCompany(tg_user_id=uid).update(viewed_drivers=[])
+
+        elif retry and len(company.viewed_drivers) == 0:
+            text = await Ut.get_message_text(lang=company.lang, key="company_drivers_list_none")
+            await Ut.send_step_message(user_id=uid, text=text)
+            await asyncio.sleep(1.5)
+
+            return await show_menu(message=callback)
+
+        return await show_driver(callback=callback, state=state, retry=True)
+
+    company.viewed_drivers.append(driver.id)
+    await DbCompany(tg_user_id=uid).update(viewed_drivers=company.viewed_drivers)
+    await state.update_data(current_driver=driver.id)
+
+    text = await Ut.get_message_text(key="company_driver_found", lang=company.lang)
+    text = text.replace("%form_price%", str(driver.form_price))
+    text = await DriverForm().form_completion(title=text, lang=company.lang, db_model=driver)
+    markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="company_driver_found_menu")
+    await Ut.send_step_message(user_id=uid, text=text, markup=markup)
+
+    await state.set_state(CompanyFindDriver.ActionOnDriver)
+
+
+@router.callback_query(CompanyFindDriver.ActionOnDriver)
+async def action_on_driver(callback: types.CallbackQuery, state: FSMContext):
+    await callback.answer()
+    uid = callback.from_user.id
+    await Ut.handler_log(logger, uid)
+
+    data = await state.get_data()
+    current_driver_id = data["current_driver"]
+    company = await DbCompany(tg_user_id=uid).select()
+
+    cd = callback.data
+    if cd == "back":
+        await state.clear()
+        return await show_menu(message=callback)
+
+    elif cd == "next_driver":
+        return await show_driver(callback=callback, state=state)
+
+    elif cd == "previous_driver":
+        if len(company.viewed_drivers) == 1:
+            text = await Ut.get_message_text(key="company_wrong_previous_driver", lang=company.lang)
+            msg = await callback.message.answer(text=text)
+            return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+
+        company.viewed_drivers = company.viewed_drivers[:-2]
+        await DbCompany(tg_user_id=uid).update(viewed_drivers=company.viewed_drivers)
+        return await show_driver(callback=callback, state=state)
+
+    elif cd == "save_driver":
+        if current_driver_id in company.saved_drivers:
+            text = await Ut.get_message_text(lang=company.lang, key="company_driver_already_saved")
+
+        else:
+            company.saved_drivers.append(current_driver_id)
+            await DbCompany(tg_user_id=uid).update(saved_drivers=company.saved_drivers)
+            text = await Ut.get_message_text(lang=company.lang, key="company_driver_save")
+
+        msg = await callback.message.answer(text=text)
+        return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+
+    elif cd == "open_driver":
+        text = await Ut.get_message_text(lang=company.lang, key="company_pay_for_driver_start")

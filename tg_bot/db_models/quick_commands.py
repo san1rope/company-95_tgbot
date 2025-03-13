@@ -95,7 +95,7 @@ class DbDriver:
                     return await q.gino.all()
 
             filters = [~Driver.id.in_(viewed_drivers_id)]
-            if self.birth_year:
+            if self.birth_year and self.birth_year[0] and self.birth_year[1]:
                 filters.append(Driver.birth_year >= self.birth_year[0])
                 filters.append(Driver.birth_year <= self.birth_year[1])
 
@@ -111,7 +111,7 @@ class DbDriver:
             if self.availability_95_code:
                 filters.append(Driver.availability_95_code.in_(self.availability_95_code))
 
-            if self.date_stark_work:
+            if self.date_stark_work and self.date_stark_work[0] and self.date_stark_work[1]:
                 filters.append(Driver.date_stark_work >= self.date_stark_work[0])
                 filters.append(Driver.date_stark_work <= self.date_stark_work[1])
 
@@ -127,7 +127,7 @@ class DbDriver:
             if self.unsuitable_countries:
                 filters.append(Driver.unsuitable_countries.op("@>")(self.unsuitable_countries))
 
-            if self.expected_salary:
+            if self.expected_salary and self.expected_salary[0] and self.expected_salary[1]:
                 filters.append(Driver.expected_salary >= self.expected_salary[0])
                 filters.append(Driver.expected_salary <= self.expected_salary[1])
 
@@ -209,7 +209,7 @@ class DbCompany:
             country_driving_licence: Optional[List[str]] = None, work_type: Optional[List[str]] = None,
             country_current_live: Optional[List[str]] = None, cadence: Optional[List[str]] = None,
             crew: Optional[List[str]] = None, driver_gender: Optional[List[str]] = None,
-            viewed_drivers: Optional[List[int]] = None
+            viewed_drivers: Optional[List[int]] = [], saved_drivers: Optional[List[int]] = []
     ):
         self.db_id = db_id
         self.tg_user_id = tg_user_id
@@ -238,6 +238,7 @@ class DbCompany:
         self.dangerous_goods = dangerous_goods
         self.crew = crew
         self.driver_gender = driver_gender
+        self.saved_drivers = saved_drivers
 
     async def add(self) -> Union[Driver, bool]:
         try:
@@ -254,7 +255,8 @@ class DbCompany:
                 expected_salary_right_edge=self.expected_salary_right_edge,
                 categories_availability=self.categories_availability, cadence=self.cadence,
                 country_driving_licence=self.country_driving_licence, crew=self.crew,
-                country_current_live=self.country_current_live, viewed_drivers=self.viewed_drivers
+                country_current_live=self.country_current_live, viewed_drivers=self.viewed_drivers,
+                saved_drivers=self.saved_drivers
             )
             return await target.create()
 
