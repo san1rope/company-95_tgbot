@@ -74,3 +74,17 @@ class Company(TimedBaseModel):
     driver_gender = Column(ARRAY(String))
 
     query: sql.Select
+
+
+class Payment(TimedBaseModel):
+    __tablename__ = "payments"
+
+    id = Column(BigInteger, primary_key=True, autoincrement=True)
+    status = Column(Integer, nullable=False)
+    creator_id = Column(BigInteger, nullable=False, primary_key=True)
+    amount = Column(Float, nullable=False)
+    type = Column(String, nullable=False)
+    driver_id = Column(BigInteger)
+    invoice_url = Column(String)
+
+    query: sql.Select

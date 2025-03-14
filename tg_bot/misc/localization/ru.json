@@ -432,9 +432,10 @@
     "company_driver_already_saved": [
       "<b>\uD83D\uDD34 Этот водитель ранее был сохранен вами!</b>"
     ],
-    "company_pay_for_driver_start": [
-      "<b>\uD83D\uDCB8 Оплата водителя</b>",
-      "<b></b>"
+    "company_pay_for_driver_choose_payment_system": [
+      "<b>\uD83D\uDCB8 Выбор платежной системы</b>",
+      "\n<b>Для начала вам нужно выбрать подходящую вам платежную систему</b>",
+      "\n<b>⬇ Используйте клавиатуру ниже</b>"
     ]
   },
   "markups": {
@@ -1570,6 +1571,15 @@
         {
           "Предыдущий": "previous_driver",
           "Следующий": "next_driver"
+        },
+        {
+          "\uD83D\uDD19 В меню": "back"
+        }
+      ],
+      "company_choose_payment_system": [
+        {
+          "Stripe": "stripe",
+          "Cryptomus": "cryptomus"
         },
         {
           "\uD83D\uDD19 В меню": "back"

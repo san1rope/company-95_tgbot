@@ -307,3 +307,67 @@ class DbCompany:
         except Exception:
             logger.error(traceback.format_exc())
             return False
+
+
+class DbPayment:
+    def __init__(
+            self, db_id: Optional[int] = None, creator_id: Optional[int] = None, amount: Optional[float] = None,
+            p_type: Optional[str] = None, driver_id: Optional[str] = None, status: Optional[int] = None,
+            invoice_url: Optional[str] = None
+    ):
+        self.db_id = db_id
+        self.status = status
+        self.creator_id = creator_id
+        self.amount = amount
+        self.p_type = p_type
+        self.driver_id = driver_id
+        self.invoice_url = invoice_url
+
+    async def add(self) -> Union[Payment, bool]:
+        try:
+            target = Payment(
+                creator_id=self.creator_id, amount=self.amount, type=self.p_type, driver_id=self.driver_id,
+                status=self.status, invoice_url=self.invoice_url
+            )
+            return await target.create()
+
+        except UniqueViolationError:
+            logger.error(traceback.format_exc())
+            return False
+
+    async def select(self):
+        try:
+            q = Payment.query
+            if self.db_id:
+                return await q.where(Payment.id == self.db_id).gino.first()
+
+            elif not (self.status is None):
+                return await q.where(Payment.status)
+
+            elif self.creator_id:
+                return await q.where(Payment.creator_id == self.creator_id).gino.all()
+
+            elif self.p_type:
+                return await q.where(Payment.type == self.p_type).gino.all()
+
+            elif self.driver_id:
+                return await q.where(Payment.driver_id == self.driver_id).gino.all()
+
+            else:
+                return await q.gino.all()
+
+        except Exception:
+            logger.error(traceback.format_exc())
+            return False
+
+    async def update(self, **kwargs) -> bool:
+        try:
+            if not kwargs:
+                return False
+
+            target = await self.select()
+            return await target.update(**kwargs).apply()
+
+        except Exception:
+            logger.error(traceback.format_exc())
+            return False

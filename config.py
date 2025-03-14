@@ -21,6 +21,8 @@ class Config:
     SALARY_MAX = float(os.getenv("SALARY_MAX").strip())
     BASE_FORM_PRICE = float(os.getenv("BASE_FORM_PRICE").strip())
 
+    STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY").strip()
+
     DATABASE_CLEANUP = bool(int(os.getenv("DATABASE_CLEANUP")))
     DB_USER = os.getenv("DB_USER")
     DB_PASSWORD = os.getenv("DB_PASSWORD")
