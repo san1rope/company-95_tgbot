@@ -2,6 +2,7 @@ import asyncio
 import logging
 from typing import Union, Optional
 
+import stripe
 from aiogram import Router, F, types
 from aiogram.fsm.context import FSMContext
 
@@ -127,8 +128,12 @@ async def field_has_changed(state: FSMContext, returned_data: Union[str, int], f
     driver = await DbDriver(tg_user_id=tg_user_id).select()
 
     form_price = await DriverForm().calculate_form_data(db_model=driver)
-    result = await DbDriver(tg_user_id=tg_user_id).update(opens_count=0, form_price=form_price,
-                                                          **{field_name: returned_data})
+    await stripe.Price.modify_async(id=driver.stripe_price_id, active=False)
+    price = await stripe.Price.create_async(
+        product=driver.stripe_product_id, unit_amount=int(form_price * 100), currency="pln")
+
+    result = await DbDriver(tg_user_id=tg_user_id).update(
+        opens_count=0, form_price=form_price, stripe_price_id=price.id, **{field_name: returned_data})
     if result:
         text = await Ut.get_message_text(key="driver_menu_my_form_param_changed", lang=driver.lang)
         await Ut.send_step_message(user_id=tg_user_id, text=text)

@@ -8,7 +8,7 @@ from aiogram.fsm.context import FSMContext
 from tg_bot.db_models.quick_commands import DbCompany, DbDriver
 from tg_bot.handlers.company.menu import show_menu
 from tg_bot.misc.models import DriverForm
-from tg_bot.misc.payments_processing import PaymentsProcessing
+from tg_bot.handlers.company.payments_processing import PaymentsProcessing
 from tg_bot.misc.states import CompanyFindDriver
 from tg_bot.misc.utils import Utils as Ut
 
@@ -40,10 +40,12 @@ async def show_driver(callback: types.CallbackQuery, state: FSMContext, retry: b
             "country_driving_licence": company.country_driving_licence,
             "country_current_live": company.country_current_live,
             "work_type": company.work_type, "cadence": company.cadence, "dangerous_goods": company.dangerous_goods,
-            "crew": company.crew, "driver_gender": company.driver_gender
+            "crew": company.crew, "driver_gender": company.driver_gender, "status": 1
         })
 
-    driver = await DbDriver(**params).select(viewed_drivers_id=company.viewed_drivers)
+    viewed_drivers_id = company.viewed_drivers
+    viewed_drivers_id.extend(company.open_drivers)
+    driver = await DbDriver(**params).select(viewed_drivers_id=viewed_drivers_id)
     if not driver:
         if retry and len(company.viewed_drivers) > 0:
             text = await Ut.get_message_text(lang=company.lang, key="company_find_driver_end")
@@ -67,7 +69,7 @@ async def show_driver(callback: types.CallbackQuery, state: FSMContext, retry: b
 
     text = await Ut.get_message_text(key="company_driver_found", lang=company.lang)
     text = text.replace("%form_price%", str(driver.form_price))
-    text = await DriverForm().form_completion(title=text, lang=company.lang, db_model=driver)
+    text = await DriverForm().form_completion(title=text, lang=company.lang, db_model=driver, for_company=True)
     markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="company_driver_found_menu")
     await Ut.send_step_message(user_id=uid, text=text, markup=markup)
 
@@ -75,7 +77,7 @@ async def show_driver(callback: types.CallbackQuery, state: FSMContext, retry: b
 
 
 @router.callback_query(CompanyFindDriver.ActionOnDriver)
-async def action_on_driver(callback: types.CallbackQuery, state: FSMContext):
+async def action_on_driver(callback: types.CallbackQuery, state: FSMContext, from_payment_cancel: bool = False):
     await callback.answer()
     uid = callback.from_user.id
     await Ut.handler_log(logger, uid)
@@ -114,7 +116,7 @@ async def action_on_driver(callback: types.CallbackQuery, state: FSMContext):
         msg = await callback.message.answer(text=text)
         return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
 
-    elif cd == "open_driver":
+    elif cd == "open_driver" or from_payment_cancel:
         text = await Ut.get_message_text(lang=company.lang, key="company_pay_for_driver_choose_payment_system")
         markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="company_choose_payment_system")
         await Ut.send_step_message(user_id=uid, text=text, markup=markup)
@@ -134,6 +136,11 @@ async def select_payment_system(callback: types.CallbackQuery, state: FSMContext
     if cd == "back":
         await DbCompany(tg_user_id=uid).update(viewed_drivers=company.viewed_drivers[:-1])
         return await show_driver(callback=callback, state=state, driver_id=uid)
+
+    text = await Ut.get_message_text(lang=company.lang, key="payment_in_creating_process")
+    await Ut.send_step_message(user_id=uid, text=text)
+
+    await state.update_data(function_for_back=action_on_driver)
 
     payment_method = getattr(PaymentsProcessing, cd)
     await payment_method(callback=callback, state=state)

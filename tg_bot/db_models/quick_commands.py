@@ -26,7 +26,8 @@ class DbDriver:
             country_current_live: Optional[str] = None, work_type: Optional[str] = None,
             cadence: Optional[List[str]] = None, crew: Optional[str] = None, driver_gender: Optional[str] = None,
             lang: Optional[str] = None, status: Optional[int] = None, messangers: Optional[List[str]] = None,
-            need_internship: Optional[str] = None
+            need_internship: Optional[str] = None, stripe_product_id: Optional[str] = None,
+            stripe_price_id: Optional[str] = None
     ):
         self.db_id = db_id
         self.tg_user_id = tg_user_id
@@ -56,6 +57,8 @@ class DbDriver:
         self.crew = crew
         self.driver_gender = driver_gender
         self.status = status
+        self.stripe_product_id = stripe_product_id
+        self.stripe_price_id = stripe_price_id
 
     async def add(self) -> Union[Driver, bool]:
         try:
@@ -69,7 +72,8 @@ class DbDriver:
                 expected_salary=self.expected_salary, categories_availability=self.categories_availability,
                 country_driving_licence=self.country_driving_licence, country_current_live=self.country_current_live,
                 work_type=self.work_type, cadence=self.cadence, crew=self.crew, driver_gender=self.driver_gender,
-                form_price=self.form_price, lang=self.lang, status=self.status, messangers=self.messangers
+                form_price=self.form_price, lang=self.lang, status=self.status, messangers=self.messangers,
+                stripe_product_id=self.stripe_product_id, stripe_price_id=self.stripe_price_id
             )
             return await target.create()
 
@@ -82,19 +86,22 @@ class DbDriver:
             q = Driver.query
 
             if viewed_drivers_id is None:
-                if not (self.db_id is None):
+                if self.db_id is not None:
                     return await q.where(Driver.id == self.db_id).gino.first()
 
-                elif not (self.tg_user_id is None):
+                elif self.tg_user_id is not None:
                     return await q.where(Driver.tg_user_id == self.tg_user_id).gino.first()
 
-                elif not (self.status is None):
+                elif self.status is not None:
                     return await q.where(Driver.status == self.status).gino.all()
 
                 else:
                     return await q.gino.all()
 
             filters = [~Driver.id.in_(viewed_drivers_id)]
+            if self.status is not None:
+                filters.append(Driver.status == self.status)
+
             if self.birth_year and self.birth_year[0] and self.birth_year[1]:
                 filters.append(Driver.birth_year >= self.birth_year[0])
                 filters.append(Driver.birth_year <= self.birth_year[1])
@@ -115,10 +122,10 @@ class DbDriver:
                 filters.append(Driver.date_stark_work >= self.date_stark_work[0])
                 filters.append(Driver.date_stark_work <= self.date_stark_work[1])
 
-            if self.language_skills:  # in progress...
+            if self.language_skills:
                 filters.append(Driver.language_skills.op("@>")(self.language_skills))
 
-            if self.job_experience:  # in progress...
+            if self.job_experience:
                 filters.append(Driver.job_experience.op("@>")(self.job_experience))
 
             if self.need_internship:
@@ -209,7 +216,8 @@ class DbCompany:
             country_driving_licence: Optional[List[str]] = None, work_type: Optional[List[str]] = None,
             country_current_live: Optional[List[str]] = None, cadence: Optional[List[str]] = None,
             crew: Optional[List[str]] = None, driver_gender: Optional[List[str]] = None,
-            viewed_drivers: Optional[List[int]] = [], saved_drivers: Optional[List[int]] = []
+            viewed_drivers: Optional[List[int]] = [], saved_drivers: Optional[List[int]] = [],
+            stripe_customer_id: Optional[str] = None, open_drivers: Optional[List[int]] = []
     ):
         self.db_id = db_id
         self.tg_user_id = tg_user_id
@@ -239,6 +247,8 @@ class DbCompany:
         self.crew = crew
         self.driver_gender = driver_gender
         self.saved_drivers = saved_drivers
+        self.stripe_customer_id = stripe_customer_id
+        self.open_drivers = open_drivers
 
     async def add(self) -> Union[Driver, bool]:
         try:
@@ -256,7 +266,8 @@ class DbCompany:
                 categories_availability=self.categories_availability, cadence=self.cadence,
                 country_driving_licence=self.country_driving_licence, crew=self.crew,
                 country_current_live=self.country_current_live, viewed_drivers=self.viewed_drivers,
-                saved_drivers=self.saved_drivers
+                saved_drivers=self.saved_drivers, stripe_customer_id=self.stripe_customer_id,
+                open_drivers=self.open_drivers
             )
             return await target.create()
 
@@ -313,7 +324,8 @@ class DbPayment:
     def __init__(
             self, db_id: Optional[int] = None, creator_id: Optional[int] = None, amount: Optional[float] = None,
             p_type: Optional[str] = None, driver_id: Optional[str] = None, status: Optional[int] = None,
-            invoice_url: Optional[str] = None
+            invoice_url: Optional[str] = None, stripe_invoice_id: Optional[str] = None, system: Optional[str] = None,
+            msg_to_delete: Optional[int] = None
     ):
         self.db_id = db_id
         self.status = status
@@ -322,12 +334,16 @@ class DbPayment:
         self.p_type = p_type
         self.driver_id = driver_id
         self.invoice_url = invoice_url
+        self.stripe_invoice_id = stripe_invoice_id
+        self.system = system
+        self.msg_to_delete = msg_to_delete
 
     async def add(self) -> Union[Payment, bool]:
         try:
             target = Payment(
                 creator_id=self.creator_id, amount=self.amount, type=self.p_type, driver_id=self.driver_id,
-                status=self.status, invoice_url=self.invoice_url
+                status=self.status, invoice_url=self.invoice_url, stripe_invoice_id=self.stripe_invoice_id,
+                system=self.system, msg_to_delete=self.msg_to_delete
             )
             return await target.create()
 
@@ -335,17 +351,28 @@ class DbPayment:
             logger.error(traceback.format_exc())
             return False
 
-    async def select(self):
+    async def select(self, status_with_selected_system: Optional[int] = None):
         try:
             q = Payment.query
             if self.db_id:
                 return await q.where(Payment.id == self.db_id).gino.first()
 
-            elif not (self.status is None):
-                return await q.where(Payment.status)
+            elif self.system:
+                params = [Payment.system == self.system]
+                if status_with_selected_system is not None:
+                    params.append(Payment.status == self.status)
 
-            elif self.creator_id:
+                return await q.where(and_(*params)).gino.all()
+
+            elif self.creator_id and (self.status is None):
                 return await q.where(Payment.creator_id == self.creator_id).gino.all()
+
+            elif self.creator_id and (self.status is not None):
+                return await q.where(
+                    and_(Payment.creator_id == self.creator_id, Payment.status == self.status)).gino.first()
+
+            elif self.status is not None:
+                return await q.where(Payment.status).gino.all()
 
             elif self.p_type:
                 return await q.where(Payment.type == self.p_type).gino.all()

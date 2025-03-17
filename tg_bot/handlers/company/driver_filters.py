@@ -118,9 +118,11 @@ async def show_param_options(callback: types.CallbackQuery, state: FSMContext):
         return await callback.message.edit_reply_markup(reply_markup=markup)
 
     elif "back_to_menu" == cd:
+        await state.clear()
         return await show_menu(message=callback)
 
     elif "back" == cd:
+        await state.clear()
         return await selected_filters_btn(callback=callback, state=state)
 
     else:

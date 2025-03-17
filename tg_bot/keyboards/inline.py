@@ -1,7 +1,7 @@
 from calendar import Calendar
 from datetime import datetime
 
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 
 from config import Config
 from tg_bot.misc.utils import localization
@@ -84,3 +84,19 @@ async def calendar_inline(date_time: datetime, lang: str) -> InlineKeyboardMarku
     markup.inline_keyboard.append([InlineKeyboardButton(text=back_btn_text, callback_data="back")])
 
     return markup
+
+
+async def payment_inline(invoice_url: str, lang: str) -> InlineKeyboardMarkup:
+    lang_data = localization[lang] if localization.get(lang) else localization[Config.DEFAULT_LANG]
+    payment_localize = lang_data["misc"]["payment"]
+
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text=payment_localize["invoice_url"], web_app=WebAppInfo(url=invoice_url))
+            ],
+            [
+                InlineKeyboardButton(text=payment_localize["cancel"], callback_data="cancel")
+            ]
+        ]
+    )

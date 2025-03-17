@@ -647,9 +647,13 @@ class RegistrationSteps:
             additional_buttons = []
 
         text = await Ut.get_message_text(key=text_key, lang=lang)
+        markup = await Ut.get_markup(
+            mtype="inline", lang=lang, key="basis_of_stay", additional_buttons=additional_buttons,
+            hid_open_btn_data=data
+        )
+        await state.update_data(title=text, markup=markup)
+
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
-        markup = await Ut.get_markup(mtype="inline", lang=lang, key="basis_of_stay",
-                                     additional_buttons=additional_buttons)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.set_state(DriverRegistration.ChooseBasisOfStay)
@@ -703,10 +707,13 @@ class RegistrationSteps:
             additional_buttons = []
 
         text = await Ut.get_message_text(key=text_key, lang=lang)
-        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
-
         markup = await Ut.get_markup(
-            mtype="inline", lang=lang, key="availability_95_code", additional_buttons=additional_buttons)
+            mtype="inline", lang=lang, key="availability_95_code", additional_buttons=additional_buttons,
+            hid_open_btn_data=data
+        )
+        await state.update_data(title=text, markup=markup)
+
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.set_state(DriverRegistration.Availability95Code)

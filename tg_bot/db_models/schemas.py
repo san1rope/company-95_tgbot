@@ -14,6 +14,9 @@ class Driver(TimedBaseModel):
     form_price = Column(Float, nullable=False)
     status = Column(Integer, nullable=False)
 
+    stripe_product_id = Column(String)
+    stripe_price_id = Column(String)
+
     name = Column(String, nullable=False)
     birth_year = Column(Integer, nullable=False)
     phone_number = Column(String, nullable=False)
@@ -49,6 +52,9 @@ class Company(TimedBaseModel):
     paid_subscription = Column(Integer)
     viewed_drivers = Column(ARRAY(Integer))
     saved_drivers = Column(ARRAY(Integer))
+    open_drivers = Column(ARRAY(Integer))
+
+    stripe_customer_id = Column(String)
 
     birth_year_left_edge = Column(Integer)
     birth_year_right_edge = Column(Integer)
@@ -80,11 +86,15 @@ class Payment(TimedBaseModel):
     __tablename__ = "payments"
 
     id = Column(BigInteger, primary_key=True, autoincrement=True)
+    system = Column(String, nullable=False)
     status = Column(Integer, nullable=False)
     creator_id = Column(BigInteger, nullable=False, primary_key=True)
     amount = Column(Float, nullable=False)
     type = Column(String, nullable=False)
     driver_id = Column(BigInteger)
     invoice_url = Column(String)
+    msg_to_delete = Column(Integer)
+
+    stripe_invoice_id = Column(String)
 
     query: sql.Select

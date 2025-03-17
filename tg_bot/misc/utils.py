@@ -1,7 +1,10 @@
+import asyncio
 import logging
 import re
+import os
+import json
 from logging import Logger
-from typing import Union, Optional, Dict, List
+from typing import Union, Optional, Dict, List, Any
 
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import ReplyKeyboardMarkup, InlineKeyboardMarkup, KeyboardButton, InlineKeyboardButton
@@ -25,14 +28,34 @@ class AdditionalButtons(BaseModel):
 class Utils:
 
     @staticmethod
+    def wrapper(func, *args):
+        asyncio.run(func(*args))
+
+    @staticmethod
     async def handler_log(logger_from_caller: Logger, user_id: Union[str, int]):
         logger_from_caller.info(f"Handler called. user_id={user_id}")
+
+    @staticmethod
+    async def load_localizations_files():
+        localization_folder = "tg_bot/misc/localization/"
+        for filename in os.listdir(os.path.abspath(localization_folder)):
+            lang = filename.replace(".json", "")
+            with open(os.path.abspath(localization_folder + filename), "r", encoding="utf-8") as file:
+                data = json.load(file)
+
+            localization.update({lang: data})
+
+        corrections_file = "tg_bot/misc/corrections.json"
+        with open(os.path.abspath(corrections_file), "r", encoding="utf-8") as file:
+            corrections.update(json.load(file))
 
     @staticmethod
     async def send_step_message(user_id: int, text: str, markup: Optional[InlineKeyboardMarkup] = None):
         await Utils.delete_messages(user_id=user_id)
         msg = await Config.BOT.send_message(chat_id=user_id, text=text, reply_markup=markup)
         await Utils.add_msg_to_delete(user_id=user_id, msg_id=msg.message_id)
+
+        return msg
 
     @staticmethod
     async def get_message_text(key: str, lang: str) -> str:
@@ -74,7 +97,8 @@ class Utils:
     @classmethod
     async def get_markup(
             cls, mtype: str, lang: str, key: Optional[str] = None, additional_buttons: List[AdditionalButtons] = [],
-            without_buttons: List[str] = [], user_id: Union[str, int] = None
+            without_buttons: List[str] = [], user_id: Union[str, int] = None,
+            hid_open_btn_data: Optional[Dict] = None
     ) -> Union[ReplyKeyboardMarkup, InlineKeyboardMarkup, None]:
         markup_data = localization[lang] if localization.get(lang) else localization[Config.DEFAULT_LANG]
 
@@ -121,6 +145,15 @@ class Utils:
 
         else:
             markup = InlineKeyboardMarkup(inline_keyboard=[])
+
+        if hid_open_btn_data:
+            data = hid_open_btn_data
+            hidden_status = data["hidden_status"] if data.get("hidden_status") else False
+            btn_key = 1 if hidden_status else 0
+
+            btn_text = markup_data["misc"]["hid_or_open_form"][btn_key]
+            btn = InlineKeyboardButton(text=btn_text, callback_data="hid_or_open_form")
+            markup.inline_keyboard.insert(0, [btn])
 
         return markup
 
