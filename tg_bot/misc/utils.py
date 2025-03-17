@@ -3,10 +3,12 @@ import logging
 import re
 import os
 import json
+from copy import deepcopy
 from logging import Logger
 from typing import Union, Optional, Dict, List, Any
 
 from aiogram.exceptions import TelegramBadRequest
+from aiogram.fsm.context import FSMContext
 from aiogram.types import ReplyKeyboardMarkup, InlineKeyboardMarkup, KeyboardButton, InlineKeyboardButton
 from pydantic import BaseModel
 
@@ -96,9 +98,10 @@ class Utils:
 
     @classmethod
     async def get_markup(
-            cls, mtype: str, lang: str, key: Optional[str] = None, additional_buttons: List[AdditionalButtons] = [],
-            without_buttons: List[str] = [], user_id: Union[str, int] = None,
-            hid_open_btn_data: Optional[Dict] = None
+            cls, lang: str, mtype: Optional[str] = None, key: Optional[str] = None,
+            additional_buttons: List[AdditionalButtons] = [], without_buttons: List[str] = [],
+            user_id: Union[str, int] = None, hidden_status: Optional[bool] = None,
+            markup: Optional[InlineKeyboardMarkup] = None
     ) -> Union[ReplyKeyboardMarkup, InlineKeyboardMarkup, None]:
         markup_data = localization[lang] if localization.get(lang) else localization[Config.DEFAULT_LANG]
 
@@ -143,16 +146,12 @@ class Utils:
             markup = await cls.processing_additional_buttons(
                 markup_data=markup_data, markup=markup, additional_buttons=additional_buttons)
 
-        else:
-            markup = InlineKeyboardMarkup(inline_keyboard=[])
-
-        if hid_open_btn_data:
-            data = hid_open_btn_data
-            hidden_status = data["hidden_status"] if data.get("hidden_status") else False
+        if hidden_status is not None:
             btn_key = 1 if hidden_status else 0
 
             btn_text = markup_data["misc"]["hid_or_open_form"][btn_key]
             btn = InlineKeyboardButton(text=btn_text, callback_data="hid_or_open_form")
+            markup = deepcopy(markup)
             markup.inline_keyboard.insert(0, [btn])
 
         return markup

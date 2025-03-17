@@ -85,15 +85,16 @@ class DriverForm(BaseModel):
                 elif "col:" in btn_cd:
                     cols[btn_cd.replace("col:", "")] = btn_text
 
+        print(f"rows: {rows}")
+        print(f"cols: {cols}")
         for el in codes:
-            row, col = el.split(":")
-            localized_text.append(f"<b>{rows[row]}: {cols[col]}</b>")
+            row, col = el.split(":"            localized_text.append(f"<b>{rows[row]}: {cols[col]}</b>")
 
         return localized_text
 
     async def form_completion(
             self, title: str, lang: str, db_model: Optional[Driver] = None, for_company: bool = False,
-            hidden: bool = False
+            hidden_status: bool = False
     ) -> str:
         lang_data = localization[lang] if localization.get(lang) else localization[Config.DEFAULT_LANG]
         lang_inline_markups = lang_data["markups"]["inline"]
@@ -132,7 +133,7 @@ class DriverForm(BaseModel):
                 input_localized_text=lang_inline_markups["car_types"], codes=model.car_types)
             text.append(f"<b>{hcode(fcd['car_types'])} {', '.join(localized_text)}</b>")
 
-        if not hidden:
+        if not hidden_status:
             if model.citizenships is not None:
                 localized_text = await self.codes_to_text_checkboxes_countries(
                     lang_inline_markups=lang_inline_markups, codes=model.citizenships)

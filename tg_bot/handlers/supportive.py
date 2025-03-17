@@ -37,16 +37,22 @@ async def hid_and_open_driver_form(callback: types.CallbackQuery, state: FSMCont
     data_model = data["dmodel"]
     title = data["title"]
     markup = data["markup"]
+    saved_data = data["saved_data"] if "saved_data" in data else None
     lang = await RegistrationSteps.get_lang(state_data=data, user_id=uid)
     hidden_status = data["hidden_status"] if data.get("hidden_status") else False
 
     if hidden_status:
-        hidden = False
+        hidden_status = False
 
     else:
-        hidden = True
+        hidden_status = True
 
-    text = await DriverForm().form_completion(title=title, lang=lang, db_model=data_model, hidden=hidden)
+    await state.update_data(hidden_status=hidden_status)
+    markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=hidden_status)
+    if saved_data:
+        markup = await Ut.recognize_selected_values(
+            markup=markup, datalist=data["saved_data"],
+            text_placeholder="🟢" if ':' in saved_data[0] else "✅ %btn.text%")
+
+    text = await DriverForm().form_completion(title=title, lang=lang, db_model=data_model, hidden_status=hidden_status)
     await callback.message.edit_text(text=text, reply_markup=markup)
-
-    await state.update_data(hidden_status=not hidden_status, title=None, markup=None)
