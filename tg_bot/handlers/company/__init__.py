@@ -4,4 +4,5 @@ from .find_driver import router as r_find_driver
 from .payments_processing import router as r_payments_processing
 from .saved_drivers import router as r_saved_drivers
 from .opened_drivers import router as r_opened_drivers
+from .subscription import router as r_subscription
 from .menu import router as r_company_menu

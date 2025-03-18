@@ -335,16 +335,186 @@
       "\n<b>⬇ Użyj klawiatury poniżej</b>"
     ],
     "company_filters_language_skills": [
-        "<b>⚙️ Filtr kierowców</b>",
-        "<b>➖ Znajomość języków</b>",
-        "\n<b>Należy zaznaczyć pożądany poziom znajomości języka dla kierowcy</b>",
-        "\n<b>⬇ Użyj klawiatury poniżej</b>"
+      "<b>⚙️ Filtr kierowców</b>",
+      "<b>➖ Znajomość języków</b>",
+      "\n<b>Należy zaznaczyć pożądany poziom znajomości języka dla kierowcy</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
     ],
     "company_filters_job_experience": [
-        "<b>⚙️ Filtr kierowców</b>",
-        "<b>➖ Doświadczenie zawodowe</b>",
-        "\n<b>Należy zaznaczyć pożądane doświadczenie zawodowe dla kierowcy</b>",
-        "\n<b>⬇ Użyj klawiatury poniżej</b>"
+      "<b>⚙️ Filtr kierowców</b>",
+      "<b>➖ Doświadczenie zawodowe</b>",
+      "\n<b>Należy zaznaczyć pożądane doświadczenie zawodowe dla kierowcy</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_filters_expected_salary": [
+      "<b>⚙️ Filtr kierowców</b>",
+      "<b>➖ Oczekiwana pensja</b>",
+      "\n<b>Podaj zakres oczekiwanej pensji dla kierowcy w takim formacie:</b>",
+      "<b>(min. liczba)-(maks. liczba)</b>",
+      "<b>Przykład: 60-94</b>",
+      "<b>Liczba musi być w zakresie od %salary_min% do %salary_max%</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "wrong_salary_format": [
+      "<b>🔴 Wprowadziłeś wartość w niepoprawnym formacie!</b>",
+      "\n<b>✅ Poprawny format: (min. liczba)-(maks. liczba)</b>"
+    ],
+    "company_filters_birth_year_1": [
+      "<b>⚙️ Filtr kierowców</b>",
+      "<b>➖ Rok urodzenia</b>",
+      "\n<b>Musisz podać zakres, w którym będę szukał kierowcy</b>",
+      "<b>Wybierz pierwszy punkt (początek)</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_filters_birth_year_2": [
+      "<b>⚙️ Filtr kierowców</b>",
+      "<b>➖ Rok urodzenia</b>",
+      "\n<b>Musisz podać zakres, w którym będę szukał kierowcy</b>",
+      "<b>Teraz wybierz drugi punkt (koniec)</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_filters_date_start_work_1": [
+      "<b>⚙️ Filtr kierowców</b>",
+      "<b>➖ Data gotowości</b>",
+      "\n<b>Musisz podać okres, w którym będę szukał kierowcy</b>",
+      "<b>Wybierz pierwszy punkt (początek)</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_filters_date_start_work_2": [
+      "<b>⚙️ Filtr kierowców</b>",
+      "<b>➖ Data gotowości</b>",
+      "\n<b>Musisz podać okres, w którym będę szukał kierowcy</b>",
+      "<b>Teraz wybierz drugi punkt (koniec)</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_menu_text": [
+      "<b>❇️ Menu firmy</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_filters": [
+      "<b>⚙️ Filtr kierowców</b>",
+      "\n<b>Możesz zobaczyć wybrane parametry filtrów i według uznania użyć przycisków poniżej ⬇</b>"
+    ],
+    "company_reset_filters_confirmation": [
+      "<b>⚙️ Filtr kierowców</b>",
+      "\n<b>Na pewno chcesz wyczyścić filtry?</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_reset_filters_completed": [
+      "<b>✅ Filtry zostały pomyślnie wyczyszczone!</b>"
+    ],
+    "company_reset_filters_error": [
+      "<b>🔌 Wystąpił błąd podczas czyszczenia filtrów!</b>"
+    ],
+    "company_driver_found": [
+      "<b>⚙️ Filtr kierowców</b>",
+      "<b>\nRozważ zgłoszenie kierowcy</b>",
+      "<b>Aby otworzyć dane kontaktowe kierowcy, należy nacisnąć 'Otwórz kierowcę' i w dalszym etapie zapłacić za otwarcie</b>",
+      "\n<b>Cena otwarcia: %form_price% zł (PLN)</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_drivers_list_none": [
+      "<b>⚪️ Na ten moment lista kierowców według Twoich parametrów jest pusta. Spróbuj później...</b>"
+    ],
+    "company_find_driver_end": [
+      "<b>❇️ Lista kierowców według Twoich parametrów się skończyła! Przenoszę Cię na początek...</b>"
+    ],
+    "company_wrong_previous_driver": [
+      "<b>🔴 Rozważasz pierwszego kierowcę z listy!</b>"
+    ],
+    "company_driver_save": [
+      "<b>✅ Pomyślnie zapisałeś kierowcę! Będziesz mógł go znaleźć w 'Zapisani kierowcy'</b>"
+    ],
+    "company_driver_already_saved": [
+      "<b>🔴 Ten kierowca został już zapisany przez Ciebie!</b>"
+    ],
+    "company_open_driver_subscribe_confirmation": [
+      "<b>Masz aktywną subskrypcję!</b>",
+      "\n<b>Pozostało otwarć: %opens_count%</b>",
+      "\n<b>Na pewno chcesz otworzyć dane kierowcy nr %driver_id%?</b>"
+    ],
+    "company_pay_for_driver_choose_payment_system": [
+      "<b>💳 Wybór systemu płatności</b>",
+      "\n<b>Najpierw musisz wybrać odpowiedni system płatności</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "payment_create_error": [
+      "<b>🔌 Wystąpił błąd przy tworzeniu płatności! Spróbuj ponownie!</b>"
+    ],
+    "payment_stripe": [
+      "<b>💳 Płatność</b>",
+      "\n<b>Została stworzona płatność na %reason%</b>",
+      "<b>Kwota płatności: %amount% zł (PLN)</b>",
+      "<b>\nMasz 24 godziny na dokonanie płatności, po czym link stanie się nieważny!</b>",
+      "<b>Będę Cię powiadamiać o zmianie statusu płatności</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "payment_success": [
+      "<b>✅ Pomyślnie zakończyłeś płatność!</b>",
+      "\n<b>⬇ Poniżej informacje o zakupie</b>"
+    ],
+    "pay_for_driver_success": [
+      "<b>✅ Opłaciłeś otwarcie danych wybranego kierowcy!</b>",
+      "\n<b>ℹ️ Będziesz mógł zobaczyć wszystkich otwartych przez Ciebie kierowców w sekcji menu - Otwarte kierowcy</b>",
+      "\n<b>⬇️ Poniżej wyświetlone dane kontaktowe</b>"
+    ],
+    "pay_for_subscription_success": [
+      "<b>✅ Pomyślnie opłaciłeś subskrypcję!</b>",
+      "\n<b>ℹ️ Możesz za darmo otworzyć 20 kierowców</b>"
+    ],
+    "msg_to_driver_after_open": [
+      "<b>❇️ Twoje dane zostały otwarte!</b>",
+      "\n<b>ℹ️ Prawdopodobnie wkrótce skontaktuje się z Tobą firma!</b>"
+    ],
+    "payment_due_time": [
+      "<b>🔌 Nie zdążyłeś zapłacić za płatność!</b>",
+      "\n<b>Zakup został automatycznie anulowany!</b>"
+    ],
+    "payment_in_creating_process": [
+      "<b>💭 Tworzę płatność. Proszę czekać...</b>"
+    ],
+    "payment_cancel_confirmation": [
+      "<b>🔘 Na pewno chcesz anulować płatność?</b>"
+    ],
+    "payment_cancel_complete": [
+      "<b>☑️ Płatność została anulowana</b>"
+    ],
+    "no_opened_drivers": [
+      "<b>⚠️ Nie masz otwartych kierowców!</b>"
+    ],
+    "no_saved_drivers": [
+      "<b>⚠️ Nie masz zapisanych kierowców!</b>"
+    ],
+    "your_opened_drivers": [
+      "<b>📂 Twoi otwarci kierowcy ⬇️</b>",
+      "<b>📍 Strona %curr_page%/%num_of_pages%</b>"
+    ],
+    "your_saved_drivers": [
+      "<b>📂 Twoi zapisani kierowcy ⬇️</b>",
+      "\n<b>📍 Strona %curr_page%/%num_of_pages%</b>"
+    ],
+    "driver_remove_from_notes": [
+      "<b>Na pewno chcesz usunąć kierowcę nr %driver_id% z notatek?</b>"
+    ],
+    "driver_remove_from_notes_confirm": [
+      "<b>✅ Pomyślnie usunięto kierowcę z notatek!</b>"
+    ],
+    "company_selected_driver": [
+      "<b>Wybrałeś kierowcę nr %driver_id%</b>",
+      "\n<b>Przejrzyj jego profil jeszcze raz i wybierz metodę płatności</b>"
+    ],
+    "company_subscription_info": [
+      "<b>🎉 Subskrypcja</b>",
+      "\n<b>Możesz opłacić subskrypcję na otwieranie kierowców</b>",
+      "<b>Po opłaceniu będziesz mógł otworzyć 20 kierowców dowolnej wartości</b>",
+      "\n<b>Wybierz metodę płatności, aby kontynuować płatność</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_already_has_subscription_info": [
+      "<b>🎉 Subskrypcja</b>",
+      "\n<b>Masz już aktywną subskrypcję!</b>",
+      "<b>Pozostało otwarć: %opens_count%</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
     ]
   },
   "markups": {
@@ -381,7 +551,6 @@
       ],
       "messangers_availabilities": [
         {
-          "Telegram": "0",
           "Viber": "1",
           "WhatsApp": "2"
         },
@@ -401,42 +570,42 @@
       ],
       "car_types": [
         {
-          "Chłodnia": "0",
-          "Kontener": "1"
+          "Chłodnia": "1",
+          "Kontener": "2"
         },
         {
-          "Zestawy BDF": "2"
+          "Zestawy BDF": "3"
         },
         {
-          "Plandeka std": "3",
-          "Plandeka mega": "4"
+          "Plandeka std": "4",
+          "Plandeka mega": "5"
         },
         {
-          "Laweta": "5",
-          "Cysterna ADR": "6"
+          "Laweta": "6",
+          "Cysterna ADR": "7"
         },
         {
-          "Cysterna spoż.": "7",
-          "Wywrotka": "8"
+          "Cysterna spoż.": "8",
+          "Wywrotka": "9"
         },
         {
-          "Silos": "9",
-          "Drewnozwoz": "10"
+          "Silos": "10",
+          "Drewnozwoz": "11"
         },
         {
-          "Nienormatywne": "11",
-          "Bydłowóz": "12"
+          "Nienormatywne": "12",
+          "Bydłowóz": "13"
         },
         {
-          "Betoniarka": "13",
-          "Śmieciarka": "14"
+          "Betoniarka": "14",
+          "Śmieciarka": "15"
         },
         {
-          "Autobus": "15",
-          "Niskopodwozie": "16"
+          "Autobus": "16",
+          "Niskopodwozie": "17"
         },
         {
-          "Bus do 3,5t": "17"
+          "Bus do 3,5t": "18"
         },
         {
           "\uD83D\uDFE2 Zaznacz wszystkie": "check",
@@ -1058,34 +1227,34 @@
       ],
       "basis_of_stay": [
         {
-          "Ruch bezwizowy do UE": "0"
+          "Ruch bezwizowy do UE": "1"
         },
         {
-          "Wiza krajowa z kartą Polaka": "1"
+          "Wiza krajowa z kartą Polaka": "2"
         },
         {
-          "Oświadczenie 180 dni": "2"
+          "Oświadczenie 180 dni": "3"
         },
         {
-          "Polska wiza pracownicza": "3"
+          "Polska wiza pracownicza": "4"
         },
         {
-          "Wiza innego kraju UE": "4"
+          "Wiza innego kraju UE": "5"
         },
         {
-          "Pobyt czasowy": "5"
+          "Pobyt czasowy": "6"
         },
         {
-          "Pobyt stały": "6"
+          "Pobyt stały": "7"
         },
         {
-          "Dokument pobytowy kraju europejskiego": "7"
+          "Dokument pobytowy kraju europejskiego": "8"
         },
         {
-          "Obywatelstwo UE": "8"
+          "Obywatelstwo UE": "9"
         },
         {
-          "Żadne z powyższych": "9"
+          "Żadne z powyższych": "10"
         },
         {
           "\uD83D\uDD19 Powrót": "back"
@@ -1093,11 +1262,11 @@
       ],
       "availability_95_code": [
         {
-          "Mieć": "0",
-          "Nie mam": "1"
+          "Mieć": "1",
+          "Nie mam": "2"
         },
         {
-          "W procesie produkcyjnym": "2"
+          "W procesie produkcyjnym": "3"
         },
         {
           "\uD83D\uDD19 Powrót": "back"
@@ -1106,31 +1275,31 @@
       "language_skills": [
         {
           "  ": "0",
-          "Nie mówię": "col:0",
-          "Rozumiem, ale nie mówię": "col:1",
-          "Poziom początkujący": "col:2",
-          "Mówię dobrze": "col:3"
+          "Nie mówię": "col:1",
+          "Rozumiem, ale nie mówię": "col:2",
+          "Poziom początkujący": "col:3",
+          "Mówię dobrze": "col:4"
         },
         {
           "Polski": "row:pl",
-          "⚪\uFE0F": "pl:0",
-          "⚪\uFE0F ": "pl:1",
-          "⚪\uFE0F  ": "pl:2",
-          "⚪\uFE0F   ": "pl:3"
+          "⚪\uFE0F": "pl:1",
+          "⚪\uFE0F ": "pl:2",
+          "⚪\uFE0F  ": "pl:3",
+          "⚪\uFE0F   ": "pl:4"
         },
         {
           "Angielski": "row:en",
-          "⚪\uFE0F": "en:0",
-          "⚪\uFE0F ": "en:1",
-          "⚪\uFE0F  ": "en:2",
-          "⚪\uFE0F   ": "en:3"
+          "⚪\uFE0F": "en:1",
+          "⚪\uFE0F ": "en:2",
+          "⚪\uFE0F  ": "en:3",
+          "⚪\uFE0F   ": "en:4"
         },
         {
           "Niemiecki": "row:de",
-          "⚪\uFE0F": "de:0",
-          "⚪\uFE0F ": "de:1",
-          "⚪\uFE0F  ": "de:2",
-          "⚪\uFE0F   ": "de:3"
+          "⚪\uFE0F": "de:1",
+          "⚪\uFE0F ": "de:2",
+          "⚪\uFE0F  ": "de:3",
+          "⚪\uFE0F   ": "de:4"
         },
         {
           "\uD83D\uDCDD Potwierdź wybór": "confirm"
@@ -1142,31 +1311,31 @@
       "job_experience": [
         {
           "  ": "0",
-          "Nie mam": "col:0",
-          "Do pół roku": "col:1",
-          "Od pół roku do 2 lat": "col:2",
-          "Ponad 2 lata": "col:3"
+          "Nie mam": "col:1",
+          "Do pół roku": "col:2",
+          "Od pół roku do 2 lat": "col:3",
+          "Ponad 2 lata": "col:4"
         },
         {
           "D/C/CE w Europie": "row:a",
-          "⚪\uFE0F": "a:0",
-          "⚪\uFE0F ": "a:1",
-          "⚪\uFE0F  ": "a:2",
-          "⚪\uFE0F   ": "a:3"
+          "⚪\uFE0F": "a:1",
+          "⚪\uFE0F ": "a:2",
+          "⚪\uFE0F  ": "a:3",
+          "⚪\uFE0F   ": "a:4"
         },
         {
           "D/C/CE poza Europą": "row:b",
-          "⚪\uFE0F": "b:0",
-          "⚪\uFE0F ": "b:1",
-          "⚪\uFE0F  ": "b:2",
-          "⚪\uFE0F   ": "b:3"
+          "⚪\uFE0F": "b:1",
+          "⚪\uFE0F ": "b:2",
+          "⚪\uFE0F  ": "b:3",
+          "⚪\uFE0F   ": "b:4"
         },
         {
           "B - Bus 3,5 t w Europie": "row:c",
-          "⚪\uFE0F": "c:0",
-          "⚪\uFE0F ": "c:1",
-          "⚪\uFE0F  ": "c:2",
-          "⚪\uFE0F   ": "c:3"
+          "⚪\uFE0F": "c:1",
+          "⚪\uFE0F ": "c:2",
+          "⚪\uFE0F  ": "c:3",
+          "⚪\uFE0F   ": "c:4"
         },
         {
           "\uD83D\uDCDD Potwierdź wybór": "confirm"
@@ -1177,16 +1346,16 @@
       ],
       "need_internship": [
         {
-          "Odpowiedni byłby bezpłatny staż": "0"
+          "Odpowiedni byłby bezpłatny staż": "1"
         },
         {
-          "Szukam płatnego stażu": "1"
+          "Szukam płatnego stażu": "2"
         },
         {
-          "Zacznę od jakiegokolwiek stażu": "2"
+          "Zacznę od jakiegokolwiek stażu": "3"
         },
         {
-          "Mogę przejść od razu bez stażu": "3"
+          "Mogę przejść od razu bez stażu": "4"
         },
         {
           "\uD83D\uDD19 Powrót": "back"
@@ -1194,13 +1363,13 @@
       ],
       "dangerous_goods": [
         {
-          "“Towary niebezpieczne” standardowe": "0"
+          "“Towary niebezpieczne” standardowe": "1"
         },
         {
-          "“Towary niebezpieczne” z cysternami": "1"
+          "“Towary niebezpieczne” z cysternami": "2"
         },
         {
-          "Brak dostępu do “Towary niebezpieczne”": "2"
+          "Brak dostępu do “Towary niebezpieczne”": "3"
         },
         {
           "\uD83D\uDFE2 Wybierz wszystko": "check",
@@ -1215,14 +1384,14 @@
       ],
       "categories_availability": [
         {
-          "B": "0",
-          "BE": "1",
-          "C": "2"
+          "B": "1",
+          "BE": "2",
+          "C": "3"
         },
         {
-          "CE": "3",
-          "D": "4",
-          "DE": "5"
+          "CE": "4",
+          "D": "5",
+          "DE": "6"
         },
         {
           "\uD83D\uDFE2 Wybierz wszystko": "check",
@@ -1237,10 +1406,10 @@
       ],
       "work_types": [
         {
-          "Tylko w obrębie jednego kraju": "0"
+          "Tylko w obrębie jednego kraju": "1"
         },
         {
-          "Loty międzynarodowe": "1"
+          "Loty międzynarodowe": "2"
         },
         {
           "Dowolna opcja": "skip"
@@ -1251,12 +1420,12 @@
       ],
       "cadence": [
         {
-          "4/1": "0",
-          "6/2": "1",
-          "8/4": "2"
+          "4/1": "1",
+          "6/2": "2",
+          "8/4": "3"
         },
         {
-          "Poniedziałek do piątku": "3"
+          "Poniedziałek do piątku": "4"
         },
         {
           "Dostosowuję się do grafiku": "skip"
@@ -1270,13 +1439,13 @@
       ],
       "crew": [
         {
-          "Tylko solo": "0"
+          "Tylko solo": "1"
         },
         {
-          "Tylko w duecie": "1"
+          "Tylko w duecie": "2"
         },
         {
-          "Dowolny": "2"
+          "Dowolny": "skip"
         },
         {
           "\uD83D\uDD19 Powrót": "back"
@@ -1284,8 +1453,8 @@
       ],
       "genders": [
         {
-          "Mężczyzna": "0",
-          "Kobieta": "1"
+          "Mężczyzna": "1",
+          "Kobieta": "2"
         },
         {
           "\uD83D\uDD19 Powrót": "back"
@@ -1403,7 +1572,10 @@
           "➡️": "next_page:2"
         },
         {
-          "🔙 Powrót do menu": "back_to_menu"
+          "🔙 Do menu": "back_to_menu"
+        },
+        {
+          "🔙 Wstecz": "back"
         }
       ],
       "filter_params_2": [
@@ -1435,7 +1607,69 @@
           "  ": "0"
         },
         {
-          "🔙 Powrót do menu": "back_to_menu"
+          "🔙 Do menu": "back_to_menu"
+        },
+        {
+          "🔙 Wstecz": "back"
+        }
+      ],
+      "company_menu": [
+        {
+          "🔎 Znajdź kierowcę": "find_driver"
+        },
+        {
+          "🎫 Subskrypcja": "buy_subscription"
+        },
+        {
+          "📂 Otwarte profile kierowców": "bought_drivers"
+        },
+        {
+          "💾 Zapisani kierowcy": "saved_drivers"
+        },
+        {
+          "⚙️ Filtry": "filters"
+        }
+      ],
+      "company_filters": [
+        {
+          "⚙️ Edytuj filtry": "show_filters",
+          "⚪️ Wyczyść filtry": "reset_filters"
+        },
+        {
+          "🔙 Wstecz": "back"
+        }
+      ],
+      "company_driver_found_menu": [
+        {
+          "Otwórz kierowcę": "open_driver"
+        },
+        {
+          "Zapisz do notatek": "save_driver"
+        },
+        {
+          "Poprzedni": "previous_driver",
+          "Następny": "next_driver"
+        },
+        {
+          "🔙 Do menu": "back"
+        }
+      ],
+      "company_choose_payment_system": [
+        {
+          "Stripe": "stripe",
+          "Cryptomus": "cryptomus"
+        },
+        {
+          "🔙 Wstecz": "back"
+        }
+      ],
+      "saved_and_opened_drivers_menu": [
+        {
+          "Poprzednia": "prev_page",
+          "Następna": "next_page"
+        },
+        {
+          "🔙 Do menu": "back"
         }
       ]
     }
@@ -1489,6 +1723,14 @@
         "Listopad",
         "Grudzień"
       ]
+    },
+    "payment": {
+      "invoice_url": "💳 Przejdź do płatności",
+      "cancel": "🛑 Anulować"
+    },
+    "saved_driver": {
+      "remove_from_notes": "Usuń z notatek",
+      "open_driver": "Otwórz kierowcę"
     }
   }
 }

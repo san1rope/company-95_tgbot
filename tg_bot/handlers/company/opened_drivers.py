@@ -50,7 +50,7 @@ async def show_opened_drivers(callback: types.CallbackQuery, state: FSMContext):
 
     elif cd == "prev_page":
         curr_page -= 1
-        if curr_page < 0:
+        if curr_page <= 0:
             return
 
         await state.update_data(curr_page=curr_page)

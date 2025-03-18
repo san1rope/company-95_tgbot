@@ -51,6 +51,7 @@ class CompanyFilters(StatesGroup):
 
 class CompanyFindDriver(StatesGroup):
     ActionOnDriver = State()
+    OpenConfirmationFromSubscribe = State()
     ChoosePaymentSystem = State()
     PaymentProcessing = State()
 
@@ -62,3 +63,9 @@ class CompanyOpenedDrivers(StatesGroup):
 class CompanySavedDrivers(StatesGroup):
     Actions = State()
     RemoveConfirmation = State()
+    OpenConfirmationFromSubscribe = State()
+    ChoosePaymentSystem = State()
+
+
+class CompanySubscription(StatesGroup):
+    ChoosePaymentSystem = State()

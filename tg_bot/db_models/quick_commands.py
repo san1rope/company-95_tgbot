@@ -217,7 +217,8 @@ class DbCompany:
             country_current_live: Optional[List[str]] = None, cadence: Optional[List[str]] = None,
             crew: Optional[List[str]] = None, driver_gender: Optional[List[str]] = None,
             viewed_drivers: Optional[List[int]] = [], saved_drivers: Optional[List[int]] = [],
-            stripe_customer_id: Optional[str] = None, open_drivers: Optional[List[int]] = []
+            stripe_customer_id: Optional[str] = None, open_drivers: Optional[List[int]] = [],
+            stripe_subscribe_product_id: Optional[str] = None, stripe_subscribe_price_id: Optional[str] = None
     ):
         self.db_id = db_id
         self.tg_user_id = tg_user_id
@@ -249,6 +250,8 @@ class DbCompany:
         self.saved_drivers = saved_drivers
         self.stripe_customer_id = stripe_customer_id
         self.open_drivers = open_drivers
+        self.stripe_subscribe_product_id = stripe_subscribe_product_id
+        self.stripe_subscribe_price_id = stripe_subscribe_price_id
 
     async def add(self) -> Union[Driver, bool]:
         try:
@@ -267,7 +270,8 @@ class DbCompany:
                 country_driving_licence=self.country_driving_licence, crew=self.crew,
                 country_current_live=self.country_current_live, viewed_drivers=self.viewed_drivers,
                 saved_drivers=self.saved_drivers, stripe_customer_id=self.stripe_customer_id,
-                open_drivers=self.open_drivers
+                open_drivers=self.open_drivers, stripe_subscribe_product_id=self.stripe_subscribe_product_id,
+                stripe_subscribe_price_id=self.stripe_subscribe_price_id
             )
             return await target.create()
 

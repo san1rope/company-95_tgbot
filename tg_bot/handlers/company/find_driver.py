@@ -65,7 +65,7 @@ async def show_driver(callback: types.CallbackQuery, state: FSMContext, retry: b
 
     company.viewed_drivers.append(driver.id)
     await DbCompany(tg_user_id=uid).update(viewed_drivers=company.viewed_drivers)
-    await state.update_data(current_driver=driver.id)
+    await state.update_data(current_driver_id=driver.id)
 
     text = await Ut.get_message_text(key="company_driver_found", lang=company.lang)
     text = text.replace("%form_price%", str(driver.form_price))
@@ -83,7 +83,7 @@ async def action_on_driver(callback: types.CallbackQuery, state: FSMContext, fro
     await Ut.handler_log(logger, uid)
 
     data = await state.get_data()
-    current_driver_id = data["current_driver"]
+    current_driver_id = data["current_driver_id"]
     company = await DbCompany(tg_user_id=uid).select()
 
     cd = callback.data
@@ -117,11 +117,49 @@ async def action_on_driver(callback: types.CallbackQuery, state: FSMContext, fro
         return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
 
     elif cd == "open_driver" or from_payment_cancel:
-        text = await Ut.get_message_text(lang=company.lang, key="company_pay_for_driver_choose_payment_system")
-        markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="company_choose_payment_system")
-        await Ut.send_step_message(user_id=uid, text=text, markup=markup)
+        if company.paid_subscription:
+            text = await Ut.get_message_text(lang=company.lang, key="company_open_driver_subscribe_confirmation")
+            text = text.replace("%opens_count%", str(company.paid_subscription))
+            text = text.replace("%driver_id%", str(current_driver_id))
+            markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="confirmation")
+            await state.set_state(CompanyFindDriver.OpenConfirmationFromSubscribe)
 
-        return await state.set_state(CompanyFindDriver.ChoosePaymentSystem)
+        else:
+            text = await Ut.get_message_text(lang=company.lang, key="company_pay_for_driver_choose_payment_system")
+            markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="company_choose_payment_system")
+            await state.set_state(CompanyFindDriver.ChoosePaymentSystem)
+
+        return await Ut.send_step_message(user_id=uid, text=text, markup=markup)
+
+
+@router.callback_query(CompanyFindDriver.OpenConfirmationFromSubscribe)
+async def open_driver_subscribe_confirmation(callback: types.CallbackQuery, state: FSMContext):
+    await callback.answer()
+    uid = callback.from_user.id
+    await Ut.handler_log(logger, uid)
+
+    data = await state.get_data()
+    current_driver_id = data["current_driver_id"]
+
+    cd = callback.data
+    if cd == "back":
+        return await show_driver(callback=callback, state=state, driver_id=uid)
+
+    elif cd == "confirm":
+        company = await DbCompany(tg_user_id=uid).select()
+        driver = await DbDriver(db_id=current_driver_id).select()
+
+        company.open_drivers.append(current_driver_id)
+        if driver.id in company.saved_drivers:
+            company.saved_drivers.remove(driver.id)
+
+        await DbCompany(db_id=company.id).update(
+            open_drivers=company.open_drivers, saved_drivers=company.saved_drivers)
+
+        await DbDriver(db_id=driver.id).update(opens_count=driver.opens_count + 1)
+        text = await Ut.get_message_text(lang=company.lang, key="pay_for_driver_success")
+        text = await DriverForm().form_completion(title=text, lang=company.lang, db_model=driver)
+        await Ut.send_step_message(user_id=uid, text=text)
 
 
 @router.callback_query(CompanyFindDriver.ChoosePaymentSystem)
@@ -140,7 +178,7 @@ async def select_payment_system(callback: types.CallbackQuery, state: FSMContext
     text = await Ut.get_message_text(lang=company.lang, key="payment_in_creating_process")
     await Ut.send_step_message(user_id=uid, text=text)
 
-    await state.update_data(function_for_back=action_on_driver)
+    await state.update_data(function_for_back=action_on_driver, type="open_driver")
 
     payment_method = getattr(PaymentsProcessing, cd)
     await payment_method(callback=callback, state=state)

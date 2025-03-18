@@ -55,6 +55,8 @@ class Company(TimedBaseModel):
     open_drivers = Column(ARRAY(Integer))
 
     stripe_customer_id = Column(String)
+    stripe_subscribe_product_id = Column(String)
+    stripe_subscribe_price_id = Column(String)
 
     birth_year_left_edge = Column(Integer)
     birth_year_right_edge = Column(Integer)

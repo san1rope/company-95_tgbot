@@ -1,12 +1,14 @@
 import logging
 import asyncio
 from math import ceil
+from typing import Optional
 
 from aiogram import Router, F, types
 from aiogram.fsm.context import FSMContext
 
 from tg_bot.db_models.quick_commands import DbCompany, DbDriver
 from tg_bot.handlers.company.menu import show_menu
+from tg_bot.handlers.company.payments_processing import PaymentsProcessing
 from tg_bot.keyboards.inline import saved_driver_menu_inline, SavedDriver
 from tg_bot.misc.models import DriverForm
 from tg_bot.misc.states import CompanySavedDrivers
@@ -124,10 +126,87 @@ async def remove_driver_from_saved_list(callback: types.CallbackQuery, state: FS
     await show_saved_drivers(callback=callback, state=state, from_back_btn=True)
 
 
-@router.callback_query(CompanySavedDrivers.Actions, F.data == "open_driver")
-async def driver_open(callback: types.CallbackQuery, state: FSMContext):
+@router.callback_query(CompanySavedDrivers.Actions, SavedDriver.filter(F.action == "open_driver"))
+async def driver_open(callback: types.CallbackQuery, state: FSMContext, callback_data: Optional[SavedDriver] = None):
     await callback.answer()
     uid = callback.from_user.id
     await Ut.handler_log(logger, uid)
 
+    company = await DbCompany(tg_user_id=uid).select()
 
+    if callback_data:
+        current_driver_id = callback_data.driver_id
+        await state.update_data(current_driver_id=current_driver_id)
+
+    else:
+        data = await state.get_data()
+        current_driver_id = data["current_driver_id"]
+
+    driver = await DbDriver(db_id=current_driver_id).select()
+
+    if company.paid_subscription:
+        text = await Ut.get_message_text(lang=company.lang, key="company_open_driver_subscribe_confirmation")
+        text = text.replace("%opens_count%", str(company.paid_subscription))
+        text = text.replace("%driver_id%", str(current_driver_id))
+        markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="confirmation")
+        await state.set_state(CompanySavedDrivers.OpenConfirmationFromSubscribe)
+
+    else:
+        text = await Ut.get_message_text(lang=company.lang, key="company_selected_driver")
+        text = text.replace("%driver_id%", str(driver.id))
+        markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="company_choose_payment_system")
+
+        await state.set_state(CompanySavedDrivers.ChoosePaymentSystem)
+
+    await Ut.send_step_message(text=text, markup=markup, user_id=uid)
+
+
+@router.callback_query(CompanySavedDrivers.OpenConfirmationFromSubscribe)
+async def open_driver_subscribe_confirmation(callback: types.CallbackQuery, state: FSMContext):
+    await callback.answer()
+    uid = callback.from_user.id
+    await Ut.handler_log(logger, uid)
+
+    data = await state.get_data()
+    current_driver_id = data["current_driver_id"]
+
+    cd = callback.data
+    if cd == "back":
+        return await show_saved_drivers(callback=callback, state=state, from_back_btn=True)
+
+    elif cd == "confirm":
+        company = await DbCompany(tg_user_id=uid).select()
+        driver = await DbDriver(db_id=current_driver_id).select()
+
+        company.open_drivers.append(current_driver_id)
+        if driver.id in company.saved_drivers:
+            company.saved_drivers.remove(driver.id)
+
+        await DbCompany(db_id=company.id).update(
+            open_drivers=company.open_drivers, saved_drivers=company.saved_drivers)
+
+        await DbDriver(db_id=driver.id).update(opens_count=driver.opens_count + 1)
+        text = await Ut.get_message_text(lang=company.lang, key="pay_for_driver_success")
+        text = await DriverForm().form_completion(title=text, lang=company.lang, db_model=driver)
+        await Ut.send_step_message(user_id=uid, text=text)
+
+
+@router.callback_query(CompanySavedDrivers.ChoosePaymentSystem)
+async def call_payment_method(callback: types.CallbackQuery, state: FSMContext):
+    await callback.answer()
+    uid = callback.from_user.id
+    await Ut.handler_log(logger, uid)
+
+    company = await DbCompany(tg_user_id=uid).select()
+
+    cd = callback.data
+    if cd == "back":
+        return await show_saved_drivers(callback=callback, state=state)
+
+    text = await Ut.get_message_text(lang=company.lang, key="payment_in_creating_process")
+    await Ut.send_step_message(user_id=uid, text=text)
+
+    await state.update_data(function_for_back=driver_open, type="open_driver")
+
+    payment_method = getattr(PaymentsProcessing, cd)
+    await payment_method(callback=callback, state=state)

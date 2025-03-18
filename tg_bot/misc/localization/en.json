@@ -335,16 +335,186 @@
       "\n<b>⬇ Use the keyboard below</b>"
     ],
     "company_filters_language_skills": [
-        "<b>⚙️ Driver Filter</b>",
-        "<b>➖ Language Proficiency</b>",
-        "\n<b>Please select the desired level of language proficiency for the driver</b>",
-        "\n<b>⬇ Use the keyboard below</b>"
+      "<b>⚙️ Driver Filter</b>",
+      "<b>➖ Language Proficiency</b>",
+      "\n<b>Please select the desired level of language proficiency for the driver</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
     ],
     "company_filters_job_experience": [
-        "<b>⚙️ Driver Filter</b>",
-        "<b>➖ Work Experience</b>",
-        "\n<b>Please select the desired work experience for the driver</b>",
-        "\n<b>⬇ Use the keyboard below</b>"
+      "<b>⚙️ Driver Filter</b>",
+      "<b>➖ Work Experience</b>",
+      "\n<b>Please select the desired work experience for the driver</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_filters_expected_salary": [
+      "<b>⚙️ Driver Filter</b>",
+      "<b>➖ Expected salary</b>",
+      "\n<b>Enter the expected salary range for the driver in the following format:</b>",
+      "<b>(min number)-(max number)</b>",
+      "<b>Example: 60-94</b>",
+      "<b>The number must be within the range of %salary_min% to %salary_max%</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "wrong_salary_format": [
+      "<b>🔴 You entered a value in the wrong format!</b>",
+      "\n<b>✅ Correct format: (min number)-(max number)</b>"
+    ],
+    "company_filters_birth_year_1": [
+      "<b>⚙️ Driver Filter</b>",
+      "<b>➖ Birth of year</b>",
+      "\n<b>You need to specify the range in which I will search for a driver</b>",
+      "<b>Select the first boundary (start)</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_filters_birth_year_2": [
+      "<b>⚙️ Driver Filter</b>",
+      "<b>➖ Birth of year</b>",
+      "\n<b>You need to specify the range in which I will search for a driver</b>",
+      "<b>Now select the second boundary (end)</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_filters_date_start_work_1": [
+      "<b>⚙️ Driver Filter</b>",
+      "<b>➖ Date of availability</b>",
+      "\n<b>Нужно указать временной промежуток в котором буду искать водителя</b>",
+      "<b>Выберите первую грань (начало)</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_filters_date_start_work_2": [
+      "<b>⚙️ Driver Filter</b>",
+      "<b>➖ Date of availability</b>",
+      "\n<b>You need to specify the time range in which I will search for a driver</b>",
+      "<b>Select the first boundary (start)</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_menu_text": [
+      "<b>❇\uFE0F Company menu</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_filters": [
+      "<b>⚙️ Driver Filter</b>",
+      "\n<b>You can review the selected filter parameters and optionally use the buttons below ⬇</b>"
+    ],
+    "company_reset_filters_confirmation": [
+      "<b>⚙️ Driver Filter</b>",
+      "\n<b>Are you sure you want to clear the filters?</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_reset_filters_completed": [
+      "<b>✅ Filters cleared successfully!</b>"
+    ],
+    "company_reset_filters_error": [
+      "<b>🚁 An error occurred while clearing the filters!</b>"
+    ],
+    "company_driver_found": [
+      "<b>⚙️ Driver found</b>",
+      "<b>\nReview the driver's application</b>",
+      "<b>To open the driver's contact information, click 'Open driver' and follow the instructions to pay for opening the driver</b>",
+      "\n<b>Opening price: %form_price% zł (PLN)</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_drivers_list_none": [
+      "<b>⚪️ Currently, there are no drivers matching your criteria. Please try again later...</b>"
+    ],
+    "company_find_driver_end": [
+      "<b>❇️ The list of drivers matching your criteria has ended! Redirecting you to the start...</b>"
+    ],
+    "company_wrong_previous_driver": [
+      "<b>🔴 You are reviewing the first driver in the list!</b>"
+    ],
+    "company_driver_save": [
+      "<b>✅ You have successfully saved the driver! You can find them in 'Saved Drivers'</b>"
+    ],
+    "company_driver_already_saved": [
+      "<b>🔴 This driver has been saved by you previously!</b>"
+    ],
+    "company_open_driver_subscribe_confirmation": [
+      "<b>You have an active subscription!</b>",
+      "\n<b>Remaining openings: %opens_count%</b>",
+      "\n<b>Are you sure you want to open the profile of driver №%driver_id%?</b>"
+    ],
+    "company_pay_for_driver_choose_payment_system": [
+      "<b>💸 Payment system selection</b>",
+      "\n<b>First, you need to choose a payment system that suits you</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "payment_create_error": [
+      "<b>🚁 An error occurred while creating the payment! Please try again!</b>"
+    ],
+    "payment_stripe": [
+      "<b>\uD83D\uDCB8 Payment</b>",
+      "\n<b>A payment has been created for %reason%</b>",
+      "<b>Payment amount: %amount% zł (PLN)</b>",
+      "<b>\nYou have 24 hours to pay for this payment, after which the link will become invalid!</b>",
+      "<b>I will notify you about any changes in the payment status</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "payment_success": [
+      "<b>✅ You have successfully completed the payment!</b>",
+      "\n<b>⬇ Below is the information about your purchase</b>"
+    ],
+    "pay_for_driver_success": [
+      "<b>✅ You have paid to open the profile of the driver you selected!</b>",
+      "\n<b>ℹ️ You can view all the drivers you have opened in the 'Opened Drivers' section of the menu</b>",
+      "\n<b>⬇️ Below is their profile with contact information</b>"
+    ],
+    "pay_for_subscription_success": [
+      "<b>✅ You have successfully paid for the subscription!</b>",
+      "\n<b>ℹ️ You can open 20 drivers for free</b>"
+    ],
+    "msg_to_driver_after_open": [
+      "<b>❇️ Your profile has been opened!</b>",
+      "\n<b>ℹ️ Most likely, a company will contact you shortly!</b>"
+    ],
+    "payment_due_time": [
+      "<b>🚁 You didn't manage to complete the payment!</b>",
+      "\n<b>The purchase has been automatically canceled!</b>"
+    ],
+    "payment_in_creating_process": [
+      "<b>💭 Creating payment. Please wait...</b>"
+    ],
+    "payment_cancel_confirmation": [
+      "<b>🔸 Are you sure you want to cancel the payment?</b>"
+    ],
+    "payment_cancel_complete": [
+      "<b>☑️ The payment has been canceled</b>"
+    ],
+    "no_opened_drivers": [
+      "<b>⚠️ You have no open drivers!</b>"
+    ],
+    "no_saved_drivers": [
+      "<b>⚠️ You have no saved drivers!</b>"
+    ],
+    "your_opened_drivers": [
+      "<b>📂 Your open drivers ⬇️</b>",
+      "<b>📄 Page %curr_page%/%num_of_pages%</b>"
+    ],
+    "your_saved_drivers": [
+      "<b>📂 Your saved drivers ⬇️</b>",
+      "\n<b>📄 Page %curr_page%/%num_of_pages%</b>"
+    ],
+    "driver_remove_from_notes": [
+      "<b>Are you sure you want to delete driver №%driver_id% from your notes?</b>"
+    ],
+    "driver_remove_from_notes_confirm": [
+      "<b>✅ You have successfully removed the driver from your notes!</b>"
+    ],
+    "company_selected_driver": [
+      "<b>You have selected driver №%driver_id%</b>",
+      "\n<b>Review their profile again and choose a payment method</b>"
+    ],
+    "company_subscription_info": [
+      "<b>\uD83C\uDFAB Subscription</b>",
+      "\n<b>You can pay for a subscription to unlock drivers</b>",
+      "<b>After payment, you will be able to unlock 20 drivers of any cost</b>",
+      "\n<b>Select a payment method to continue the payment</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_already_has_subscription_info": [
+      "<b>\uD83C\uDFAB Subscription</b>",
+      "\n<b>You already have an active subscription!</b>",
+      "<b>Openings available: %opens_count%</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
     ]
   },
   "markups": {
@@ -403,42 +573,42 @@
       ],
       "car_types": [
         {
-          "Reefer": "0",
-          "Container": "1"
+          "Reefer": "1",
+          "Container": "2"
         },
         {
-          "BDF units": "2"
+          "BDF units": "3"
         },
         {
-          "Tarp std": "3",
-          "Tarp mega": "4"
+          "Tarp std": "4",
+          "Tarp mega": "5"
         },
         {
-          "Car carrier": "5",
-          "ADR tanker": "6"
+          "Car carrier": "6",
+          "ADR tanker": "7"
         },
         {
-          "Food tanker": "7",
-          "Dump truck": "8"
+          "Food tanker": "8",
+          "Dump truck": "9"
         },
         {
-          "Silo": "9",
-          "Timber truck": "10"
+          "Silo": "10",
+          "Timber truck": "11"
         },
         {
-          "Oversize": "11",
-          "Livestock": "12"
+          "Oversize": "12",
+          "Livestock": "13"
         },
         {
-          "Mixer": "13",
-          "Garbage truck": "14"
+          "Mixer": "14",
+          "Garbage truck": "15"
         },
         {
-          "Bus": "15",
-          "Lowbed": "16"
+          "Bus": "16",
+          "Lowbed": "17"
         },
         {
-          "Van up to 3.5t": "17"
+          "Van up to 3.5t": "18"
         },
         {
           "\uD83D\uDFE2 Select all": "check",
@@ -1060,34 +1230,34 @@
       ],
       "basis_of_stay": [
         {
-          "Visa-free travel to the EU": "0"
+          "Visa-free travel to the EU": "1"
         },
         {
-          "National visa with a Pole card": "1"
+          "National visa with a Pole card": "2"
         },
         {
-          "Oświadczenie 180 days": "2"
+          "Oświadczenie 180 days": "3"
         },
         {
-          "Polish work visa": "3"
+          "Polish work visa": "4"
         },
         {
-          "Visa of another EU country": "4"
+          "Visa of another EU country": "5"
         },
         {
-          "Pobyt czasowy": "5"
+          "Pobyt czasowy": "6"
         },
         {
-          "Pobyt stały": "6"
+          "Pobyt stały": "7"
         },
         {
-          "Residence permit of a European country": "7"
+          "Residence permit of a European country": "8"
         },
         {
-          "EU citizenship": "8"
+          "EU citizenship": "9"
         },
         {
-          "None of the above": "9"
+          "None of the above": "10"
         },
         {
           "\uD83D\uDD19 Back": "back"
@@ -1095,11 +1265,11 @@
       ],
       "availability_95_code": [
         {
-          "Have": "0",
-          "Don't have": "1"
+          "Have": "1",
+          "Don't have": "2"
         },
         {
-          "In the manufacturing process": "2"
+          "In the manufacturing process": "3"
         },
         {
           "\uD83D\uDD19 Back": "back"
@@ -1108,31 +1278,31 @@
       "language_skills": [
         {
           "  ": "0",
-          "Don't speak": "col:0",
-          "Understand, but don't say": "col:1",
-          "Entry level": "col:2",
-          "Speak well": "col:3"
+          "Don't speak": "col:1",
+          "Understand, but don't say": "col:2",
+          "Entry level": "col:3",
+          "Speak well": "col:4"
         },
         {
           "Polish": "row:pl",
-          "⚪\uFE0F": "pl:0",
-          "⚪\uFE0F ": "pl:1",
-          "⚪\uFE0F  ": "pl:2",
-          "⚪\uFE0F   ": "pl:3"
+          "⚪\uFE0F": "pl:1",
+          "⚪\uFE0F ": "pl:2",
+          "⚪\uFE0F  ": "pl:3",
+          "⚪\uFE0F   ": "pl:4"
         },
         {
           "English": "row:en",
-          "⚪\uFE0F": "en:0",
-          "⚪\uFE0F ": "en:1",
-          "⚪\uFE0F  ": "en:2",
-          "⚪\uFE0F   ": "en:3"
+          "⚪\uFE0F": "en:1",
+          "⚪\uFE0F ": "en:2",
+          "⚪\uFE0F  ": "en:3",
+          "⚪\uFE0F   ": "en:4"
         },
         {
           "German": "row:de",
-          "⚪\uFE0F": "de:0",
-          "⚪\uFE0F ": "de:1",
-          "⚪\uFE0F  ": "de:2",
-          "⚪\uFE0F   ": "de:3"
+          "⚪\uFE0F": "de:1",
+          "⚪\uFE0F ": "de:2",
+          "⚪\uFE0F  ": "de:3",
+          "⚪\uFE0F   ": "de:4"
         },
         {
           "\uD83D\uDCDD Confirm selection": "confirm"
@@ -1144,31 +1314,31 @@
       "job_experience": [
         {
           "  ": "0",
-          "Don't have": "col:0",
-          "Up to half a year": "col:1",
-          "From half to 2 years": "col:2",
-          "Over 2 years": "col:3"
+          "Don't have": "col:1",
+          "Up to half a year": "col:2",
+          "From half to 2 years": "col:3",
+          "Over 2 years": "col:4"
         },
         {
           "D/C/CE in Europe": "row:a",
-          "⚪\uFE0F": "a:0",
-          "⚪\uFE0F ": "a:1",
-          "⚪\uFE0F  ": "a:2",
-          "⚪\uFE0F   ": "a:3"
+          "⚪\uFE0F": "a:1",
+          "⚪\uFE0F ": "a:2",
+          "⚪\uFE0F  ": "a:3",
+          "⚪\uFE0F   ": "a:4"
         },
         {
           "D/C/CE outside Europe": "row:b",
-          "⚪\uFE0F": "b:0",
-          "⚪\uFE0F ": "b:1",
-          "⚪\uFE0F  ": "b:2",
-          "⚪\uFE0F   ": "b:3"
+          "⚪\uFE0F": "b:1",
+          "⚪\uFE0F ": "b:2",
+          "⚪\uFE0F  ": "b:3",
+          "⚪\uFE0F   ": "b:4"
         },
         {
           "B - buses 3.5t in Europe": "row:c",
-          "⚪\uFE0F": "c:0",
-          "⚪\uFE0F ": "c:1",
-          "⚪\uFE0F  ": "c:2",
-          "⚪\uFE0F   ": "c:3"
+          "⚪\uFE0F": "c:1",
+          "⚪\uFE0F ": "c:2",
+          "⚪\uFE0F  ": "c:3",
+          "⚪\uFE0F   ": "c:4"
         },
         {
           "\uD83D\uDCDD Confirm selection": "confirm"
@@ -1179,16 +1349,16 @@
       ],
       "need_internship": [
         {
-          "An unpaid internship will do": "0"
+          "An unpaid internship will do": "1"
         },
         {
-          "Looking for a paid internship": "1"
+          "Looking for a paid internship": "2"
         },
         {
-          "I'll start with any internship": "2"
+          "I'll start with any internship": "3"
         },
         {
-          "Can go right away without an internship": "3"
+          "Can go right away without an internship": "4"
         },
         {
           "\uD83D\uDD19 Back": "back"
@@ -1196,13 +1366,13 @@
       ],
       "dangerous_goods": [
         {
-          "“Dangerous goods” standard": "0"
+          "“Dangerous goods” standard": "1"
         },
         {
-          "“Dangerous goods” with tankers": "1"
+          "“Dangerous goods” with tankers": "2"
         },
         {
-          "No access to “Dangerous Goods”": "2"
+          "No access to “Dangerous Goods”": "3"
         },
         {
           "\uD83D\uDFE2 Select all": "check",
@@ -1217,14 +1387,14 @@
       ],
       "categories_availability": [
         {
-          "B": "0",
-          "BE": "1",
-          "C": "2"
+          "B": "1",
+          "BE": "2",
+          "C": "3"
         },
         {
-          "CE": "3",
-          "D": "4",
-          "DE": "5"
+          "CE": "4",
+          "D": "5",
+          "DE": "6"
         },
         {
           "\uD83D\uDFE2 Select all": "check",
@@ -1239,10 +1409,10 @@
       ],
       "work_types": [
         {
-          "Only within one country": "0"
+          "Only within one country": "1"
         },
         {
-          "International routes": "1"
+          "International routes": "2"
         },
         {
           "Any option": "skip"
@@ -1253,12 +1423,12 @@
       ],
       "cadence": [
         {
-          "4/1": "0",
-          "6/2": "1",
-          "8/4": "2"
+          "4/1": "1",
+          "6/2": "2",
+          "8/4": "3"
         },
         {
-          "From Monday to Friday": "3"
+          "From Monday to Friday": "4"
         },
         {
           "Adaptable to any schedule": "skip"
@@ -1272,13 +1442,13 @@
       ],
       "crew": [
         {
-          "Solo only": "0"
+          "Solo only": "1"
         },
         {
-          "Team only": "1"
+          "Team only": "2"
         },
         {
-          "Any": "2"
+          "Any": "skip"
         },
         {
           "\uD83D\uDD19 Back": "back"
@@ -1286,8 +1456,8 @@
       ],
       "genders": [
         {
-          "Male": "0",
-          "Female": "1"
+          "Male": "1",
+          "Female": "2"
         },
         {
           "\uD83D\uDD19 Back": "back"
@@ -1405,7 +1575,10 @@
           "➡️": "next_page:2"
         },
         {
-          "🔙 Back to menu": "back_to_menu"
+          "🔙 To menu": "back_to_menu"
+        },
+        {
+          "🔙 Back": "back"
         }
       ],
       "filter_params_2": [
@@ -1437,7 +1610,69 @@
           "  ": "0"
         },
         {
-          "🔙 Back to menu": "back_to_menu"
+          "🔙 To menu": "back_to_menu"
+        },
+        {
+          "🔙 Back": "back"
+        }
+      ],
+      "company_menu": [
+        {
+          "🔎 Find driver": "find_driver"
+        },
+        {
+          "🎫 Subscription": "buy_subscription"
+        },
+        {
+          "📂 Open drivers": "bought_drivers"
+        },
+        {
+          "💾 Saved drivers": "saved_drivers"
+        },
+        {
+          "⚙️ Filters": "filters"
+        }
+      ],
+      "company_filters": [
+        {
+          "⚙️ Edit filters": "show_filters",
+          "⚪️ Clear filters": "reset_filters"
+        },
+        {
+          "🔙 Back": "back"
+        }
+      ],
+      "company_driver_found_menu": [
+        {
+          "Open driver": "open_driver"
+        },
+        {
+          "Save to notes": "save_driver"
+        },
+        {
+          "Previous": "previous_driver",
+          "Next": "next_driver"
+        },
+        {
+          "🔙 To menu": "back"
+        }
+      ],
+      "company_choose_payment_system": [
+        {
+          "Stripe": "stripe",
+          "Cryptomus": "cryptomus"
+        },
+        {
+          "🔙 Back": "back"
+        }
+      ],
+      "saved_and_opened_drivers_menu": [
+        {
+          "Previous": "prev_page",
+          "Next": "next_page"
+        },
+        {
+          "🔙 To menu": "back"
         }
       ]
     }
@@ -1491,6 +1726,14 @@
         "November",
         "December"
       ]
+    },
+    "payment": {
+      "invoice_url": "💳 Go to payment",
+      "cancel": "🔘 Cancel"
+    },
+    "saved_driver": {
+      "remove_from_notes": "Remove from notes",
+      "open_driver": "Open driver"
     }
   }
 }
