@@ -1335,7 +1335,7 @@
           "Podstawy pobytu": "basis_of_stay"
         },
         {
-          "Data dostępności": "date_stark_work",
+          "Data dostępności": "date_start_work",
           "Języki": "language_skills"
         },
         {
@@ -1450,7 +1450,7 @@
       "citizenships": "Narodowości:",
       "basis_of_stay": "Podstawy pobytu:",
       "availability_95_code": "Kod 95 Dostępność:",
-      "date_stark_work": "Data dostępności:",
+      "date_start_work": "Data dostępności:",
       "language_skills": "Biegłość językowa:",
       "job_experience": "Doświadczenie:",
       "need_internship": "Staż:",

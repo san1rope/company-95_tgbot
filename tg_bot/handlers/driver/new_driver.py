@@ -131,7 +131,7 @@ async def choose_date_ready_to_start_work(state: FSMContext, returned_data: Unio
     dmodel.availability_95_code = returned_data
     await state.update_data(dmodel=dmodel, call_function=indicate_language_skills)
 
-    await RegistrationSteps().date_stark_work(state=state, data_model=dmodel, lang=ulang)
+    await RegistrationSteps().date_start_work(state=state, data_model=dmodel, lang=ulang)
 
 
 async def indicate_language_skills(state: FSMContext, returned_data: Union[str, int]):
@@ -139,7 +139,7 @@ async def indicate_language_skills(state: FSMContext, returned_data: Union[str, 
     ulang = data["ulang"]
     dmodel: DriverForm = data["dmodel"]
 
-    dmodel.date_stark_work = returned_data
+    dmodel.date_start_work = returned_data
     await state.update_data(dmodel=dmodel, languages_skills=[], call_function=indicate_job_experience)
 
     await RegistrationSteps().language_skills(state=state, data_model=dmodel, lang=ulang)

@@ -18,7 +18,7 @@ class DriverForm(BaseModel):
     citizenships: Optional[List[str]] = None
     basis_of_stay: Optional[str] = None
     availability_95_code: Optional[str] = None
-    date_stark_work: Optional[datetime] = None
+    date_start_work: Optional[datetime] = None
     language_skills: Optional[List[str]] = None
     job_experience: Optional[List[str]] = None
     need_internship: Optional[str] = None
@@ -85,16 +85,15 @@ class DriverForm(BaseModel):
                 elif "col:" in btn_cd:
                     cols[btn_cd.replace("col:", "")] = btn_text
 
-        print(f"rows: {rows}")
-        print(f"cols: {cols}")
         for el in codes:
-            row, col = el.split(":"            localized_text.append(f"<b>{rows[row]}: {cols[col]}</b>")
+            row, col = el.split(":")
+            localized_text.append(f"<b>{rows[row]}: {cols[col]}</b>")
 
         return localized_text
 
     async def form_completion(
             self, title: str, lang: str, db_model: Optional[Driver] = None, for_company: bool = False,
-            hidden_status: bool = False
+            hidden_status: bool = None
     ) -> str:
         lang_data = localization[lang] if localization.get(lang) else localization[Config.DEFAULT_LANG]
         lang_inline_markups = lang_data["markups"]["inline"]
@@ -167,15 +166,15 @@ class DriverForm(BaseModel):
                 text.append(f"<b>{hcode(fcd['availability_95_code'])} {localized_text}</b>")
 
             try:
-                if (model.date_stark_work_left_edge is not None) or (model.date_stark_work is not None):
+                if (model.date_start_work_left_edge is not None) or (model.date_start_work is not None):
                     if model_company:
-                        value = model.date_stark_work_left_edge.strftime(
-                            "%d.%m.%Y") + " - " + model.date_stark_work_right_edge.strftime("%d.%m.%Y")
+                        value = model.date_start_work_left_edge.strftime(
+                            "%d.%m.%Y") + " - " + model.date_start_work_right_edge.strftime("%d.%m.%Y")
 
                     else:
-                        value = model.date_stark_work.strftime('%d.%m.%Y')
+                        value = model.date_start_work.strftime('%d.%m.%Y')
 
-                    text.append(f"<b>{hcode(fcd['date_stark_work'])} {value}</b>")
+                    text.append(f"<b>{hcode(fcd['date_start_work'])} {value}</b>")
 
             except AttributeError:
                 pass
@@ -299,7 +298,7 @@ class DriverForm(BaseModel):
 
                 text.append(f"<b>{hcode(fcd['driver_gender'])} {localized_text}</b>")
 
-            if len(text) > 6:
+            if hidden_status is False and len(text) > 6:
                 text.append("\n<i>Нажмите `Скрыть анкету`, что-бы скрыть часть анкеты</i>")
 
         else:

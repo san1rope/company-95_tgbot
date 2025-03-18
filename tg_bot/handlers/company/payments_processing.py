@@ -108,6 +108,7 @@ class PaymentsProcessing:
         await connect_to_db(remove_data=False)
         await Ut.load_localizations_files()
 
+        stripe.api_key = Config.STRIPE_SECRET_KEY
         while True:
             await asyncio.sleep(5)
 

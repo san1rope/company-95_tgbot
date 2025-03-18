@@ -473,6 +473,26 @@
     ],
     "payment_cancel_complete": [
       "<b>☑\uFE0F Платеж был отменен</b>"
+    ],
+    "no_opened_drivers": [
+      "<b>⚠\uFE0F У вас нету открытых водителей!</b>"
+    ],
+    "no_saved_drivers": [
+      "<b>⚠\uFE0F У вас нету сохраненных водителей!</b>"
+    ],
+    "your_opened_drivers": [
+      "<b>\uD83D\uDCC2 Ваши открытые водители ⬇\uFE0F</b>",
+      "<b>\uD83D\uDCC4 Страница %curr_page%/%num_of_pages%</b>"
+    ],
+    "your_saved_drivers": [
+      "<b>\uD83D\uDCC2 Ваши сохраненные водители ⬇\uFE0F</b>",
+      "\n<b>\uD83D\uDCC4 Страница %curr_page%/%num_of_pages%</b>"
+    ],
+    "driver_remove_from_notes": [
+      "<b>Вы действительно хотите удалить водителя №%driver_id% с заметок?</b>"
+    ],
+    "driver_remove_from_notes_confirm": [
+      "<b>✅ Вы успешно удалили водителя с заметок!</b>"
     ]
   },
   "markups": {
@@ -1466,7 +1486,7 @@
           "Основание пребывания": "basis_of_stay"
         },
         {
-          "Дата готовности": "date_stark_work",
+          "Дата готовности": "date_start_work",
           "Языки": "language_skills"
         },
         {
@@ -1546,7 +1566,7 @@
           "Опыт работы": "job_experience"
         },
         {
-          "Дата готовности": "date_stark_work",
+          "Дата готовности": "date_start_work",
           "Год рождения": "birth_year"
         },
         {
@@ -1621,6 +1641,15 @@
         {
           "\uD83D\uDD19 В меню": "back"
         }
+      ],
+      "saved_and_opened_drivers_menu": [
+        {
+          "Предыдущая": "prev_page",
+          "Следующая": "next_page"
+        },
+        {
+          "\uD83D\uDD19 В меню": "back"
+        }
       ]
     }
   },
@@ -1634,7 +1663,7 @@
       "citizenships": "Гражданства:",
       "basis_of_stay": "Основание пребывания:",
       "availability_95_code": "Наличие 95-го кода:",
-      "date_stark_work": "Дата готовности:",
+      "date_start_work": "Дата готовности:",
       "language_skills": "Владение языками:",
       "job_experience": "Опыт:",
       "need_internship": "Стажировка:",
@@ -1681,6 +1710,10 @@
     "payment": {
       "invoice_url": "\uD83D\uDCB3 Перейти к оплате",
       "cancel": "\uD83D\uDD18 Отменить"
+    },
+    "saved_driver": {
+      "remove_from_notes": "Удалить с заметок",
+      "open_driver": "Открыть водителя"
     }
   }
 }

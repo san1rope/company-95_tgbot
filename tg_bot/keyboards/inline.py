@@ -1,10 +1,16 @@
 from calendar import Calendar
 from datetime import datetime
 
+from aiogram.filters.callback_data import CallbackData
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 
 from config import Config
 from tg_bot.misc.utils import localization
+
+
+class SavedDriver(CallbackData, prefix="sd"):
+    action: str
+    driver_id: int
 
 
 async def year_inline(from_year: int, lang: str) -> InlineKeyboardMarkup:
@@ -97,6 +103,28 @@ async def payment_inline(invoice_url: str, lang: str) -> InlineKeyboardMarkup:
             ],
             [
                 InlineKeyboardButton(text=payment_localize["cancel"], callback_data="cancel")
+            ]
+        ]
+    )
+
+
+async def saved_driver_menu_inline(driver_id: int, lang: str) -> InlineKeyboardMarkup:
+    lang_data = localization[lang] if localization.get(lang) else localization[Config.DEFAULT_LANG]
+    menu_localize = lang_data["misc"]["saved_driver"]
+
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text=menu_localize["remove_from_notes"],
+                    callback_data=SavedDriver(action="remove_from_notes", driver_id=driver_id).pack()
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    text=menu_localize["open_driver"],
+                    callback_data=SavedDriver(action="open_driver", driver_id=driver_id).pack()
+                )
             ]
         ]
     )

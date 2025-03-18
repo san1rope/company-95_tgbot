@@ -32,7 +32,7 @@ async def show_driver(callback: types.CallbackQuery, state: FSMContext, retry: b
             "car_types": company.car_types, "citizenships": company.citizenships,
             "basis_of_stay": company.basis_of_stay,
             "availability_95_code": company.availability_95_code,
-            "date_stark_work": [company.date_stark_work_left_edge, company.date_stark_work_right_edge],
+            "date_start_work": [company.date_start_work_left_edge, company.date_start_work_right_edge],
             "language_skills": company.language_skills, "job_experience": company.job_experience,
             "need_internship": company.need_internship, "unsuitable_countries": company.unsuitable_countries,
             "expected_salary": [company.expected_salary_left_edge, company.expected_salary_right_edge],

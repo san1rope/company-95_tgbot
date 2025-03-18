@@ -18,7 +18,7 @@ class DbDriver:
             birth_year: Optional[Union[int, List[int]]] = None, phone_number: Optional[str] = None,
             car_types: Optional[List[str]] = None, citizenships: Optional[List[str]] = None,
             basis_of_stay: Optional[Union[str, List[str]]] = None, availability_95_code: Optional[str] = None,
-            date_stark_work: Optional[Union[datetime, List[datetime]]] = None,
+            date_start_work: Optional[Union[datetime, List[datetime]]] = None,
             language_skills: Optional[List[str]] = None,
             job_experience: Optional[List[str]] = None, unsuitable_countries: Optional[List[str]] = None,
             dangerous_goods: Optional[List[str]] = None, expected_salary: Optional[Union[float, List[float]]] = None,
@@ -42,7 +42,7 @@ class DbDriver:
         self.citizenships = citizenships
         self.basis_of_stay = basis_of_stay
         self.availability_95_code = availability_95_code
-        self.date_stark_work = date_stark_work
+        self.date_start_work = date_start_work
         self.language_skills = language_skills
         self.job_experience = job_experience
         self.need_internship = need_internship
@@ -66,7 +66,7 @@ class DbDriver:
                 tg_user_id=self.tg_user_id, opens_count=self.opens_count, name=self.name, birth_year=self.birth_year,
                 phone_number=self.phone_number, car_types=self.car_types, citizenships=self.citizenships,
                 basis_of_stay=self.basis_of_stay, availability_95_code=self.availability_95_code,
-                date_stark_work=self.date_stark_work, language_skills=self.language_skills,
+                date_start_work=self.date_start_work, language_skills=self.language_skills,
                 job_experience=self.job_experience, need_internship=self.need_internship,
                 unsuitable_countries=self.unsuitable_countries, dangerous_goods=self.dangerous_goods,
                 expected_salary=self.expected_salary, categories_availability=self.categories_availability,
@@ -118,9 +118,9 @@ class DbDriver:
             if self.availability_95_code:
                 filters.append(Driver.availability_95_code.in_(self.availability_95_code))
 
-            if self.date_stark_work and self.date_stark_work[0] and self.date_stark_work[1]:
-                filters.append(Driver.date_stark_work >= self.date_stark_work[0])
-                filters.append(Driver.date_stark_work <= self.date_stark_work[1])
+            if self.date_start_work and self.date_start_work[0] and self.date_start_work[1]:
+                filters.append(Driver.date_start_work >= self.date_start_work[0])
+                filters.append(Driver.date_start_work <= self.date_start_work[1])
 
             if self.language_skills:
                 filters.append(Driver.language_skills.op("@>")(self.language_skills))
@@ -208,7 +208,7 @@ class DbCompany:
             birth_year_left_edge: Optional[int] = None, birth_year_right_edge: Optional[int] = None,
             car_types: Optional[List[str]] = None, citizenships: Optional[List[str]] = None,
             basis_of_stay: Optional[List[str]] = None, availability_95_code: Optional[List[str]] = None,
-            date_stark_work_left_edge: Optional[datetime] = None, date_stark_work_right_edge: Optional[datetime] = None,
+            date_start_work_left_edge: Optional[datetime] = None, date_start_work_right_edge: Optional[datetime] = None,
             language_skills: Optional[List[str]] = None, job_experience: Optional[List[str]] = None,
             need_internship: Optional[List[str]] = None, unsuitable_countries: Optional[List[str]] = None,
             expected_salary_left_edge: Optional[float] = None, expected_salary_right_edge: Optional[float] = None,
@@ -230,8 +230,8 @@ class DbCompany:
         self.citizenships = citizenships
         self.basis_of_stay = basis_of_stay
         self.availability_95_code = availability_95_code
-        self.date_stark_work_left_edge = date_stark_work_left_edge
-        self.date_stark_work_right_edge = date_stark_work_right_edge
+        self.date_start_work_left_edge = date_start_work_left_edge
+        self.date_start_work_right_edge = date_start_work_right_edge
         self.language_skills = language_skills
         self.job_experience = job_experience
         self.need_internship = need_internship
@@ -257,8 +257,8 @@ class DbCompany:
                 birth_year_left_edge=self.birth_year_left_edge, birth_year_right_edge=self.birth_year_right_edge,
                 car_types=self.car_types, citizenships=self.citizenships, driver_gender=self.driver_gender,
                 basis_of_stay=self.basis_of_stay, availability_95_code=self.availability_95_code,
-                date_stark_work_left_edge=self.date_stark_work_left_edge, work_type=self.work_type,
-                date_stark_work_right_edge=self.date_stark_work_right_edge, language_skills=self.language_skills,
+                date_start_work_left_edge=self.date_start_work_left_edge, work_type=self.work_type,
+                date_start_work_right_edge=self.date_start_work_right_edge, language_skills=self.language_skills,
                 job_experience=self.job_experience, need_internship=self.need_internship,
                 unsuitable_countries=self.unsuitable_countries, dangerous_goods=self.dangerous_goods,
                 expected_salary_left_edge=self.expected_salary_left_edge,

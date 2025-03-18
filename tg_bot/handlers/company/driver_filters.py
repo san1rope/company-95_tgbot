@@ -79,7 +79,7 @@ async def reset_filters_has_completed(callback: types.CallbackQuery, state: FSMC
     company = await DbCompany(tg_user_id=uid).select()
     result = await DbCompany(tg_user_id=uid).update(
         birth_year_left_edge=None, birth_year_right_edge=None, car_types=None, citizenships=None, basis_of_stay=None,
-        availability_95_code=None, date_stark_work_left_edge=None, date_stark_work_right_edge=None,
+        availability_95_code=None, date_start_work_left_edge=None, date_start_work_right_edge=None,
         language_skills=None, job_experience=None, need_internship=None, unsuitable_countries=None,
         expected_salary_left_edge=None, expected_salary_right_edge=None, categories_availability=None,
         country_driving_licence=None, country_current_live=None, work_type=None, cadence=None, dangerous_goods=None,
@@ -142,9 +142,9 @@ async def param_has_changed(state: FSMContext, returned_data: Union[str, int, Li
         year_left, year_right = returned_data
         params = {"birth_year_left_edge": year_left, "birth_year_right_edge": year_right}
 
-    elif field_name == "date_stark_work":
+    elif field_name == "date_start_work":
         date_left, date_right = returned_data
-        params = {"date_stark_work_left_edge": date_left, "date_stark_work_right_edge": date_right}
+        params = {"date_start_work_left_edge": date_left, "date_start_work_right_edge": date_right}
 
     elif field_name == "expected_salary":
         summ_left, summ_right = returned_data

@@ -404,8 +404,10 @@ class RegistrationSteps:
 
         else:
             msg_key = "driver_reg_choose_birth_year"
-            status = 0
-            function_for_back = cls.name
+            function_for_back = data.get("function_for_back")
+            if status != 1:
+                status = 0
+                function_for_back = cls.name
 
         text = await Ut.get_message_text(key=msg_key, lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
@@ -655,6 +657,8 @@ class RegistrationSteps:
     async def basis_of_stay(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
+        hidden_status = False
+
         if status == 2:
             text_key = "company_filters_basis_of_stay"
             additional_buttons = [
@@ -669,9 +673,9 @@ class RegistrationSteps:
         text = await Ut.get_message_text(key=text_key, lang=lang)
         markup = await Ut.get_markup(
             mtype="inline", lang=lang, key="basis_of_stay", additional_buttons=additional_buttons)
-        await state.update_data(title=text, markup=markup, hidden_status=False)
+        await state.update_data(title=text, markup=markup, hidden_status=hidden_status)
 
-        markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=data["hidden_status"])
+        markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=hidden_status)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
@@ -718,7 +722,7 @@ class RegistrationSteps:
                                    data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data["hidden_status"]
+        hidden_status = data.get("hidden_status")
 
         if status == 2:
             text_key = "company_filters_95_code"
@@ -770,12 +774,12 @@ class RegistrationSteps:
         await cls.handler_finish(state=state, returned_value=returned_value, additional_field="availability_95_code")
 
     @classmethod
-    async def date_stark_work(cls, state: FSMContext, lang: str,
+    async def date_start_work(cls, state: FSMContext, lang: str,
                               data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
         status_secondary = data.get("status_secondary")
-        hidden_status = data["hidden_status"]
+        hidden_status = data.get("hidden_status")
 
         if status == 2 or status_secondary == 2:
             msg_key = "company_filters_date_start_work_1"
@@ -785,8 +789,10 @@ class RegistrationSteps:
 
         else:
             msg_key = "driver_reg_date_start_work"
-            status = 0
-            function_for_back = cls.name
+            function_for_back = data.get("function_for_back")
+            if status != 1:
+                status = 0
+                function_for_back = cls.name
 
         text = await Ut.get_message_text(key=msg_key, lang=lang)
         markup = await calendar_inline(date_time=datetime.now(tz=Config.TIMEZONE), lang=lang)
@@ -800,7 +806,7 @@ class RegistrationSteps:
         await state.set_state(DriverRegistration.ChooseDateReadyToStartWork)
 
     @classmethod
-    async def date_stark_work_handler(cls, callback: types.CallbackQuery, state: FSMContext):
+    async def date_start_work_handler(cls, callback: types.CallbackQuery, state: FSMContext):
         await callback.answer()
         uid = callback.from_user.id
         await Ut.handler_log(logger, uid)
@@ -812,7 +818,7 @@ class RegistrationSteps:
         status_secondary = data.get("status_secondary")
         result = await cls.processing_back_btn(
             callback=callback, state=state, lang=lang,
-            function_for_back=cls.date_stark_work if status_secondary else cls.availability_95_code,
+            function_for_back=cls.date_start_work if status_secondary else cls.availability_95_code,
             next_function=data["call_function"] if status_secondary else call_functions["date_start_work"],
             model_attr=None if status_secondary else "availability_95_code"
         )
@@ -836,7 +842,7 @@ class RegistrationSteps:
             status = data["status"]
             if (status == 2) and (not date_start_work_left):
                 await state.update_data(
-                    date_start_work_left=returned_value, function_for_back=cls.date_stark_work,
+                    date_start_work_left=returned_value, function_for_back=cls.date_start_work,
                     function_for_back_secondary=data["function_for_back"], status=0,
                     status_secondary=data["status"]
                 )
@@ -855,14 +861,14 @@ class RegistrationSteps:
                 else:
                     returned_value = [date_start_work_left, returned_value]
 
-            await cls.handler_finish(state=state, returned_value=returned_value, additional_field="date_stark_work")
+            await cls.handler_finish(state=state, returned_value=returned_value, additional_field="date_start_work")
 
     @classmethod
     async def language_skills(cls, state: FSMContext, lang: str,
                               data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data["hidden_status"]
+        hidden_status = data.get("hidden_status")
 
         if status == 2:
             msg_key = "company_filters_language_skills"
@@ -890,8 +896,8 @@ class RegistrationSteps:
         lang = await cls.get_lang(state_data=data, user_id=uid)
 
         result = await cls.processing_back_btn(
-            callback=callback, state=state, lang=lang, function_for_back=cls.date_stark_work,
-            next_function=call_functions["language_skills"], model_attr="date_stark_work")
+            callback=callback, state=state, lang=lang, function_for_back=cls.date_start_work,
+            next_function=call_functions["language_skills"], model_attr="date_start_work")
         if result:
             return
 
@@ -918,7 +924,7 @@ class RegistrationSteps:
     async def job_experience(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data["hidden_status"]
+        hidden_status = data.get("hidden_status")
 
         if status == 2:
             msg_key = "company_filters_job_experience"
@@ -975,7 +981,7 @@ class RegistrationSteps:
                               data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data["hidden_status"]
+        hidden_status = data.get("hidden_status")
 
         if status == 2:
             msg_key = "company_filters_need_internship"
@@ -1037,7 +1043,7 @@ class RegistrationSteps:
                                    data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data["hidden_status"]
+        hidden_status = data.get("hidden_status")
 
         if status == 2:
             msg_key = "company_filters_unsuitable_countries"
@@ -1099,7 +1105,7 @@ class RegistrationSteps:
                               data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data["hidden_status"]
+        hidden_status = data.get("hidden_status")
 
         if status == 2:
             msg_key = "company_filters_dangerous_goods"
@@ -1145,7 +1151,7 @@ class RegistrationSteps:
                               data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data["hidden_status"]
+        hidden_status = data.get("hidden_status")
 
         if status == 2:
             msg_key = "company_filters_expected_salary"
@@ -1233,7 +1239,7 @@ class RegistrationSteps:
                                       data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data["hidden_status"]
+        hidden_status = data.get("hidden_status")
 
         if status == 2:
             text_key = "company_filters_categories"
@@ -1281,7 +1287,7 @@ class RegistrationSteps:
                                       data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data["hidden_status"]
+        hidden_status = data.get("hidden_status")
 
         if status == 2:
             msg_key = "company_filters_country_driving_license"
@@ -1343,7 +1349,7 @@ class RegistrationSteps:
                                    data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data["hidden_status"]
+        hidden_status = data.get("hidden_status")
 
         if status == 2:
             msg_key = "company_filters_country_current_live"
@@ -1404,7 +1410,7 @@ class RegistrationSteps:
     async def work_type(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data["hidden_status"]
+        hidden_status = data.get("hidden_status")
 
         if status == 2:
             text_key = "company_filters_work_type"
@@ -1463,7 +1469,7 @@ class RegistrationSteps:
     async def cadence(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data["hidden_status"]
+        hidden_status = data.get("hidden_status")
 
         if status == 2:
             msg_key = "company_filters_cadence"
@@ -1518,7 +1524,7 @@ class RegistrationSteps:
     async def crew(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data["hidden_status"]
+        hidden_status = data.get("hidden_status")
 
         if status == 2:
             msg_key = "company_filters_crew"
@@ -1575,7 +1581,7 @@ class RegistrationSteps:
     async def driver_gender(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data["hidden_status"]
+        hidden_status = data.get("hidden_status")
 
         if status == 2:
             msg_key = "company_filters_driver_gender"
@@ -1636,7 +1642,7 @@ router.callback_query.register(RegistrationSteps.car_types_handler, DriverRegist
 router.callback_query.register(RegistrationSteps.citizenships_handler, DriverRegistration.ChooseCitizenship)
 router.callback_query.register(RegistrationSteps.basis_of_stay_handler, DriverRegistration.ChooseBasisOfStay)
 router.callback_query.register(RegistrationSteps.availability_95_code_handler, DriverRegistration.Availability95Code)
-router.callback_query.register(RegistrationSteps.date_stark_work_handler, DriverRegistration.ChooseDateReadyToStartWork)
+router.callback_query.register(RegistrationSteps.date_start_work_handler, DriverRegistration.ChooseDateReadyToStartWork)
 router.callback_query.register(RegistrationSteps.language_skills_handler, DriverRegistration.IndicateLanguageSkills)
 router.callback_query.register(RegistrationSteps.job_experience_handler, DriverRegistration.IndicateJobExperience)
 router.callback_query.register(RegistrationSteps.need_internship_handler, DriverRegistration.ChooseNeedInternship)

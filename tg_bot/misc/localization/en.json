@@ -1337,7 +1337,7 @@
           "Basis of stay": "basis_of_stay"
         },
         {
-          "Availability date": "date_stark_work",
+          "Availability date": "date_start_work",
           "Languages": "language_skills"
         },
         {
@@ -1452,7 +1452,7 @@
       "citizenships": "Citizenships:",
       "basis_of_stay": "Grounds of stay:",
       "availability_95_code": "Code 95 Availability:",
-      "date_stark_work": "Availability Date:",
+      "date_start_work": "Availability Date:",
       "language_skills": "Language skills",
       "job_experience": "Experience:",
       "need_internship": "Internship:",

@@ -53,3 +53,12 @@ class CompanyFindDriver(StatesGroup):
     ActionOnDriver = State()
     ChoosePaymentSystem = State()
     PaymentProcessing = State()
+
+
+class CompanyOpenedDrivers(StatesGroup):
+    Actions = State()
+
+
+class CompanySavedDrivers(StatesGroup):
+    Actions = State()
+    RemoveConfirmation = State()
