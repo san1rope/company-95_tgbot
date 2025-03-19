@@ -523,6 +523,12 @@
       "<b>\uD83D\uDDD1 Usuwanie profilu</b>",
       "\n<b>Czy naprawdę chcesz usunąć swój profil?</b>",
       "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "company_remove_my_profile_success": [
+      "<b>✅ Twój profil został pomyślnie usunięty!</b>"
+    ],
+    "company_remove_my_profile_error": [
+      "<b>\uD83D\uDD34 Wystąpił błąd podczas usuwania profilu! Spróbuj ponownie...</b>"
     ]
   },
   "markups": {

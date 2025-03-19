@@ -523,6 +523,12 @@
       "<b>\uD83D\uDDD1 Remove profile</b>",
       "\n<b>Do you really want to delete your profile?</b>",
       "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "company_remove_my_profile_success": [
+      "<b>✅ You have successfully deleted your profile!</b>"
+    ],
+    "company_remove_my_profile_error": [
+      "<b>\uD83D\uDD34 There was an error when deleting the profile! Try again...</b>"
     ]
   },
   "markups": {

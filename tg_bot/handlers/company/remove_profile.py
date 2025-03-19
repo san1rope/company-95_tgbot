@@ -42,7 +42,7 @@ async def remove_has_been_confirmed(callback: types.CallbackQuery, state: FSMCon
         return await show_menu(message=callback)
 
     company = await DbCompany(tg_user_id=uid).select()
-    result = await DbCompany(db_id=company.id).remove()
+    result = await DbCompany(tg_user_id=uid).remove()
     if result:
         text = await Ut.get_message_text(lang=company.lang, key="company_remove_my_profile_success")
         await Ut.send_step_message(user_id=uid, text=text)
