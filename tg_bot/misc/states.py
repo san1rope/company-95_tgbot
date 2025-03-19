@@ -69,3 +69,11 @@ class CompanySavedDrivers(StatesGroup):
 
 class CompanySubscription(StatesGroup):
     ChoosePaymentSystem = State()
+
+
+class ChangeLang(StatesGroup):
+    ChooseLang = State()
+
+
+class RemoveProfile(StatesGroup):
+    RemoveConfirmation = State()

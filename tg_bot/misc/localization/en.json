@@ -515,6 +515,14 @@
       "\n<b>You already have an active subscription!</b>",
       "<b>Openings available: %opens_count%</b>",
       "\n<b>⬇ Use the keyboard below</b>"
+    ],
+    "language_has_been_changed": [
+      "<b>✅ Interface language successfully changed!</b>"
+    ],
+    "company_remove_my_profile_confirmation": [
+      "<b>\uD83D\uDDD1 Remove profile</b>",
+      "\n<b>Do you really want to delete your profile?</b>",
+      "\n<b>⬇ Use the keyboard below</b>"
     ]
   },
   "markups": {
@@ -1474,6 +1482,9 @@
       "driver_menu": [
         {
           "\uD83D\uDCC3 My form": "driver_my_form"
+        },
+        {
+          "\uD83C\uDF0D Change language": "change_language"
         }
       ],
       "driver_menu_my_form": [
@@ -1631,6 +1642,12 @@
         },
         {
           "⚙️ Filters": "filters"
+        },
+        {
+          "\uD83C\uDF0D Change language": "change_language"
+        },
+        {
+          "\uD83D\uDDD1 Delete my profile": "remove_company_profile"
         }
       ],
       "company_filters": [

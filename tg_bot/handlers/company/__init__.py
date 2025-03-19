@@ -6,3 +6,4 @@ from .saved_drivers import router as r_saved_drivers
 from .opened_drivers import router as r_opened_drivers
 from .subscription import router as r_subscription
 from .menu import router as r_company_menu
+from .remove_profile import router as r_remove_profile

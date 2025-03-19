@@ -515,6 +515,14 @@
       "\n<b>Masz już aktywną subskrypcję!</b>",
       "<b>Pozostało otwarć: %opens_count%</b>",
       "\n<b>⬇ Użyj klawiatury poniżej</b>"
+    ],
+    "language_has_been_changed": [
+      "<b>✅ Język interfejsu został pomyślnie zmieniony!</b>"
+    ],
+    "company_remove_my_profile_confirmation": [
+      "<b>\uD83D\uDDD1 Usuwanie profilu</b>",
+      "\n<b>Czy naprawdę chcesz usunąć swój profil?</b>",
+      "\n<b>⬇ Użyj klawiatury poniżej</b>"
     ]
   },
   "markups": {
@@ -1471,6 +1479,9 @@
       "driver_menu": [
         {
           "\uD83D\uDCC3 Mój profil": "driver_my_form"
+        },
+        {
+          "\uD83C\uDF0D Zmiana języka": "change_language"
         }
       ],
       "driver_menu_my_form": [
@@ -1628,6 +1639,12 @@
         },
         {
           "⚙️ Filtry": "filters"
+        },
+        {
+          "\uD83C\uDF0D Zmiana języka": "change_language"
+        },
+        {
+          "\uD83D\uDDD1 Usuń swój profil": "remove_company_profile"
         }
       ],
       "company_filters": [

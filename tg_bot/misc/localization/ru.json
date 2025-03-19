@@ -519,6 +519,20 @@
       "\n<b>У вас уже есть активная подписка!</b>",
       "<b>Доступно открытий: %opens_count%</b>",
       "\n<b>⬇ Используйте клавиатуру ниже</b>"
+    ],
+    "language_has_been_changed": [
+      "<b>✅ Язык интерфейса успешно изменен!</b>"
+    ],
+    "company_remove_my_profile_confirmation": [
+      "<b>\uD83D\uDDD1 Удаление профиля</b>",
+      "\n<b>Вы действительно хотите удалить свой профиль?</b>",
+      "\n<b>⬇ Используйте клавиатуру ниже</b>"
+    ],
+    "company_remove_my_profile_success": [
+      "<b>✅ Вы успешно удалили свой профиль!</b>"
+    ],
+    "company_remove_my_profile_error": [
+      "<b>\uD83D\uDD34 При удалении профиля произошла ошибка! Попробуйте ещё раз...</b>"
     ]
   },
   "markups": {
@@ -1479,6 +1493,9 @@
       "driver_menu": [
         {
           "\uD83D\uDCC3 Моя анкета": "driver_my_form"
+        },
+        {
+          "\uD83C\uDF0D Смена языка": "change_language"
         }
       ],
       "driver_menu_my_form": [
@@ -1636,6 +1653,12 @@
         },
         {
           "⚙\uFE0F Фильтры": "filters"
+        },
+        {
+          "\uD83C\uDF0D Смена языка": "change_language"
+        },
+        {
+          "\uD83D\uDDD1 Удалить свой профиль": "remove_company_profile"
         }
       ],
       "company_filters": [
