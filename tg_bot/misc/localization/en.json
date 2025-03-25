@@ -183,7 +183,6 @@
     ],
     "driver_menu_text": [
       "<b>\uD83D\uDCD4 Driver menu</b>\n",
-      "<b>\uD83D\uDCC3 Number of forms: %forms_count%</b>",
       "<b>\uD83D\uDCD6 The opening of your profile: %form_opens%</b>",
       "\n<b>⬇ Use the keyboard below</b>"
     ],
@@ -389,6 +388,7 @@
     ],
     "company_menu_text": [
       "<b>❇\uFE0F Company menu</b>",
+      "\n<b>❇\uFE0F Number of questionnaires: %forms_count%</b>",
       "\n<b>⬇ Use the keyboard below</b>"
     ],
     "company_filters": [

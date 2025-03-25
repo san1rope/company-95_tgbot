@@ -183,7 +183,6 @@
     ],
     "driver_menu_text": [
       "<b>\uD83D\uDCD4 Menu kierowcy</b>\n",
-      "<b>\uD83D\uDCC3 Liczba kwestionariuszy: %forms_count%</b>",
       "<b>\uD83D\uDCD6 >Otwarcie profilu użytkownika: %form_opens%</b>",
       "\n<b>⬇ Użyj poniższej klawiatury</b>"
     ],
@@ -389,6 +388,7 @@
     ],
     "company_menu_text": [
       "<b>❇️ Menu firmy</b>",
+      "\n<b>❇\uFE0F Liczba kwestionariuszy: %forms_count%</b>",
       "\n<b>⬇ Użyj klawiatury poniżej</b>"
     ],
     "company_filters": [

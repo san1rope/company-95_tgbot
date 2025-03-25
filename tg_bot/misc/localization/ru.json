@@ -187,7 +187,6 @@
     ],
     "driver_menu_text": [
       "<b>\uD83D\uDCD4 Меню водителя</b>\n",
-      "<b>\uD83D\uDCC3 Количество анкет: %forms_count%</b>",
       "<b>\uD83D\uDCD6 Открытий вашей анкеты: %form_opens%</b>",
       "\n<b>⬇ Используйте клавиатуру ниже</b>"
     ],
@@ -393,6 +392,7 @@
     ],
     "company_menu_text": [
       "<b>❇\uFE0F Меню компании</b>",
+      "\n<b>❇\uFE0F Количество анкет: %forms_count%</b>",
       "\n<b>⬇ Используйте клавиатуру ниже</b>"
     ],
     "company_filters": [

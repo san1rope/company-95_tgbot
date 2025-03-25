@@ -4,7 +4,7 @@ from typing import Union
 from aiogram import Router, F, enums, types
 from aiogram.filters import CommandStart
 
-from tg_bot.db_models.quick_commands import DbCompany
+from tg_bot.db_models.quick_commands import DbCompany, DbDriver
 from tg_bot.filters.company import IsCompany
 from tg_bot.misc.utils import Utils as Ut
 
@@ -21,7 +21,9 @@ async def show_menu(message: Union[types.Message, types.CallbackQuery]):
         await message.answer()
 
     company = await DbCompany(tg_user_id=uid).select()
-
+    forms_count = len(await DbDriver(status=1).select())
     text = await Ut.get_message_text(key="company_menu_text", lang=company.lang)
+    text = text.replace("%forms_count%", str(forms_count))
+
     markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="company_menu")
     await Ut.send_step_message(user_id=uid, text=text, markup=markup)

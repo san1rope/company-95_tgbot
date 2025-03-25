@@ -21,10 +21,8 @@ async def show_menu(message: Union[types.Message, types.CallbackQuery]):
         await message.answer()
 
     driver = await DbDriver(tg_user_id=uid).select()
-    forms_count = len(await DbDriver(status=1).select())
 
     text = await Ut.get_message_text(key="driver_menu_text", lang=driver.lang)
-    text = text.replace("%forms_count%", str(forms_count))
     text = text.replace("%form_opens%", str(driver.opens_count))
     markup = await Ut.get_markup(
         mtype="inline", lang=driver.lang, key="driver_menu",
