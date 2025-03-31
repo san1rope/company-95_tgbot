@@ -663,112 +663,90 @@
         },
         {
           "🇲🇩 Mołdawia": "md",
-          "🇦🇱 Albania": "al"
-        },
-        {
-          "🇦🇩 Andora": "ad",
           "🇦🇹 Austria": "at"
         },
         {
-          "🇧🇪 Belgia": "be",
-          "🇧🇦 Bośnia i Hercegowina": "ba"
+          "🇦🇱 Albania": "al",
+          "🇦🇩 Andora": "ad"
         },
         {
-          "🇧🇬 Bułgaria": "bg",
-          "🇭🇷 Chorwacja": "hr"
+          "🇧🇪 Belgia": "be",
+          "🇧🇬 Bułgaria": "bg"
+        },
+        {
+          "🇧🇦 Bośnia i Hercegowina": "ba",
+          "🇬🇧 Wielka Brytania": "gb"
         },
         {
           "  ": "0",
           "1/4": "0",
-          "➡\uFE0F": "next_page:2"
+          "➡️": "next_page:2"
         },
         {
-          "⬅️\uFE0F Do kontynentów": "to_continents",
-          "\uD83D\uDCDD Potwierdź wybór": "confirm"
+          "⬅️️ Do kontynentów": "to_continents",
+          "📝 Potwierdź wybór": "confirm"
         },
         {
-          "\uD83D\uDD19 Powrót": "back"
+          "🔙 Wstecz": "back"
         }
       ],
       "countries_europe_2": [
         {
-          "🇨🇾 Cypr": "cy",
-          "🇨🇿 Czechy": "cz"
-        },
-        {
-          "🇩🇰 Dania": "dk",
-          "🇪🇪 Estonia": "ee"
-        },
-        {
-          "🇫🇮 Finlandia": "fi",
-          "🇫🇷 Francja": "fr"
-        },
-        {
-          "🇩🇪 Niemcy": "de",
-          "🇬🇷 Grecja": "gr"
-        },
-        {
           "🇭🇺 Węgry": "hu",
-          "🇮🇸 Islandia": "is"
+          "🇩🇪 Niemcy": "de"
+        },
+        {
+          "🇬🇷 Grecja": "gr",
+          "🇩🇰 Dania": "dk"
         },
         {
           "🇮🇪 Irlandia": "ie",
+          "🇮🇸 Islandia": "is"
+        },
+        {
+          "🇪🇸 Hiszpania": "es",
           "🇮🇹 Włochy": "it"
         },
-        {
-          "⬅\uFE0F": "prev_page:1",
-          "2/4": "0",
-          "➡\uFE0F": "next_page:3"
-        },
-        {
-          "⬅️\uFE0F Do kontynentów": "to_continents",
-          "\uD83D\uDCDD Potwierdź wybór": "confirm"
-        },
-        {
-          "\uD83D\uDD19 Powrót": "back"
-        }
-      ],
-      "countries_europe_3": [
         {
           "🇽🇰 Kosowo": "xk",
           "🇱🇻 Łotwa": "lv"
         },
         {
-          "🇱🇮 Liechtenstein": "li",
-          "🇱🇹 Litwa": "lt"
+          "🇱🇹 Litwa": "lt",
+          "🇱🇮 Liechtenstein": "li"
         },
+        {
+          "⬅️": "prev_page:1",
+          "2/4": "0",
+          "➡️": "next_page:3"
+        },
+        {
+          "⬅️️ Do kontynentów": "to_continents",
+          "📝 Potwierdź wybór": "confirm"
+        },
+        {
+          "🔙 Wstecz": "back"
+        }
+      ],
+      "countries_europe_3": [
         {
           "🇱🇺 Luksemburg": "lu",
           "🇲🇹 Malta": "mt"
         },
         {
           "🇲🇨 Monako": "mc",
-          "🇲🇪 Czarnogóra": "me"
-        },
-        {
-          "🇳🇱 Holandia": "nl",
-          "🇲🇰 Macedonia Północna": "mk"
+          "🇳🇱 Holandia": "nl"
         },
         {
           "🇳🇴 Norwegia": "no",
           "🇵🇹 Portugalia": "pt"
         },
         {
-          "⬅\uFE0F": "prev_page:2",
-          "3/4": "0",
-          "➡\uFE0F": "next_page:4"
-        },
-        {
-          "⬅️\uFE0F Do kontynentów": "to_continents",
-          "\uD83D\uDCDD Potwierdź wybór": "confirm"
-        },
-        {
-          "\uD83D\uDD19 Powrót": "back"
-        }
-      ],
-      "countries_europe_4": [
-        {
           "🇷🇴 Rumunia": "ro",
+          "🇸🇲 San Marino": "sm"
+        },
+        {
+          "🇲🇰 Macedonia Północna": "mk",
           "🇷🇸 Serbia": "rs"
         },
         {
@@ -776,164 +754,215 @@
           "🇸🇮 Słowenia": "si"
         },
         {
-          "🇪🇸 Hiszpania": "es",
-          "🇸🇪 Szwecja": "se"
+          "⬅️": "prev_page:2",
+          "3/4": "0",
+          "➡️": "next_page:4"
         },
         {
-          "🇨🇭 Szwajcaria": "ch",
-          "🇬🇧 Wielka Brytania": "gb"
+          "⬅️️ Do kontynentów": "to_continents",
+          "📝 Potwierdź wybór": "confirm"
         },
         {
-          "⬅\uFE0F": "prev_page:3",
+          "🔙 Wstecz": "back"
+        }
+      ],
+      "countries_europe_4": [
+        {
+          "🇫🇮 Finlandia": "fi",
+          "🇫🇷 Francja": "fr"
+        },
+        {
+          "🋖🇷 Chorwacja": "hr",
+          "🇲🇪 Czarnogóra": "me"
+        },
+        {
+          "🇨🇿 Czechy": "cz",
+          "🇨🇭 Szwajcaria": "ch"
+        },
+        {
+          "🇸🇪 Szwecja": "se",
+          "🇪🇪 Estonia": "ee"
+        },
+        {
+          "⬅️": "prev_page:3",
           "4/4": "0",
           "  ": "0"
         },
         {
-          "⬅️\uFE0F Do kontynentów": "to_continents",
-          "\uD83D\uDCDD Potwierdź wybór": "confirm"
+          "⬅️️ Do kontynentów": "to_continents",
+          "📝 Potwierdź wybór": "confirm"
         },
         {
-          "\uD83D\uDD19 Powrót": "back"
+          "🔙 Wstecz": "back"
         }
       ],
       "countries_asia_1": [
         {
-          "🇰🇿 Kazachstan": "kz",
+          "🇮🇳 Indie": "in",
+          "🇰🇿 Kazachstan": "kz"
+        },
+        {
+          "🇳🇵 Nepal": "np",
           "🇺🇿 Uzbekistan": "uz"
         },
         {
           "🇵🇭 Filipiny": "ph",
-          "🇮🇳 Indie": "in"
+          "🇦🇿 Azerbejdżan": "az"
         },
         {
-          "🇳🇵 Nepal": "np",
-          "🇨🇳 Chiny": "cn"
-        },
-        {
-          "🇯🇵 Japonia": "jp",
-          "🇰🇷 Korea Południowa": "kr"
-        },
-        {
-          "🇮🇩 Indonezja": "id",
-          "🇵🇰 Pakistan": "pk"
+          "🇦🇲 Armenia": "am",
+          "🇦🇫 Afganistan": "af"
         },
         {
           "🇧🇩 Bangladesz": "bd",
-          "🇹🇷 Turcja": "tr"
+          "🇧🇭 Bahrajn": "bh"
+        },
+        {
+          "🇧🇳 Brunei": "bn",
+          "🇧🇹 Bhutan": "bt"
         },
         {
           "  ": "0",
-          "1/4": "0",
-          "➡\uFE0F": "next_page:2"
+          "1/5": "0",
+          "➡️": "next_page:2"
         },
         {
-          "⬅️\uFE0F Do kontynentów": "to_continents",
-          "\uD83D\uDCDD Potwierdź wybór": "confirm"
+          "⬅️ K kontynentom": "to_continents",
+          "📝 Potwierdź wybór": "confirm"
         },
         {
-          "\uD83D\uDD19 Powrót": "back"
+          "🔙 Wróć": "back"
         }
       ],
       "countries_asia_2": [
         {
+          "🇹🇱 Wschodni Timor": "tl",
+          "🇻🇳 Wietnam": "vn"
+        },
+        {
+          "🇬🇪 Gruzja": "ge",
+          "🇮🇱 Izrael": "il"
+        },
+        {
+          "🇮🇳 Indie": "in",
+          "🇮🇩 Indonezja": "id"
+        },
+        {
+          "🇯🇴 Jordania": "jo",
+          "🇮🇶 Irak": "iq"
+        },
+        {
           "🇮🇷 Iran": "ir",
-          "🇸🇦 Arabia Saudyjska": "sa"
+          "🇾🇪 Jemen": "ye"
         },
         {
-          "🇻🇳 Wietnam": "vn",
-          "🇹🇭 Tajlandia": "th"
+          "🇰🇭 Kambodża": "kh",
+          "🇶🇦 Katar": "qa"
         },
         {
-          "🇲🇲 Mjanma": "mm",
-          "🇲🇾 Malezja": "my"
+          "⬅️": "prev_page:1",
+          "2/5": "0",
+          "➡️": "next_page:3"
         },
         {
-          "🇮🇶 Irak": "iq",
-          "🇦🇫 Afganistan": "af"
+          "⬅️ K kontynentom": "to_continents",
+          "📝 Potwierdź wybór": "confirm"
         },
         {
-          "🇾🇪 Jemen": "ye",
-          "🇰🇼 Kuwejt": "kw"
-        },
-        {
-          "🇦🇪 ZEA": "ae",
-          "🇸🇾 Syria": "sy"
-        },
-        {
-          "⬅\uFE0F": "prev_page:1",
-          "2/4": "0",
-          "➡\uFE0F": "next_page:3"
-        },
-        {
-          "⬅️\uFE0F Do kontynentów": "to_continents",
-          "\uD83D\uDCDD Potwierdź wybór": "confirm"
-        },
-        {
-          "\uD83D\uDD19 Powrót": "back"
+          "🔙 Wróć": "back"
         }
       ],
       "countries_asia_3": [
         {
-          "🇱🇰 Sri Lanka": "lk",
-          "🇱🇦 Laos": "la"
+          "🇨🇾 Cypr": "cy",
+          "🇰🇬 Kirgistan": "kg"
         },
         {
-          "🇰🇭 Kambodża": "kh",
-          "🇲🇳 Mongolia": "mn"
+          "🇨🇳 Chiny": "cn",
+          "🇰🇼 Kuwejt": "kw"
         },
         {
-          "🇧🇭 Bahrajn": "bh",
-          "🇶🇦 Katar": "qa"
+          "🇱🇦 Laos": "la",
+          "🇱🇧 Liban": "lb"
         },
         {
-          "🇦🇲 Armenia": "am",
-          "🇦🇿 Azerbejdżan": "az"
+          "🇲🇾 Malezja": "my",
+          "🇲🇻 Malediwy": "mv"
         },
         {
-          "🇬🇪 Gruzja": "ge",
-          "🇯🇴 Jordania": "jo"
+          "🇲🇳 Mongolia": "mn",
+          "🇲🇲 Myanmar": "mm"
         },
         {
-          "🇸🇬 Singapur": "sg",
-          "🇹🇯 Tadżykistan": "tj"
+          "🇦🇪 Zjednoczone Emiraty Arabskie": "ae",
+          "🇴🇲 Oman": "om"
         },
         {
-          "⬅\uFE0F": "prev_page:2",
-          "3/4": "0",
-          "➡\uFE0F": "next_page:4"
+          "⬅️": "prev_page:2",
+          "3/5": "0",
+          "➡️": "next_page:4"
         },
         {
-          "⬅️\uFE0F Do kontynentów": "to_continents",
-          "\uD83D\uDCDD Potwierdź wybór": "confirm"
+          "⬅️ K kontynentom": "to_continents",
+          "📝 Potwierdź wybór": "confirm"
         },
         {
-          "\uD83D\uDD19 Powrót": "back"
+          "🔙 Wróć": "back"
         }
       ],
       "countries_asia_4": [
         {
-          "🇹🇲 Turkmenistan": "tm",
+          "🇵🇰 Pakistan": "pk",
           "🇵🇸 Palestyna": "ps"
         },
         {
-          "🇱🇧 Liban": "lb",
-          "🇧🇳 Brunei": "bn"
+          "🇸🇦 Arabia Saudyjska": "sa",
+          "🇸🇬 Singapur": "sg"
         },
         {
-          "🇲🇻 Malediwy": "mv",
+          "🇸🇾 Syria": "sy",
+          "🇹🇯 Tadżykistan": "tj"
+        },
+        {
+          "🇹🇭 Tajlandia": "th",
           "🇹🇼 Tajwan": "tw"
         },
         {
-          "⬅\uFE0F": "prev_page:3",
-          "4/4": "0",
+          "🇹🇲 Turkmenistan": "tm",
+          "🇹🇷 Turcja": "tr"
+        },
+        {
+          "🇱🇰 Sri Lanka": "lk",
+          "🇰🇷 Korea Południowa": "kr"
+        },
+        {
+          "⬅️": "prev_page:3",
+          "4/5": "0",
+          "➡️": "next_page:5"
+        },
+        {
+          "⬅️ K kontynentom": "to_continents",
+          "📝 Potwierdź wybór": "confirm"
+        },
+        {
+          "🔙 Wróć": "back"
+        }
+      ],
+      "countries_asia_5": [
+        {
+          "🇯🇵 Japonia": "jp"
+        },
+        {
+          "⬅️": "prev_page:4",
+          "5/5": "0",
           "  ": "0"
         },
         {
-          "⬅️\uFE0F Do kontynentów": "to_continents",
-          "\uD83D\uDCDD Potwierdź wybór": "confirm"
+          "⬅️ K kontynentom": "to_continents",
+          "📝 Potwierdź wybór": "confirm"
         },
         {
-          "\uD83D\uDD19 Powrót": "back"
+          "🔙 Wróć": "back"
         }
       ],
       "countries_north_america_1": [
@@ -946,41 +975,37 @@
           "🇧🇿 Belize": "bz"
         },
         {
+          "🇭🇹 Haiti": "ht",
+          "🇬🇹 Gwatemala": "gt"
+        },
+        {
+          "🇭🇳 Honduras": "hn",
+          "🇬🇩 Grenada": "gd"
+        },
+        {
+          "🇩🇲 Dominika": "dm",
+          "🇩🇴 Dominikana": "do"
+        },
+        {
           "🇨🇦 Kanada": "ca",
           "🇨🇷 Kostaryka": "cr"
         },
         {
-          "🇨🇺 Kuba": "cu",
-          "🇩🇲 Dominika": "dm"
-        },
-        {
-          "🇩🇴 Dominikana": "do",
-          "🇸🇻 Salwador": "sv"
-        },
-        {
-          "🇬🇩 Grenada": "gd",
-          "🇬🇹 Gwatemala": "gt"
-        },
-        {
           "  ": "0",
           "1/2": "0",
-          "➡\uFE0F": "next_page:2"
+          "➡️": "next_page:2"
         },
         {
-          "⬅️\uFE0F Do kontynentów": "to_continents",
-          "\uD83D\uDCDD Potwierdź wybór": "confirm"
+          "⬅️ Do kontynentów": "to_continents",
+          "📑 Potwierdź wybór": "confirm"
         },
         {
-          "\uD83D\uDD19 Powrót": "back"
+          "🔙 Wstecz": "back"
         }
       ],
       "countries_north_america_2": [
         {
-          "🇭🇹 Haiti": "ht",
-          "🇭🇳 Honduras": "hn"
-        },
-        {
-          "🇯🇲 Jamajka": "jm",
+          "🇨🇺 Kuba": "cu",
           "🇲🇽 Meksyk": "mx"
         },
         {
@@ -988,27 +1013,31 @@
           "🇵🇦 Panama": "pa"
         },
         {
+          "🇸🇻 Salwador": "sv",
+          "🇻🇨 Saint Vincent i Grenadyny": "vc"
+        },
+        {
           "🇰🇳 Saint Kitts i Nevis": "kn",
           "🇱🇨 Saint Lucia": "lc"
         },
         {
-          "🇻🇨 Saint Vincent i Grenadyny": "vc",
+          "🇺🇸 USA": "us",
           "🇹🇹 Trynidad i Tobago": "tt"
         },
         {
-          "🇺🇸 USA": "us"
+          "🇯🇲 Jamajka": "jm"
         },
         {
-          "⬅\uFE0F": "prev_page:1",
+          "⬅️": "prev_page:1",
           "2/2": "0",
           "  ": "0"
         },
         {
-          "⬅️\uFE0F Do kontynentów": "to_continents",
-          "\uD83D\uDCDD Potwierdź wybór": "confirm"
+          "⬅️ Do kontynentów": "to_continents",
+          "📑 Potwierdź wybór": "confirm"
         },
         {
-          "\uD83D\uDD19 Powrót": "back"
+          "🔙 Wstecz": "back"
         }
       ],
       "countries_south_america_1": [
@@ -1018,23 +1047,23 @@
         },
         {
           "🇧🇷 Brazylia": "br",
-          "🇨🇱 Chile": "cl"
-        },
-        {
-          "🇨🇴 Kolumbia": "co",
-          "🇪🇨 Ekwador": "ec"
-        },
-        {
-          "🇬🇾 Gujana": "gy",
-          "🇵🇾 Paragwaj": "py"
-        },
-        {
-          "🇵🇪 Peru": "pe",
-          "🇸🇷 Surinam": "sr"
-        },
-        {
-          "🇺🇾 Urugwaj": "uy",
           "🇻🇪 Wenezuela": "ve"
+        },
+        {
+          "🇬🇾 Gwiana": "gy",
+          "🇨🇴 Kolumbia": "co"
+        },
+        {
+          "🇵🇾 Paragwaj": "py",
+          "🇵🇪 Peru": "pe"
+        },
+        {
+          "🇸🇷 Surinam": "sr",
+          "🇺🇾 Urugwaj": "uy"
+        },
+        {
+          "🇨🇱 Chile": "cl",
+          "🇪🇨 Ekwador": "ec"
         },
         {
           "  ": "0",
@@ -1071,61 +1100,65 @@
           "🇬🇳 Gwinea": "gn"
         },
         {
-          "🇬🇼 Gwinea Bissau": "gw",
-          "🇩🇯 Dżibuti": "dj"
+          "🇬🇼 Gwinea-Bisau": "gw",
+          "🇨🇩 DR Kongo": "cd"
         },
         {
           "  ": "0",
-          "1/4": "0",
-          "➡\uFE0F": "next_page:2"
+          "1/5": "0",
+          "➡️": "next_page:2"
         },
         {
-          "⬅️\uFE0F Do kontynentów": "to_continents",
-          "\uD83D\uDCDD Potwierdź wybór": "confirm"
+          "⬅️ Do kontynentów": "to_continents",
+          "📝 Potwierdź wybór": "confirm"
         },
         {
-          "\uD83D\uDD19 Powrót": "back"
+          "🔙 Wstecz": "back"
         }
       ],
       "countries_africa_2": [
         {
-          "🇪🇬 Egipt": "eg",
-          "🇿🇲 Zambia": "zm"
+          "🇩🇯 Dżibuti": "dj",
+          "🇪🇬 Egipt": "eg"
+        },
+        {
+          "🇿🇲 Zambia": "zm",
+          "🇪🇭 Sahara Zachodnia": "eh"
         },
         {
           "🇿🇼 Zimbabwe": "zw",
-          "🇨🇩 DR Kongo": "cd"
+          "🇨🇻 Wyspy Zielonego Przylądka": "cv"
         },
         {
-          "🇨🇻 Republika Zielonego Przylądka": "cv",
-          "🇨🇲 Kamerun": "cm"
+          "🇨🇲 Kamerun": "cm",
+          "🇰🇪 Kenia": "ke"
         },
         {
-          "🇰🇪 Kenia": "ke",
+          "🇰🇲 Komory": "km",
           "🇨🇮 Wybrzeże Kości Słoniowej": "ci"
         },
         {
-          "🇱🇸 Lesotho": "ls",
+          "🇱🇸 Lesoto": "ls",
           "🇱🇷 Liberia": "lr"
         },
+        {
+          "⬅️": "prev_page:1",
+          "2/5": "0",
+          "➡️": "next_page:3"
+        },
+        {
+          "⬅️ Do kontynentów": "to_continents",
+          "📝 Potwierdź wybór": "confirm"
+        },
+        {
+          "🔙 Wstecz": "back"
+        }
+      ],
+      "countries_africa_3": [
         {
           "🇱🇾 Libia": "ly",
           "🇲🇺 Mauritius": "mu"
         },
-        {
-          "⬅\uFE0F": "prev_page:1",
-          "2/4": "0",
-          "➡\uFE0F": "next_page:3"
-        },
-        {
-          "⬅️\uFE0F Do kontynentów": "to_continents",
-          "\uD83D\uDCDD Potwierdź wybór": "confirm"
-        },
-        {
-          "\uD83D\uDD19 Powrót": "back"
-        }
-      ],
-      "countries_africa_3": [
         {
           "🇲🇷 Mauretania": "mr",
           "🇲🇬 Madagaskar": "mg"
@@ -1144,37 +1177,29 @@
         },
         {
           "🇳🇬 Nigeria": "ng",
-          "🇨🇫 Republika Środkowoafrykańska": "cf"
+          "🇷🇼 Rwanda": "rw"
         },
         {
-          "🇷🇼 Rwanda": "rw",
-          "🇸🇳 Senegal": "sn"
+          "⬅️": "prev_page:2",
+          "3/5": "0",
+          "➡️": "next_page:4"
         },
         {
-          "⬅\uFE0F": "prev_page:2",
-          "3/4": "0",
-          "➡\uFE0F": "next_page:4"
+          "⬅️ Do kontynentów": "to_continents",
+          "📝 Potwierdź wybór": "confirm"
         },
         {
-          "⬅️\uFE0F Do kontynentów": "to_continents",
-          "\uD83D\uDCDD Potwierdź wybór": "confirm"
-        },
-        {
-          "\uD83D\uDD19 Powrót": "back"
+          "🔙 Wstecz": "back"
         }
       ],
       "countries_africa_4": [
         {
-          "🇸🇨 Seszele": "sc",
-          "🇸🇱 Sierra Leone": "sl"
-        },
-        {
-          "🇸🇴 Somalia": "so",
-          "🇿🇦 RPA": "za"
+          "🇸🇳 Senegal": "sn",
+          "🇸🇴 Somalia": "so"
         },
         {
           "🇸🇩 Sudan": "sd",
-          "🇸🇸 Sudan Południowy": "ss"
+          "🇸🇱 Sierra Leone": "sl"
         },
         {
           "🇹🇿 Tanzania": "tz",
@@ -1185,33 +1210,54 @@
           "🇺🇬 Uganda": "ug"
         },
         {
-          "🇨🇭 Czad": "td",
+          "🇿🇦 RPA": "za",
+          "🇨🇭 Czad": "td"
+        },
+        {
+          "🇬🇳 Gwinea": "gn",
           "🇪🇷 Erytrea": "er"
         },
         {
-          "⬅\uFE0F": "prev_page:3",
-          "4/4": "0",
+          "⬅️": "prev_page:3",
+          "4/5": "0",
+          "➡️": "next_page:5"
+        },
+        {
+          "⬅️ Do kontynentów": "to_continents",
+          "📝 Potwierdź wybór": "confirm"
+        },
+        {
+          "🔙 Wstecz": "back"
+        }
+      ],
+      "countries_africa_5": [
+        {
+          "🇸🇿 Eswatini": "sz",
+          "🇪🇹 Etiopia": "et"
+        },
+        {
+          "🇸🇸 Sudan Południowy": "ss"
+        },
+        {
+          "⬅️": "prev_page:4",
+          "5/5": "0",
           "  ": "0"
         },
         {
-          "⬅️\uFE0F Do kontynentów": "to_continents",
-          "\uD83D\uDCDD Potwierdź wybór": "confirm"
+          "⬅️ Do kontynentów": "to_continents",
+          "📝 Potwierdź wybór": "confirm"
         },
         {
-          "\uD83D\uDD19 Powrót": "back"
+          "🔙 Wstecz": "back"
         }
       ],
       "countries_oceania_1": [
         {
           "🇦🇺 Australia": "au",
-          "🇫🇯 Fidżi": "fj"
+          "🇰🇮 Kiribati": "ki"
         },
         {
-          "🇰🇮 Kiribati": "ki",
-          "🇲🇭 Wyspy Marshalla": "mh"
-        },
-        {
-          "🇫🇲 Mikronezja": "fm",
+          "🇲🇭 Wyspy Marshalla": "mh",
           "🇳🇷 Nauru": "nr"
         },
         {
@@ -1227,16 +1273,20 @@
           "🇹🇴 Tonga": "to"
         },
         {
+          "🇹🇻 Tuvalu": "tv",
+          "🇫🇯 Fidżi": "fj"
+        },
+        {
           "   ": "0",
           "1/1": "0",
           "  ": "0"
         },
         {
-          "⬅️\uFE0F Do kontynentów": "to_continents",
-          "\uD83D\uDCDD Potwierdź wybór": "confirm"
+          "⬅️ Do kontynentów": "to_continents",
+          "📋 Potwierdź wybór": "confirm"
         },
         {
-          "\uD83D\uDD19 Powrót": "back"
+          "🔙 Wstecz": "back"
         }
       ],
       "basis_of_stay": [
