@@ -831,6 +831,10 @@ class RegistrationSteps:
         cd = callback.data
         if "l:" in cd:
             date_time = datetime.strptime(cd.replace("l:", ""), "%d.%m.%Y")
+            current_dt = datetime.now(tz=Config.TIMEZONE)
+            if current_dt.year == date_time.year and current_dt.month == date_time.month:
+                date_time = current_dt
+
             return await callback.message.edit_reply_markup(
                 reply_markup=await calendar_inline(date_time=date_time, lang=lang))
 
