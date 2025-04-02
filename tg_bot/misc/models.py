@@ -107,7 +107,7 @@ class DriverForm(BaseModel):
             text.append(f"<b>{hcode(fcd['name'])} {model.name}</b>")
 
         try:
-            if (model.birth_year is not None) or (model.birth_year_left_edge is not None):
+            if hasattr(model, "birth_year") or hasattr(model, "birth_year_left_edge"):
                 if model_company:
                     value = f"{model.birth_year_left_edge}-{model.birth_year_right_edge}"
 
@@ -166,7 +166,7 @@ class DriverForm(BaseModel):
                 text.append(f"<b>{hcode(fcd['availability_95_code'])} {localized_text}</b>")
 
             try:
-                if (model.date_start_work_left_edge is not None) or (model.date_start_work is not None):
+                if hasattr(model, "date_start_work_left_edge") or hasattr(model, "date_start_work"):
                     if model_company:
                         value = model.date_start_work_left_edge.strftime(
                             "%d.%m.%Y") + " - " + model.date_start_work_right_edge.strftime("%d.%m.%Y")
@@ -214,7 +214,7 @@ class DriverForm(BaseModel):
                 text.append(f"<b>{hcode(fcd['dangerous_goods'])} {', '.join(localized_text)}</b>")
 
             try:
-                if (model.expected_salary_left_edge is not None) or (model.expected_salary is not None):
+                if hasattr(model, "expected_salary_left_edge") or hasattr(model, "expected_salary"):
                     if model_company:
                         value = f"€{model.expected_salary_left_edge} - €{model.expected_salary_right_edge}"
 
