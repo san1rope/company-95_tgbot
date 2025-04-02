@@ -438,6 +438,9 @@ class RegistrationSteps:
         if result:
             return
 
+        if cd == "0":
+            return
+
         try:
             direction, old_from_year = cd.split(':')
 

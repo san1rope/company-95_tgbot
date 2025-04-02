@@ -19,7 +19,9 @@ async def year_inline(from_year: int, lang: str) -> InlineKeyboardMarkup:
         if counter % 5 == 0:
             markup.inline_keyboard.append([])
 
-        markup.inline_keyboard[-1].append(InlineKeyboardButton(text=str(year), callback_data=str(year)))
+        text = str(year) if year >= 1950 else "  "
+        cd = str(year) if year >= 1950 else "0"
+        markup.inline_keyboard[-1].append(InlineKeyboardButton(text=text, callback_data=cd))
 
     markup.inline_keyboard.append([
         InlineKeyboardButton(text="⬅️", callback_data=f"left:{from_year}"),
@@ -34,7 +36,6 @@ async def year_inline(from_year: int, lang: str) -> InlineKeyboardMarkup:
 
 
 async def calendar_inline(date_time: datetime, lang: str) -> InlineKeyboardMarkup:
-    print(2)
     lang_data = localization[lang] if localization.get(lang) else localization[Config.DEFAULT_LANG]
     calendar_localization = lang_data["misc"]["calendar"]
 
@@ -45,17 +46,14 @@ async def calendar_inline(date_time: datetime, lang: str) -> InlineKeyboardMarku
     today = datetime.now(tz=Config.TIMEZONE)
 
     month_days = list(Calendar().itermonthdays(year=date_time.year, month=date_time.month))
-    print(f"month_days = {month_days}")
     for day, counter in zip(month_days, range(len(month_days))):
         if counter % 7 == 0:
             markup.inline_keyboard.append([])
 
         if (day == 0) or ((today.year == date_time.year and today.month == date_time.month) and day < date_time.day):
-            print(f"day = {day}")
             new_btn = InlineKeyboardButton(text=" ", callback_data="0")
 
         else:
-            print(f"day in markup = {day}")
             new_btn = InlineKeyboardButton(text=str(day), callback_data=f"{day}.{date_time.month}.{date_time.year}")
 
         markup.inline_keyboard[-1].append(new_btn)
