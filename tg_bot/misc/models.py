@@ -40,6 +40,8 @@ class DriverForm(BaseModel):
                 if callback_data == code:
                     return btn_text
 
+        return ""
+
     @staticmethod
     async def codes_to_text_checkboxes(input_localized_text: List[Dict[str, str]], codes: List[str]) -> List[str]:
         localized_text = []
@@ -107,7 +109,9 @@ class DriverForm(BaseModel):
             text.append(f"<b>{hcode(fcd['name'])} {model.name}</b>")
 
         try:
-            if hasattr(model, "birth_year") or hasattr(model, "birth_year_left_edge"):
+            birth_year = getattr(model, "birth_year", None)
+            birth_year_left_edge = getattr(model, "birth_year_left_edge", None)
+            if birth_year or birth_year_left_edge:
                 if model_company:
                     value = f"{model.birth_year_left_edge}-{model.birth_year_right_edge}"
 
@@ -166,7 +170,9 @@ class DriverForm(BaseModel):
                 text.append(f"<b>{hcode(fcd['availability_95_code'])} {localized_text}</b>")
 
             try:
-                if hasattr(model, "date_start_work_left_edge") or hasattr(model, "date_start_work"):
+                date_start_work_left_edge = getattr(model, "date_start_work_left_edge", None)
+                date_start_work = getattr(model, "date_start_work", None)
+                if date_start_work_left_edge or date_start_work:
                     if model_company:
                         value = model.date_start_work_left_edge.strftime(
                             "%d.%m.%Y") + " - " + model.date_start_work_right_edge.strftime("%d.%m.%Y")
@@ -214,7 +220,9 @@ class DriverForm(BaseModel):
                 text.append(f"<b>{hcode(fcd['dangerous_goods'])} {', '.join(localized_text)}</b>")
 
             try:
-                if hasattr(model, "expected_salary_left_edge") or hasattr(model, "expected_salary"):
+                expected_salary_left_edge = getattr(model, "expected_salary_left_edge", None)
+                expected_salary = getattr(model, "expected_salary", None)
+                if expected_salary_left_edge or expected_salary:
                     if model_company:
                         value = f"€{model.expected_salary_left_edge} - €{model.expected_salary_right_edge}"
 
@@ -264,6 +272,7 @@ class DriverForm(BaseModel):
                     localized_text = ", ".join(localized_text)
 
                 else:
+                    print(f"work type code = {model.work_type}")
                     localized_text = await self.code_to_text(
                         input_localized_text=lang_inline_markups["work_types"], code=model.work_type)
 
