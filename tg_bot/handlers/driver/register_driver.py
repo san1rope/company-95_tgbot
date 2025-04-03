@@ -527,6 +527,11 @@ class RegistrationSteps:
                     msg = await message.answer(text=text)
                     return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
 
+                if not (10 <= len(phone_number) <= 15):
+                    text = await Ut.get_message_text(key="phone_number_range_limit", lang=lang)
+                    msg = await message.answer(text=text)
+                    return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+
         await cls.handler_finish(state=state, returned_value=phone_number, additional_field="phone_number")
 
     @classmethod

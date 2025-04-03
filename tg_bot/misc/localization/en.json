@@ -54,6 +54,10 @@
       "<b>\uD83D\uDED1 Incorrect phone number format!</b>\n",
       "<b>ℹ\uFE0F The number must consist of digits only!</b>"
     ],
+    "phone_number_range_limit": [
+      "<b>\uD83D\uDED1 Incorrect phone number format!</b>\n",
+      "<b>ℹ\uFE0F The number of digits in the number should be in the range of 10-15 digits!</b>"
+    ],
     "driver_reg_choose_messangers_availabilities": [
       "<b>❇\uFE0F Driver registration</b>\n",
       "<b>Select the presence of the entered phone number in the displayed messengers</b>",

@@ -59,6 +59,10 @@
       "<b>\uD83D\uDED1 Nieprawidłowy format numeru telefonu!</b>\n",
       "<b>ℹ\uFE0F Numer musi składać się wyłącznie z cyfr!</b>"
     ],
+    "phone_number_range_limit": [
+      "<b>\uD83D\uDED1 Nieprawidłowy format numeru telefonu!</b>\n",
+      "<b>ℹ\uFE0F Liczba cyfr w numerze powinna mieścić się w zakresie 10-15 cyfr!</b>"
+    ],
     "driver_reg_choose_car_type": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
       "<b>Wybierz wszystkie typy pojazdów, z którymi możesz pracować</b>",
