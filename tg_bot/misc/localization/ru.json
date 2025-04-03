@@ -1766,7 +1766,8 @@
       "work_type": "Тип работы:",
       "cadence": "Каденция:",
       "crew": "Экипаж:",
-      "driver_gender": "Пол водителя:"
+      "driver_gender": "Пол водителя:",
+      "username": "ТГ юзернейм:"
     },
     "hid_or_open_form": [
       "\uD83D\uDCD1 Скрыть анкету",
@@ -1804,6 +1805,7 @@
     "saved_driver": {
       "remove_from_notes": "Удалить с заметок",
       "open_driver": "Открыть водителя"
-    }
+    },
+    "username": "Не выбран"
   }
 }

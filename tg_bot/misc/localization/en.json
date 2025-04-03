@@ -1773,7 +1773,8 @@
       "work_type": "Work type:",
       "cadence": "Cadence:",
       "crew": "Crew:",
-      "driver_gender": "Gender:"
+      "driver_gender": "Gender:",
+      "username": "TG username:"
     },
     "calendar": {
       "weekdays": [
@@ -1807,6 +1808,7 @@
     "saved_driver": {
       "remove_from_notes": "Remove from notes",
       "open_driver": "Open driver"
-    }
+    },
+    "username": "Not selected"
   }
 }

@@ -1770,7 +1770,8 @@
       "work_type": "Rodzaj pracy:",
       "cadence": "Cadence:",
       "crew": "Załoga:",
-      "driver_gender": "Płeć kierowcy:"
+      "driver_gender": "Płeć kierowcy:",
+      "username": "TG username:"
     },
     "calendar": {
       "weekdays": [
@@ -1804,6 +1805,7 @@
     "saved_driver": {
       "remove_from_notes": "Usuń z notatek",
       "open_driver": "Otwórz kierowcę"
-    }
+    },
+    "username": "Nie wybrano"
   }
 }

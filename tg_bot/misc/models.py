@@ -99,7 +99,8 @@ class DriverForm(BaseModel):
     ) -> str:
         lang_data = localization[lang] if localization.get(lang) else localization[Config.DEFAULT_LANG]
         lang_inline_markups = lang_data["markups"]["inline"]
-        fcd = lang_data['misc']['form_completion_driver']
+        lang_misc = lang_data['misc']
+        fcd = lang_misc["form_completion_driver"]
 
         model = db_model if db_model else self
         model_company = isinstance(model, Company)
@@ -125,6 +126,11 @@ class DriverForm(BaseModel):
 
         if (not model_company) and (not for_company) and (model.phone_number is not None):
             text.append(f"<b>{hcode(fcd['phone_number'])} {model.phone_number}</b>")
+
+            if isinstance(model, Driver):
+                user = await Config.BOT.get_chat_member(chat_id=model.tg_user_id, user_id=model.tg_user_id)
+                username = user.user.username if user.user.username else lang_misc["username"]
+                text.append(f"<b>{hcode(fcd['username'])} @{username}</b>")
 
         if (not model_company) and (model.messangers is not None):
             localized_text = await self.codes_to_text_checkboxes(
