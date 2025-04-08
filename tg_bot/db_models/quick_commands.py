@@ -4,8 +4,9 @@ from datetime import datetime
 from typing import Optional, Union, List
 
 from asyncpg import UniqueViolationError
-from sqlalchemy import and_
+from sqlalchemy import and_, func, select
 
+from tg_bot.db_models.db_gino import db
 from tg_bot.db_models.schemas import *
 
 logger = logging.getLogger(__name__)
@@ -81,7 +82,8 @@ class DbDriver:
             logger.error(ex)
             return False
 
-    async def select(self, viewed_drivers_id: Optional[List[int]] = None) -> Union[Driver, List[Driver], bool, None]:
+    async def select(self, viewed_drivers_id: Optional[List[int]] = None, count_records: bool = False
+                     ) -> Union[Driver, List[Driver], bool, None]:
         try:
             q = Driver.query
 
@@ -165,7 +167,12 @@ class DbDriver:
             if filters:
                 q = q.where(and_(*filters))
 
-            return await q.gino.first()
+            if count_records:
+                count_query = select([func.count()]).select_from(q.alias('subq'))
+                return await db.scalar(count_query)
+
+            else:
+                return await q.gino.first()
 
         except Exception as ex:
             logger.error(ex)

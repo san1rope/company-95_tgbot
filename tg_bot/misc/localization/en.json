@@ -410,6 +410,9 @@
     "company_reset_filters_error": [
       "<b>🚁 An error occurred while clearing the filters!</b>"
     ],
+    "company_count_next_drivers": [
+      "<b>\uD83D\uDCC4 The number of following drivers: %drivers_count%</b>"
+    ],
     "company_driver_found": [
       "<b>⚙️ Driver found</b>",
       "<b>\nReview the driver's application</b>",

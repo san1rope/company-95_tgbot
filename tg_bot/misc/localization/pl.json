@@ -410,6 +410,9 @@
     "company_reset_filters_error": [
       "<b>🔌 Wystąpił błąd podczas czyszczenia filtrów!</b>"
     ],
+    "company_count_next_drivers": [
+      "<b>\uD83D\uDCC4 Liczba następujących kierowców: %drivers_count%</b>"
+    ],
     "company_driver_found": [
       "<b>⚙️ Filtr kierowców</b>",
       "<b>\nRozważ zgłoszenie kierowcy</b>",

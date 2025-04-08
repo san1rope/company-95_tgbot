@@ -399,6 +399,9 @@
     "company_reset_filters_error": [
       "<b>\uD83D\uDED1 При очистке фильтров произошла ошибка!</b>"
     ],
+    "company_count_next_drivers": [
+      "<b>\uD83D\uDCC4 Количество следующих водителей: %drivers_count%</b>"
+    ],
     "company_driver_found": [
       "<b>⚙\uFE0F Найден водитель</b>",
       "<b>\nРассмотрите заявку водителя</b>",

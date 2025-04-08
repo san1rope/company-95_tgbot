@@ -4,8 +4,10 @@ from typing import Optional
 
 from aiogram import Router, F, types
 from aiogram.fsm.context import FSMContext
+from sqlalchemy import select, func
 
 from tg_bot.db_models.quick_commands import DbCompany, DbDriver
+from tg_bot.db_models.schemas import Driver
 from tg_bot.handlers.company.menu import show_menu
 from tg_bot.misc.models import DriverForm
 from tg_bot.handlers.company.payments_processing import PaymentsProcessing
@@ -45,7 +47,11 @@ async def show_driver(callback: types.CallbackQuery, state: FSMContext, retry: b
 
     viewed_drivers_id = company.viewed_drivers
     viewed_drivers_id.extend(company.open_drivers)
-    driver = await DbDriver(**params).select(viewed_drivers_id=viewed_drivers_id)
+
+    db_driver = DbDriver(**params)
+    driver = await db_driver.select(viewed_drivers_id=viewed_drivers_id)
+    count_drivers = await db_driver.select(viewed_drivers_id=viewed_drivers_id, count_records=True)
+
     if not driver:
         if retry and len(company.viewed_drivers) > 0:
             text = await Ut.get_message_text(lang=company.lang, key="company_find_driver_end")
@@ -72,6 +78,11 @@ async def show_driver(callback: types.CallbackQuery, state: FSMContext, retry: b
     text = await DriverForm().form_completion(title=text, lang=company.lang, db_model=driver, for_company=True)
     markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="company_driver_found_menu")
     await Ut.send_step_message(user_id=uid, text=text, markup=markup)
+
+    text = await Ut.get_message_text(lang=company.lang, key="company_count_next_drivers")
+    text = text.replace("%drivers_count%", str(count_drivers - 1))
+    msg = await callback.message.answer(text=text)
+    await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
 
     await state.set_state(CompanyFindDriver.ActionOnDriver)
 
