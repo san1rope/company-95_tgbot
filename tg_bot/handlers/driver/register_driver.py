@@ -304,6 +304,7 @@ class RegistrationSteps:
 
         elif cd in ["check", "uncheck"]:
             sc = data.get("sc")
+            print(f"sc = {sc}")
             markup_key = None
             if sc:
                 markup_key = f"countries_{sc}_{data['sp']}"
@@ -688,7 +689,6 @@ class RegistrationSteps:
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.set_state(DriverRegistration.ChooseBasisOfStay)
-
 
     @classmethod
     async def basis_of_stay_handler(cls, callback: types.CallbackQuery, state: FSMContext):
@@ -1096,6 +1096,9 @@ class RegistrationSteps:
 
         status = data["status"]
         if status == 2:
+            additional_buttons = [AdditionalButtons(index=-2, action="new", buttons={"check": None, "uncheck": None})]
+
+        elif "asia" in callback.data or data.get("sc") == "asia":
             additional_buttons = [AdditionalButtons(index=-2, action="new", buttons={"check": None, "uncheck": None})]
 
         else:
