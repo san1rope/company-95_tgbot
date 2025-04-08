@@ -29,7 +29,7 @@
     ],
     "driver_reg_write_name": [
       "<b>❇\uFE0F Driver registration</b>\n",
-      "<b>Write your full name</b>",
+      "<b>How should I address you?</b>",
       "\n<b>ℹ\uFE0F Enter your name in Latin letters only</b>"
     ],
     "wrong_name_format": [

@@ -106,8 +106,6 @@ class DriverForm(BaseModel):
         model_company = isinstance(model, Company)
 
         text = [f"{title}\n"]
-        if (not model_company) and (not for_company) and (model.name is not None):
-            text.append(f"<b>{hcode(fcd['name'])} {model.name}</b>")
 
         try:
             birth_year = getattr(model, "birth_year", None)
@@ -312,6 +310,9 @@ class DriverForm(BaseModel):
                         input_localized_text=lang_inline_markups["genders"], code=model.driver_gender)
 
                 text.append(f"<b>{hcode(fcd['driver_gender'])} {localized_text}</b>")
+
+            if (not model_company) and (not for_company) and (model.name is not None):
+                text.append(f"<b>{hcode(fcd['name'])} {model.name}</b>")
 
             if hidden_status is False and len(text) > 6:
                 text.append("\n<i>Нажмите `Скрыть анкету`, что-бы скрыть часть анкеты</i>")

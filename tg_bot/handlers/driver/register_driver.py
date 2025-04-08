@@ -9,7 +9,6 @@ from aiogram.fsm.context import FSMContext
 from config import Config
 from tg_bot.db_models.quick_commands import DbDriver, DbCompany
 from tg_bot.db_models.schemas import Driver
-from tg_bot.handlers.start import choose_role
 from tg_bot.keyboards.default import request_contact_default
 from tg_bot.keyboards.inline import year_inline, calendar_inline
 from tg_bot.misc.models import DriverForm
@@ -71,7 +70,12 @@ class RegistrationSteps:
                 setattr(dmodel, model_attr, None)
 
             await state.update_data(dmodel=dmodel, function_for_back=function_for_back, call_function=next_function)
-            params = {"state": state, "lang": lang, "data_model": dmodel}
+
+            if function_for_back == data["motd_func"]:
+                params = {"callback": callback, "state": state}
+
+            else:
+                params = {"state": state, "lang": lang, "data_model": dmodel}
 
         elif status == 1:
             params = {"callback": callback, "state": state, "from_reg_steps": True}
@@ -304,7 +308,6 @@ class RegistrationSteps:
 
         elif cd in ["check", "uncheck"]:
             sc = data.get("sc")
-            print(f"sc = {sc}")
             markup_key = None
             if sc:
                 markup_key = f"countries_{sc}_{data['sp']}"
@@ -359,40 +362,6 @@ class RegistrationSteps:
         return saved_data
 
     @classmethod
-    async def name(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
-        text = await Ut.get_message_text(key="driver_reg_write_name", lang=lang)
-        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
-        markup = await Ut.get_markup(
-            mtype="inline", lang=lang, additional_buttons=[AdditionalButtons(buttons={"back": None})])
-        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
-
-        await state.update_data(hidden_status=None)
-        await state.set_state(DriverRegistration.WriteName)
-
-    @classmethod
-    async def name_handler(cls, message: Union[types.Message, types.CallbackQuery], state: FSMContext):
-        uid = message.from_user.id
-        await Ut.handler_log(logger, uid)
-
-        data = await state.get_data()
-        lang = await cls.get_lang(state_data=data, user_id=uid)
-
-        if isinstance(message, types.CallbackQuery):
-            await message.answer()
-            result = await cls.processing_back_btn(callback=message, state=state, lang=lang,
-                                                   function_for_back=choose_role)
-            if result:
-                return
-
-        name = message.text.strip()
-        if not await Ut.is_valid_name(name=name):
-            text = await Ut.get_message_text(key="wrong_name_format", lang=lang)
-            msg = await message.answer(text=text)
-            return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
-
-        await cls.handler_finish(state=state, returned_value=name, additional_field="name")
-
-    @classmethod
     async def birth_year(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
@@ -408,7 +377,7 @@ class RegistrationSteps:
             function_for_back = data.get("function_for_back")
             if status != 1:
                 status = 0
-                function_for_back = cls.name
+                function_for_back = data["motd_func"]
 
         text = await Ut.get_message_text(key=msg_key, lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
@@ -434,7 +403,7 @@ class RegistrationSteps:
             callback=callback, state=state, lang=lang,
             next_function=data["call_function"] if status_secondary else call_functions["birth_year"],
             model_attr=None if status_secondary else "name",
-            function_for_back=cls.birth_year if status_secondary else cls.name
+            function_for_back=cls.birth_year if status_secondary else data.get("motd_func")
         )
         if result:
             return
@@ -1645,9 +1614,42 @@ class RegistrationSteps:
 
         await cls.handler_finish(state=state, returned_value=returned_value, additional_field="crew")
 
+    @classmethod
+    async def name(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
+        text = await Ut.get_message_text(key="driver_reg_write_name", lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(
+            mtype="inline", lang=lang, additional_buttons=[AdditionalButtons(buttons={"back": None})])
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
-router.message.register(RegistrationSteps.name_handler, DriverRegistration.WriteName)
-router.callback_query.register(RegistrationSteps.name_handler, DriverRegistration.WriteName)
+        await state.update_data(hidden_status=None)
+        await state.set_state(DriverRegistration.WriteName)
+
+    @classmethod
+    async def name_handler(cls, message: Union[types.Message, types.CallbackQuery], state: FSMContext):
+        uid = message.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        if isinstance(message, types.CallbackQuery):
+            await message.answer()
+            result = await cls.processing_back_btn(
+                callback=message, state=state, lang=lang, function_for_back=cls.driver_gender,
+                next_function=call_functions["name"], model_attr="driver_gender")
+            if result:
+                return
+
+        name = message.text.strip()
+        if not await Ut.is_valid_name(name=name):
+            text = await Ut.get_message_text(key="wrong_name_format", lang=lang)
+            msg = await message.answer(text=text)
+            return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+
+        await cls.handler_finish(state=state, returned_value=name, additional_field="name")
+
+
 router.callback_query.register(RegistrationSteps.birth_year_handler, DriverRegistration.ChooseBirthYear)
 router.message.register(RegistrationSteps.phone_number_handler, DriverRegistration.WritePhoneNumber)
 router.callback_query.register(RegistrationSteps.phone_number_handler, DriverRegistration.WritePhoneNumber),
@@ -1677,3 +1679,5 @@ router.callback_query.register(RegistrationSteps.work_type_handler, DriverRegist
 router.callback_query.register(RegistrationSteps.cadence_handler, DriverRegistration.WriteCadence)
 router.callback_query.register(RegistrationSteps.crew_handler, DriverRegistration.ChooseCrew)
 router.callback_query.register(RegistrationSteps.driver_gender_handler, DriverRegistration.ChooseGender)
+router.message.register(RegistrationSteps.name_handler, DriverRegistration.WriteName)
+router.callback_query.register(RegistrationSteps.name_handler, DriverRegistration.WriteName)

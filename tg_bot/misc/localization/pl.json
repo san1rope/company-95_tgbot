@@ -29,7 +29,7 @@
     ],
     "driver_reg_write_name": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
-      "<b>Wpisz swoje imię i nazwisko</b>",
+      "<b>W jaki sposób pracownik firmy transportowej powinien się z Tobą skontaktować?</b>",
       "\n<b>ℹ\uFE0F Wpisz swoje imię i nazwisko wyłącznie literami alfabetu łacińskiego</b>"
     ],
     "wrong_name_format": [

@@ -31,8 +31,34 @@ async def motd_message(callback: types.CallbackQuery, state: FSMContext):
     await state.set_state(DriverRegistration.MOTDMessage)
 
 
+# @router.callback_query(DriverRegistration.MOTDMessage)
+# async def write_name(callback: types.CallbackQuery, state: FSMContext):
+#     await callback.answer()
+#     uid = callback.from_user.id
+#     await Ut.handler_log(logger, uid)
+#
+#     data = await state.get_data()
+#     ulang = data["ulang"]
+#
+#     dmodel = DriverForm()
+#     await state.update_data(dmodel=dmodel, status=0, call_function=choose_birth_year)
+#
+#     await RegistrationSteps().name(state=state, lang=ulang, data_model=dmodel)
+
+
+# async def choose_birth_year(state: FSMContext, returned_data: Union[str, int]):
+#     data = await state.get_data()
+#     ulang = data["ulang"]
+#     dmodel: DriverForm = data["dmodel"]
+#
+#     dmodel.name = returned_data
+#     await state.update_data(dmodel=dmodel, call_function=write_phone_number)
+#
+#     await RegistrationSteps().birth_year(state=state, data_model=dmodel, lang=ulang)
+
+
 @router.callback_query(DriverRegistration.MOTDMessage)
-async def write_name(callback: types.CallbackQuery, state: FSMContext):
+async def choose_birth_year(callback: types.CallbackQuery, state: FSMContext):
     await callback.answer()
     uid = callback.from_user.id
     await Ut.handler_log(logger, uid)
@@ -41,20 +67,9 @@ async def write_name(callback: types.CallbackQuery, state: FSMContext):
     ulang = data["ulang"]
 
     dmodel = DriverForm()
-    await state.update_data(dmodel=dmodel, status=0, call_function=choose_birth_year)
+    await state.update_data(dmodel=dmodel, status=0, call_function=write_phone_number, motd_func=motd_message)
 
-    await RegistrationSteps().name(state=state, lang=ulang, data_model=dmodel)
-
-
-async def choose_birth_year(state: FSMContext, returned_data: Union[str, int]):
-    data = await state.get_data()
-    ulang = data["ulang"]
-    dmodel: DriverForm = data["dmodel"]
-
-    dmodel.name = returned_data
-    await state.update_data(dmodel=dmodel, call_function=write_phone_number)
-
-    await RegistrationSteps().birth_year(state=state, data_model=dmodel, lang=ulang)
+    await RegistrationSteps().birth_year(state=state, lang=ulang, data_model=dmodel)
 
 
 async def write_phone_number(state: FSMContext, returned_data: Union[str, int]):
@@ -272,9 +287,20 @@ async def choose_driver_gender(state: FSMContext, returned_data: Union[str, int]
     dmodel: DriverForm = data["dmodel"]
 
     dmodel.crew = returned_data
-    await state.update_data(dmodel=dmodel, call_function=form_confirmation)
+    await state.update_data(dmodel=dmodel, call_function=write_name)
 
     await RegistrationSteps().driver_gender(state=state, data_model=dmodel, lang=ulang)
+
+
+async def write_name(state: FSMContext, returned_data: Union[str, int]):
+    data = await state.get_data()
+    ulang = data["ulang"]
+    dmodel: DriverForm = data["dmodel"]
+
+    dmodel.driver_gender = returned_data
+    await state.update_data(dmodel=dmodel, call_function=form_confirmation)
+
+    await RegistrationSteps().name(state=state, lang=ulang, data_model=dmodel)
 
 
 async def form_confirmation(state: FSMContext, returned_data: Union[str, int]):
@@ -282,7 +308,7 @@ async def form_confirmation(state: FSMContext, returned_data: Union[str, int]):
     ulang = data["ulang"]
     dmodel: DriverForm = data["dmodel"]
 
-    dmodel.driver_gender = returned_data
+    dmodel.name = returned_data
     await state.update_data(dmodel=dmodel)
 
     text = await Ut.get_message_text(key="driver_reg_confirmation", lang=ulang)
@@ -305,9 +331,9 @@ async def registration_finish(callback: types.CallbackQuery, state: FSMContext):
 
     cd = callback.data
     if cd == "back":
-        dmodel.driver_gender = None
+        dmodel.name = None
         await state.update_data(dmodel=dmodel, call_function=form_confirmation)
-        return await RegistrationSteps().driver_gender(state=state, data_model=dmodel, lang=ulang)
+        return await RegistrationSteps().name(state=state, data_model=dmodel, lang=ulang)
 
     elif cd == "confirm":
         form_price = await dmodel.calculate_form_data()
@@ -327,7 +353,7 @@ async def registration_finish(callback: types.CallbackQuery, state: FSMContext):
 
 
 call_functions.update({
-    "name": write_name, "birth_year": choose_birth_year, "phone_number": write_phone_number,
+    "birth_year": choose_birth_year, "phone_number": write_phone_number,
     "messangers": choose_messangers_availabilities, "car_types": choose_car_types, "citizenships": choose_citizenships,
     "basis_of_stay": choose_basis_of_stay, "95_code": choose_95_code,
     "date_start_work": choose_date_ready_to_start_work, "language_skills": indicate_language_skills,
@@ -335,5 +361,7 @@ call_functions.update({
     "unsuitable_countries": choose_unsuitable_countries, "dangerous_goods": choose_dangerous_goods,
     "expected_salary": write_expected_salary, "categories": choose_categories,
     "country_driving_licence": choose_country_driving_licence, "country_current_live": choose_country_current_live,
-    "work_type": choose_work_type, "cadence": choose_cadence, "crew": choose_crew, "driver_gender": choose_driver_gender
+    "work_type": choose_work_type, "cadence": choose_cadence, "crew": choose_crew,
+    "driver_gender": choose_driver_gender,
+    "name": write_name
 })
