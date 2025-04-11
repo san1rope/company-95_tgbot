@@ -30,12 +30,12 @@
     "driver_reg_write_name": [
       "<b>❇\uFE0F Driver registration</b>\n",
       "<b>How should I address you?</b>",
-      "\n<b>ℹ\uFE0F Enter your name in Latin letters only</b>"
+      "\n<b>ℹ\uFE0F Write your name in Latin letters only</b>"
     ],
     "wrong_name_format": [
       "<b>\uD83D\uDED1 Incorrect name format!</b>\n",
-      "<b>ℹ\uFE0F The name must consist of Latin letters!</b>",
-      "<b>In allowed characters: space, '</b>"
+      "<b>ℹ\uFE0F Please write your name in Latin letters only!</b>",
+      "<b>Allowed characters: space, '</b>"
     ],
     "driver_reg_choose_birth_year": [
       "<b>❇\uFE0F Driver registration</b>\n",
@@ -44,7 +44,7 @@
     ],
     "driver_reg_write_contact_number": [
       "<b>❇\uFE0F Driver registration</b>\n",
-      "<b>Enter your contact phone number</b>",
+      "<b>Write your contact phone number on the keypad</b>",
       "\n<b>ℹ\uFE0F Must be entered with the country code!</b>"
     ],
     "driver_reg_request_contact": [
@@ -52,7 +52,7 @@
     ],
     "wrong_phone_number_format": [
       "<b>\uD83D\uDED1 Incorrect phone number format!</b>\n",
-      "<b>ℹ\uFE0F The number must consist of digits only!</b>"
+      "<b>ℹ\uFE0F Please enter only numbers!/b>"
     ],
     "phone_number_range_limit": [
       "<b>\uD83D\uDED1 Incorrect phone number format!</b>\n",
@@ -129,15 +129,14 @@
     ],
     "driver_reg_expected_salary": [
       "<b>❇\uFE0F Driver registration</b>\n",
-      "<b>Enter the expected salary in Euros per day worked</b>",
-      "\n<b>⬇ Use the keyboard below</b>"
+      "<b>Write the expected amount in euros on the keyboard</b>",
     ],
     "wrong_number": [
       "<b>\uD83D\uDED1 Incorrect number format!</b>\n",
-      "<b>ℹ\uFE0F The number must not be negative and must consist solely of digits and a dot (dot in case of a non-integer)</b>"
+      "<b>ℹ\uFE0F Please write only numbers! (dot for non-integer numbers)</b>"
     ],
     "wrong_salary_value_range": [
-      "<b>\uD83D\uDED1 Expected salary should fall within the range of: %value_min% &lt;= salary &lt;= %value_max%</b>\n"
+      "<b>\uD83D\uDED1 Expected salary should be between %value_min% and %value_max%</b>\n"
     ],
     "driver_reg_availability_categories": [
       "<b>❇\uFE0F Driver registration</b>\n",
@@ -352,7 +351,7 @@
     "company_filters_expected_salary": [
       "<b>⚙️ Driver Filter</b>",
       "<b>➖ Expected salary</b>",
-      "\n<b>Enter the expected salary range for the driver in the following format:</b>",
+      "\n<b>Write the expected salary range for the driver in this format:</b>",
       "<b>(min number)-(max number)</b>",
       "<b>Example: 60-94</b>",
       "<b>The number must be within the range of %salary_min% to %salary_max%</b>",

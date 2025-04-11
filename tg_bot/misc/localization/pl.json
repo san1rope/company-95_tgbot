@@ -30,11 +30,11 @@
     "driver_reg_write_name": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
       "<b>W jaki sposób pracownik firmy transportowej powinien się z Tobą skontaktować?</b>",
-      "\n<b>ℹ\uFE0F Wpisz swoje imię i nazwisko wyłącznie literami alfabetu łacińskiego</b>"
+      "\n<b>ℹ\uFE0F Imię i nazwisko należy pisać wyłącznie alfabetem łacińskim</b>"
     ],
     "wrong_name_format": [
       "<b>\uD83D\uDED1 Nieprawidłowy format nazwy!</b>\n",
-      "<b>ℹ\uFE0F Nazwa musi składać się z liter alfabetu łacińskiego!</b>",
+      "<b>ℹ\uFE0F Prosimy o wpisywanie imienia i nazwiska wyłącznie literami alfabetu łacińskiego!</b>",
       "<b>Dozwolone znaki: spacja, '</b>"
     ],
     "driver_reg_choose_birth_year": [
@@ -44,8 +44,8 @@
     ],
     "driver_reg_write_contact_number": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
-      "<b>Wprowadź numer telefonu kontaktowego</b>",
-      "\n<b>ℹ\uFE0F Musi być wprowadzony z kodem kraju!</b>"
+      "<b>Wpisz swój numer telefonu kontaktowego na klawiaturze</b>",
+      "\n<b>ℹ\uFE0F Musisz pisać z kodem kraju!</b>"
     ],
     "driver_reg_request_contact": [
       "<b>Możesz wysłać swój kontakt ⬇\uFE0F</b>"
@@ -57,7 +57,7 @@
     ],
     "wrong_phone_number_format": [
       "<b>\uD83D\uDED1 Nieprawidłowy format numeru telefonu!</b>\n",
-      "<b>ℹ\uFE0F Numer musi składać się wyłącznie z cyfr!</b>"
+      "<b>ℹ\uFE0F Wprowadź tylko liczby!</b>"
     ],
     "phone_number_range_limit": [
       "<b>\uD83D\uDED1 Nieprawidłowy format numeru telefonu!</b>\n",
@@ -129,15 +129,14 @@
     ],
     "driver_reg_expected_salary": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
-      "<b>Wprowadź oczekiwane wynagrodzenie w euro za przepracowany dzień.</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "<b>Wpisz oczekiwaną kwotę w euro na klawiaturze</b>"
     ],
     "wrong_number": [
       "<b>\uD83D\uDED1 Nieprawidłowy format liczb!</b>\n",
-      "<b>ℹ\uFE0F Liczba nie może być ujemna i musi składać się wyłącznie z cyfr i kropki (kropka w przypadku liczb niecałkowitych).</b>"
+      "<b>ℹ\uFE0F Wpisuj tylko liczby! (kropka dla liczb niecałkowitych)</b>"
     ],
     "wrong_salary_value_range": [
-      "<b>\uD83D\uDED1 Oczekiwane wynagrodzenie powinno mieścić się w tym przedziale: %value_min% &lt;= płaca &lt;= %value_max%</b>\n"
+      "<b>\uD83D\uDED1 Oczekiwane wynagrodzenie powinno mieścić się w przedziale od %value_min% do %value_max%.</b>\n"
     ],
     "driver_reg_availability_categories": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
@@ -352,7 +351,7 @@
     "company_filters_expected_salary": [
       "<b>⚙️ Filtr kierowców</b>",
       "<b>➖ Oczekiwana pensja</b>",
-      "\n<b>Podaj zakres oczekiwanej pensji dla kierowcy w takim formacie:</b>",
+      "\n<b>Wpisz oczekiwany zakres wynagrodzenia dla kierowcy w tym formacie:</b>",
       "<b>(min. liczba)-(maks. liczba)</b>",
       "<b>Przykład: 60-94</b>",
       "<b>Liczba musi być w zakresie od %salary_min% do %salary_max%</b>",
