@@ -160,7 +160,7 @@
     ],
     "driver_reg_choose_cadence": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
-      "<b>Wybierz proponowany harmonogram</b>",
+      "<b>Wybór proponowanego harmonogramu pracy</b>",
       "\n<b>⬇ Użyj poniższej klawiatury</b>"
     ],
     "driver_reg_crew": [
@@ -314,7 +314,7 @@
     ],
     "company_filters_cadence": [
       "<b>⚙️ Filtr kierowców</b>",
-      "<b>➖ Kadencja</b>",
+      "<b>➖ Harmonogram pracy</b>",
       "\n<b>Wybierz żądane parametry wyszukiwania</b>",
       "\n<b>⬇ Użyj klawiatury poniżej</b>"
     ],
@@ -1602,7 +1602,7 @@
         },
         {
           "Rodzaj pracy": "work_type",
-          "Załoga": "cadence"
+          "Harmonogram pracy": "cadence"
         },
         {
           "Załoga": "crew",
@@ -1665,7 +1665,7 @@
           "Oczekiwane wynagrodzenie": "expected_salary"
         },
         {
-          "Kadencja": "cadence",
+          "Harmonogram pracy": "cadence",
           "Załoga": "crew"
         },
         {
@@ -1774,7 +1774,7 @@
       "country_driving_licence": "Kraj emisji:",
       "country_current_live": "Kraj aktualnego zamieszkania:",
       "work_type": "Rodzaj pracy:",
-      "cadence": "Cadence:",
+      "cadence": "Harmonogram pracy:",
       "crew": "Załoga:",
       "driver_gender": "Płeć kierowcy:",
       "username": "TG username:"

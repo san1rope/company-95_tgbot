@@ -4,10 +4,8 @@ from typing import Optional
 
 from aiogram import Router, F, types
 from aiogram.fsm.context import FSMContext
-from sqlalchemy import select, func
 
 from tg_bot.db_models.quick_commands import DbCompany, DbDriver
-from tg_bot.db_models.schemas import Driver
 from tg_bot.handlers.company.menu import show_menu
 from tg_bot.misc.models import DriverForm
 from tg_bot.handlers.company.payments_processing import PaymentsProcessing

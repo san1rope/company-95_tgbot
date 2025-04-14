@@ -31,32 +31,6 @@ async def motd_message(callback: types.CallbackQuery, state: FSMContext):
     await state.set_state(DriverRegistration.MOTDMessage)
 
 
-# @router.callback_query(DriverRegistration.MOTDMessage)
-# async def write_name(callback: types.CallbackQuery, state: FSMContext):
-#     await callback.answer()
-#     uid = callback.from_user.id
-#     await Ut.handler_log(logger, uid)
-#
-#     data = await state.get_data()
-#     ulang = data["ulang"]
-#
-#     dmodel = DriverForm()
-#     await state.update_data(dmodel=dmodel, status=0, call_function=choose_birth_year)
-#
-#     await RegistrationSteps().name(state=state, lang=ulang, data_model=dmodel)
-
-
-# async def choose_birth_year(state: FSMContext, returned_data: Union[str, int]):
-#     data = await state.get_data()
-#     ulang = data["ulang"]
-#     dmodel: DriverForm = data["dmodel"]
-#
-#     dmodel.name = returned_data
-#     await state.update_data(dmodel=dmodel, call_function=write_phone_number)
-#
-#     await RegistrationSteps().birth_year(state=state, data_model=dmodel, lang=ulang)
-
-
 @router.callback_query(DriverRegistration.MOTDMessage)
 async def choose_birth_year(callback: types.CallbackQuery, state: FSMContext):
     await callback.answer()

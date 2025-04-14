@@ -45,10 +45,14 @@ class DriverForm(BaseModel):
     @staticmethod
     async def codes_to_text_checkboxes(input_localized_text: List[Dict[str, str]], codes: List[str]) -> List[str]:
         localized_text = []
+
         for buttons_data in input_localized_text:
             for btn_text, btn_cd in buttons_data.items():
-                if btn_cd in codes:
+                if (btn_cd in codes) or ((not codes) and btn_cd == "skip"):
                     localized_text.append(btn_text)
+
+                    if not codes:
+                        return localized_text
 
         return localized_text
 
@@ -130,7 +134,7 @@ class DriverForm(BaseModel):
                 username = user.user.username if user.user.username else lang_misc["username"]
                 text.append(f"<b>{hcode(fcd['username'])} @{username}</b>")
 
-        if (not model_company) and (model.messangers is not None):
+        if model.messangers is not None:
             localized_text = await self.codes_to_text_checkboxes(
                 input_localized_text=lang_inline_markups["messangers_availabilities"], codes=model.messangers)
             text.append(f"<b>{hcode(fcd['messangers'])} {', '.join(localized_text)}</b>")

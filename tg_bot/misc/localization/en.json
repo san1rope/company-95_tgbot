@@ -129,7 +129,7 @@
     ],
     "driver_reg_expected_salary": [
       "<b>❇\uFE0F Driver registration</b>\n",
-      "<b>Write the expected amount in euros on the keyboard</b>",
+      "<b>Write the expected amount in euros on the keyboard</b>"
     ],
     "wrong_number": [
       "<b>\uD83D\uDED1 Incorrect number format!</b>\n",
@@ -160,7 +160,7 @@
     ],
     "driver_reg_choose_cadence": [
       "<b>❇\uFE0F Driver registration</b>\n",
-      "<b>Select the proposed schedule</b>",
+      "<b>Select the proposed work schedule</b>",
       "\n<b>⬇ Use the keyboard below</b>"
     ],
     "driver_reg_crew": [
@@ -314,7 +314,7 @@
     ],
     "company_filters_cadence": [
       "<b>⚙️ Driver Filter</b>",
-      "<b>➖ Cadence</b>",
+      "<b>➖ Work schedule</b>",
       "\n<b>Select the desired search parameters</b>",
       "\n<b>⬇ Use the keyboard below</b>"
     ],
@@ -1605,7 +1605,7 @@
         },
         {
           "Work type": "work_type",
-          "Cadence": "cadence"
+          "Cadence": "Work schedule"
         },
         {
           "Crew": "crew",
@@ -1668,7 +1668,7 @@
           "Expected Salary": "expected_salary"
         },
         {
-          "Cadence": "cadence",
+          "Work schedule": "cadence",
           "Crew": "crew"
         },
         {
@@ -1777,7 +1777,7 @@
       "country_driving_licence": "Country of issue of driving licence:",
       "country_current_live": "Country of current stay:",
       "work_type": "Work type:",
-      "cadence": "Cadence:",
+      "cadence": "Work schedule:",
       "crew": "Crew:",
       "driver_gender": "Gender:",
       "username": "TG username:"
