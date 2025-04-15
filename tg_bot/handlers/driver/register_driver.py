@@ -119,8 +119,10 @@ class RegistrationSteps:
                 await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
                 return False
 
-        elif cd == "skip":
-            saved_data = []
+        # elif cd == "skip":
+        #     saved_data = ["skip"]
+        #     await state.update_data(saved_data=saved_data)
+        #     return False
 
         elif "row:" in cd or "col:" in cd or "hid_or_open_form" == cd:
             return False
@@ -147,7 +149,22 @@ class RegistrationSteps:
             elif cd == "uncheck":
                 await state.update_data(saved_data=[])
 
+            elif cd == "skip":
+                if cd in saved_data:
+                    await state.update_data(saved_data=[])
+
+                else:
+                    saved_data = ["skip"]
+                    await state.update_data(saved_data=saved_data)
+                    for row in markup.inline_keyboard:
+                        for btn in row:
+                            if btn.callback_data in saved_data:
+                                btn.text = f"✅ {btn.text}"
+
             else:
+                if "skip" in saved_data:
+                    saved_data.remove("skip")
+
                 if cd in saved_data:
                     saved_data.remove(cd)
 
@@ -168,6 +185,10 @@ class RegistrationSteps:
                 return False
 
         await state.update_data(saved_data=[])
+
+        if "skip" in saved_data:
+            saved_data.remove("skip")
+
         return saved_data
 
     @staticmethod
@@ -416,6 +437,9 @@ class RegistrationSteps:
 
             if direction == "left":
                 old_from_year = int(old_from_year) - 25
+                if old_from_year + 25 < 1950:
+                    return
+
                 markup = await year_inline(from_year=old_from_year, lang=lang)
                 return await callback.message.edit_reply_markup(reply_markup=markup)
 
@@ -505,7 +529,7 @@ class RegistrationSteps:
         await cls.handler_finish(state=state, returned_value=phone_number, additional_field="phone_number")
 
     @classmethod
-    async def messangers_availabilities(cls, state: FSMContext, lang: str,
+    async def messangers(cls, state: FSMContext, lang: str,
                                         data_model: Optional[Union[DriverForm, Driver]] = None):
         text = await Ut.get_message_text(key="driver_reg_choose_messangers_availabilities", lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
@@ -516,7 +540,7 @@ class RegistrationSteps:
         await state.set_state(DriverRegistration.ChooseMessangersAvailabilities)
 
     @classmethod
-    async def messangers_availabilities_handler(cls, callback: types.CallbackQuery, state: FSMContext):
+    async def messangers_handler(cls, callback: types.CallbackQuery, state: FSMContext):
         await callback.answer()
         uid = callback.from_user.id
         await Ut.handler_log(logger, uid)
@@ -567,7 +591,7 @@ class RegistrationSteps:
         lang = await cls.get_lang(state_data=data, user_id=uid)
 
         result = await cls.processing_back_btn(
-            callback=callback, state=state, lang=lang, function_for_back=cls.messangers_availabilities,
+            callback=callback, state=state, lang=lang, function_for_back=cls.messangers,
             next_function=call_functions["car_types"], model_attr="messangers")
         if result:
             return
@@ -1653,8 +1677,7 @@ class RegistrationSteps:
 router.callback_query.register(RegistrationSteps.birth_year_handler, DriverRegistration.ChooseBirthYear)
 router.message.register(RegistrationSteps.phone_number_handler, DriverRegistration.WritePhoneNumber)
 router.callback_query.register(RegistrationSteps.phone_number_handler, DriverRegistration.WritePhoneNumber),
-router.callback_query.register(RegistrationSteps.messangers_availabilities_handler,
-                               DriverRegistration.ChooseMessangersAvailabilities)
+router.callback_query.register(RegistrationSteps.messangers_handler, DriverRegistration.ChooseMessangersAvailabilities)
 router.callback_query.register(RegistrationSteps.car_types_handler, DriverRegistration.ChooseCarType)
 router.callback_query.register(RegistrationSteps.citizenships_handler, DriverRegistration.ChooseCitizenship)
 router.callback_query.register(RegistrationSteps.basis_of_stay_handler, DriverRegistration.ChooseBasisOfStay)

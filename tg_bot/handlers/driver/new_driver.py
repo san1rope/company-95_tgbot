@@ -65,7 +65,7 @@ async def choose_messangers_availabilities(state: FSMContext, returned_data: Uni
     dmodel.phone_number = returned_data
     await state.update_data(dmodel=dmodel, selected_messangers=[], call_function=choose_car_types)
 
-    await RegistrationSteps().messangers_availabilities(state=state, data_model=dmodel, lang=ulang)
+    await RegistrationSteps().messangers(state=state, data_model=dmodel, lang=ulang)
 
 
 async def choose_car_types(state: FSMContext, returned_data: Union[str, int]):
