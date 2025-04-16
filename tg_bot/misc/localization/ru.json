@@ -560,9 +560,12 @@
       },
       "choose_lang": [
         {
-          "\uD83C\uDDEC\uD83C\uDDE7 English": "en",
-          "\uD83C\uDDF5\uD83C\uDDF1 Polish": "pl",
-          "\uD83C\uDDF7\uD83C\uDDFA Russian": "ru"
+          "\uD83C\uDDEC\uD83C\uDDE7 Английский": "en",
+          "\uD83C\uDDF5\uD83C\uDDF1 Польский": "pl",
+          "\uD83C\uDDF7\uD83C\uDDFA Русский": "ru"
+        },
+        {
+          "\uD83C\uDDFA\uD83C\uDDE6 Украинский": "uk"
         }
       ],
       "choose_role": [
