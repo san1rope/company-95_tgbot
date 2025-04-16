@@ -119,11 +119,6 @@ class RegistrationSteps:
                 await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
                 return False
 
-        # elif cd == "skip":
-        #     saved_data = ["skip"]
-        #     await state.update_data(saved_data=saved_data)
-        #     return False
-
         elif "row:" in cd or "col:" in cd or "hid_or_open_form" == cd:
             return False
 
@@ -479,56 +474,6 @@ class RegistrationSteps:
         await cls.handler_finish(state=state, returned_value=returned_value, additional_field="birth_year")
 
     @classmethod
-    async def phone_number(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
-        text = await Ut.get_message_text(key="driver_reg_write_contact_number", lang=lang)
-        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
-        markup = await Ut.get_markup(
-            mtype="inline", lang=lang, additional_buttons=[AdditionalButtons(buttons={"back": None})])
-        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
-
-        text = await Ut.get_message_text(key="driver_reg_request_contact", lang=lang)
-        msg = await Config.BOT.send_message(chat_id=state.key.user_id, text=text,
-                                            reply_markup=await request_contact_default(lang=lang))
-        await Ut.add_msg_to_delete(user_id=state.key.user_id, msg_id=msg.message_id)
-
-        await state.set_state(DriverRegistration.WritePhoneNumber)
-
-    @classmethod
-    async def phone_number_handler(cls, message: [types.Message, types.CallbackQuery], state: FSMContext):
-        uid = message.from_user.id
-        await Ut.handler_log(logger, uid)
-
-        data = await state.get_data()
-        lang = await cls.get_lang(state_data=data, user_id=uid)
-
-        if isinstance(message, types.CallbackQuery):
-            await message.answer()
-
-            result = await cls.processing_back_btn(
-                callback=message, state=state, lang=lang, next_function=call_functions["phone_number"],
-                function_for_back=cls.birth_year, model_attr="birth_year")
-            if result:
-                return
-
-        else:
-            if message.contact:
-                phone_number = message.contact.phone_number.replace("+", "")
-
-            else:
-                phone_number = message.text.strip().replace("+", "")
-                if not phone_number.isdigit():
-                    text = await Ut.get_message_text(key="wrong_phone_number_format", lang=lang)
-                    msg = await message.answer(text=text)
-                    return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
-
-                if not (10 <= len(phone_number) <= 15):
-                    text = await Ut.get_message_text(key="phone_number_range_limit", lang=lang)
-                    msg = await message.answer(text=text)
-                    return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
-
-        await cls.handler_finish(state=state, returned_value=phone_number, additional_field="phone_number")
-
-    @classmethod
     async def messangers(cls, state: FSMContext, lang: str,
                                         data_model: Optional[Union[DriverForm, Driver]] = None):
         text = await Ut.get_message_text(key="driver_reg_choose_messangers_availabilities", lang=lang)
@@ -550,7 +495,7 @@ class RegistrationSteps:
 
         result = await cls.processing_back_btn(
             callback=callback, state=state, lang=lang, next_function=call_functions["messangers"],
-            function_for_back=cls.phone_number, model_attr="phone_number")
+            function_for_back=cls.birth_year, model_attr="birth_year")
         if result:
             return
 
@@ -1639,6 +1584,56 @@ class RegistrationSteps:
         await cls.handler_finish(state=state, returned_value=returned_value, additional_field="crew")
 
     @classmethod
+    async def phone_number(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
+        text = await Ut.get_message_text(key="driver_reg_write_contact_number", lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(
+            mtype="inline", lang=lang, additional_buttons=[AdditionalButtons(buttons={"back": None})])
+        await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+
+        text = await Ut.get_message_text(key="driver_reg_request_contact", lang=lang)
+        msg = await Config.BOT.send_message(chat_id=state.key.user_id, text=text,
+                                            reply_markup=await request_contact_default(lang=lang))
+        await Ut.add_msg_to_delete(user_id=state.key.user_id, msg_id=msg.message_id)
+
+        await state.set_state(DriverRegistration.WritePhoneNumber)
+
+    @classmethod
+    async def phone_number_handler(cls, message: [types.Message, types.CallbackQuery], state: FSMContext):
+        uid = message.from_user.id
+        await Ut.handler_log(logger, uid)
+
+        data = await state.get_data()
+        lang = await cls.get_lang(state_data=data, user_id=uid)
+
+        if isinstance(message, types.CallbackQuery):
+            await message.answer()
+
+            result = await cls.processing_back_btn(
+                callback=message, state=state, lang=lang, next_function=call_functions["phone_number"],
+                function_for_back=cls.driver_gender, model_attr="driver_gender")
+            if result:
+                return
+
+        else:
+            if message.contact:
+                phone_number = message.contact.phone_number.replace("+", "")
+
+            else:
+                phone_number = message.text.strip().replace("+", "")
+                if not phone_number.isdigit():
+                    text = await Ut.get_message_text(key="wrong_phone_number_format", lang=lang)
+                    msg = await message.answer(text=text)
+                    return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+
+                if not (10 <= len(phone_number) <= 15):
+                    text = await Ut.get_message_text(key="phone_number_range_limit", lang=lang)
+                    msg = await message.answer(text=text)
+                    return await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+
+        await cls.handler_finish(state=state, returned_value=phone_number, additional_field="phone_number")
+
+    @classmethod
     async def name(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
         text = await Ut.get_message_text(key="driver_reg_write_name", lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
@@ -1660,8 +1655,8 @@ class RegistrationSteps:
         if isinstance(message, types.CallbackQuery):
             await message.answer()
             result = await cls.processing_back_btn(
-                callback=message, state=state, lang=lang, function_for_back=cls.driver_gender,
-                next_function=call_functions["name"], model_attr="driver_gender")
+                callback=message, state=state, lang=lang, function_for_back=cls.phone_number,
+                next_function=call_functions["name"], model_attr="phone_number")
             if result:
                 return
 

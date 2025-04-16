@@ -1,5 +1,6 @@
 import asyncio
 import logging
+from copy import deepcopy
 from typing import Optional
 
 from aiogram import Router, F, types
@@ -43,7 +44,7 @@ async def show_driver(callback: types.CallbackQuery, state: FSMContext, retry: b
             "crew": company.crew, "driver_gender": company.driver_gender, "status": 1
         })
 
-    viewed_drivers_id = company.viewed_drivers
+    viewed_drivers_id = deepcopy(company.viewed_drivers)
     viewed_drivers_id.extend(company.open_drivers)
 
     db_driver = DbDriver(**params)

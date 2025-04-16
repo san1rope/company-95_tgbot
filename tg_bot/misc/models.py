@@ -126,14 +126,6 @@ class DriverForm(BaseModel):
         except AttributeError:
             pass
 
-        if (not model_company) and (not for_company) and (model.phone_number is not None):
-            text.append(f"<b>{hcode(fcd['phone_number'])} {model.phone_number}</b>")
-
-            if isinstance(model, Driver):
-                user = await Config.BOT.get_chat_member(chat_id=model.tg_user_id, user_id=model.tg_user_id)
-                username = user.user.username if user.user.username else lang_misc["username"]
-                text.append(f"<b>{hcode(fcd['username'])} @{username}</b>")
-
         if model.messangers is not None:
             localized_text = await self.codes_to_text_checkboxes(
                 input_localized_text=lang_inline_markups["messangers_availabilities"], codes=model.messangers)
@@ -315,8 +307,16 @@ class DriverForm(BaseModel):
 
                 text.append(f"<b>{hcode(fcd['driver_gender'])} {localized_text}</b>")
 
+            if (not model_company) and (not for_company) and (model.phone_number is not None):
+                text.append(f"<b>{hcode(fcd['phone_number'])} {model.phone_number}</b>")
+
             if (not model_company) and (not for_company) and (model.name is not None):
                 text.append(f"<b>{hcode(fcd['name'])} {model.name}</b>")
+
+            if isinstance(model, Driver):
+                user = await Config.BOT.get_chat_member(chat_id=model.tg_user_id, user_id=model.tg_user_id)
+                username = user.user.username if user.user.username else lang_misc["username"]
+                text.append(f"<b>{hcode(fcd['username'])} @{username}</b>")
 
             if hidden_status is False and len(text) > 6:
                 text.append("\n<i>Нажмите `Скрыть анкету`, что-бы скрыть часть анкеты</i>")

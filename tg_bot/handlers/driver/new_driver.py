@@ -41,20 +41,10 @@ async def choose_birth_year(callback: types.CallbackQuery, state: FSMContext):
     ulang = data["ulang"]
 
     dmodel = DriverForm()
-    await state.update_data(dmodel=dmodel, status=0, call_function=write_phone_number, motd_func=motd_message)
+    await state.update_data(
+        dmodel=dmodel, status=0, call_function=choose_messangers_availabilities, motd_func=motd_message)
 
     await RegistrationSteps().birth_year(state=state, lang=ulang, data_model=dmodel)
-
-
-async def write_phone_number(state: FSMContext, returned_data: Union[str, int]):
-    data = await state.get_data()
-    ulang = data["ulang"]
-    dmodel: DriverForm = data["dmodel"]
-
-    dmodel.birth_year = returned_data
-    await state.update_data(dmodel=dmodel, call_function=choose_messangers_availabilities)
-
-    await RegistrationSteps().phone_number(state=state, data_model=dmodel, lang=ulang)
 
 
 async def choose_messangers_availabilities(state: FSMContext, returned_data: Union[str, int]):
@@ -62,7 +52,7 @@ async def choose_messangers_availabilities(state: FSMContext, returned_data: Uni
     ulang = data["ulang"]
     dmodel: DriverForm = data["dmodel"]
 
-    dmodel.phone_number = returned_data
+    dmodel.birth_year = returned_data
     await state.update_data(dmodel=dmodel, selected_messangers=[], call_function=choose_car_types)
 
     await RegistrationSteps().messangers(state=state, data_model=dmodel, lang=ulang)
@@ -261,9 +251,20 @@ async def choose_driver_gender(state: FSMContext, returned_data: Union[str, int]
     dmodel: DriverForm = data["dmodel"]
 
     dmodel.crew = returned_data
-    await state.update_data(dmodel=dmodel, call_function=write_name)
+    await state.update_data(dmodel=dmodel, call_function=write_phone_number)
 
     await RegistrationSteps().driver_gender(state=state, data_model=dmodel, lang=ulang)
+
+
+async def write_phone_number(state: FSMContext, returned_data: Union[str, int]):
+    data = await state.get_data()
+    ulang = data["ulang"]
+    dmodel: DriverForm = data["dmodel"]
+
+    dmodel.driver_gender = returned_data
+    await state.update_data(dmodel=dmodel, call_function=write_name)
+
+    await RegistrationSteps().phone_number(state=state, data_model=dmodel, lang=ulang)
 
 
 async def write_name(state: FSMContext, returned_data: Union[str, int]):
@@ -271,7 +272,7 @@ async def write_name(state: FSMContext, returned_data: Union[str, int]):
     ulang = data["ulang"]
     dmodel: DriverForm = data["dmodel"]
 
-    dmodel.driver_gender = returned_data
+    dmodel.phone_number = returned_data
     await state.update_data(dmodel=dmodel, call_function=form_confirmation)
 
     await RegistrationSteps().name(state=state, lang=ulang, data_model=dmodel)
