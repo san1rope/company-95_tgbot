@@ -1734,8 +1734,8 @@
       ]
     },
     "selectors": {
-      "back": "До попереднього питання",
-      "back_to_menu": "В меню селектора",
+      "back": "↩\uFE0F Назад",
+      "back_to_menu": "\uD83D\uDCC4 В меню селектора",
       "languages_skills": {
         "rows": {
           "a": "\uD83C\uDDEC\uD83C\uDDE7 Англійська",

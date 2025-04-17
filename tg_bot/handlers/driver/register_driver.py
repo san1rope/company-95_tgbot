@@ -201,6 +201,7 @@ class RegistrationSteps:
             return False
 
         elif cd == "back_to_menu":
+            await state.update_data(curr_selector_row=None)
             markup = await Cim.selectors(lang=lang, data=saved_data, selector_key=selector_key)
             await callback.message.edit_reply_markup(reply_markup=markup)
             return False
@@ -227,41 +228,12 @@ class RegistrationSteps:
                         break
 
                 saved_data.append(cd)
-                await state.update_data(saved_data=saved_data)
+                await state.update_data(saved_data=saved_data, curr_selector_row=None)
 
                 markup = await Cim.selectors(lang=lang, data=saved_data, selector_key=selector_key)
                 await callback.message.edit_reply_markup(reply_markup=markup)
 
             return False
-
-
-        # hidden_status = data["hidden_status"] if data.get("hidden_status") is not None else None
-        #
-        # if ":" in cd:
-        #     cd_lang = cd.split(":")[0]
-        #     for el in saved_data.copy():
-        #         if cd_lang in el:
-        #             saved_data.remove(el)
-        #
-        #     saved_data.append(cd)
-        #     await state.update_data(saved_data=saved_data)
-        #
-        #     markup = await Ut.get_markup(mtype="inline", key=markup_key, lang=lang, hidden_status=hidden_status)
-        #     markup = await Ut.recognize_selected_values(markup=markup, datalist=saved_data, text_placeholder="🟢")
-        #
-        #     try:
-        #         await callback.message.edit_reply_markup(reply_markup=markup)
-        #         return False
-        #
-        #     except TelegramBadRequest:
-        #         return False
-        #
-        # elif "confirm" == cd:
-        #     if len(saved_data) < 3:
-        #         text = await Ut.get_message_text(key=error_msg_key, lang=lang)
-        #         msg = await callback.message.answer(text=text)
-        #         await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
-        #         return False
 
         await state.update_data(saved_data=None)
         return saved_data
@@ -855,10 +827,8 @@ class RegistrationSteps:
             await cls.handler_finish(state=state, returned_value=returned_value, additional_field="date_start_work")
 
     @classmethod
-    async def language_skills(cls, state: FSMContext, lang: str,
-                              data_model: Optional[Union[DriverForm, Driver]] = None):
+    async def language_skills(cls, state: FSMContext, lang: str):
         data = await state.get_data()
-
         status = data["status"]
         if status == 2:
             msg_key = "company_filters_language_skills"
@@ -890,12 +860,13 @@ class RegistrationSteps:
 
         status = data["status"]
         if status == 2:
-            returned_data = await cls.processing_checkboxes(
-                callback=callback, state=state, lang=lang, markup_key="language_skills",
-                error_msg_key="wrong_language_skills"
-            )
-            if returned_data is False:
-                return
+            # returned_data = await cls.processing_checkboxes(
+            #     callback=callback, state=state, lang=lang, markup_key="job_experience",
+            #     error_msg_key="wrong_job_experience"
+            # )
+            # if returned_data is False:
+            #     return
+            pass  # in progress...
 
         else:
             returned_data = await cls.processing_selector(
@@ -908,11 +879,9 @@ class RegistrationSteps:
         await cls.handler_finish(state=state, returned_value=returned_data, additional_field="language_skills")
 
     @classmethod
-    async def job_experience(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
+    async def job_experience(cls, state: FSMContext, lang: str):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data.get("hidden_status")
-
         if status == 2:
             msg_key = "company_filters_job_experience"
 
@@ -920,13 +889,10 @@ class RegistrationSteps:
             msg_key = "driver_reg_job_experience"
 
         text = await Ut.get_message_text(key=msg_key, lang=lang)
-        markup = await Ut.get_markup(mtype="inline", key="job_experience", lang=lang)
-        await state.update_data(title=text, markup=markup, job_experience=[])
-
-        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model, hidden_status=hidden_status)
-        markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=hidden_status)
+        markup = await Cim.selectors(lang=lang, selector_key="job_experience", data=[])
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
+        await state.update_data(title=text, markup=markup, job_experience=[])
         await state.set_state(DriverRegistration.IndicateJobExperience)
 
     @classmethod
@@ -954,8 +920,8 @@ class RegistrationSteps:
                 return
 
         else:
-            returned_data = await cls.processing_slider(
-                callback=callback, state=state, lang=lang, markup_key="job_experience",
+            returned_data = await cls.processing_selector(
+                callback=callback, state=state, lang=lang, selector_key="job_experience",
                 error_msg_key="wrong_job_experience"
             )
             if returned_data is False:

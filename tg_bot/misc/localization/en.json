@@ -1810,6 +1810,38 @@
         "December"
       ]
     },
+    "selectors": {
+      "back": "↩️ Back",
+      "back_to_menu": "📄 Selector menu",
+      "languages_skills": {
+        "rows": {
+          "a": "🇬🇧 English",
+          "b": "🇩🇪 German",
+          "c": "🇵🇱 Polish"
+        },
+        "cols": {
+          "0": "➡️ Choose level",
+          "1": "1⃣ Don't speak",
+          "2": "2⃣ Understand but don't speak",
+          "3": "3⃣ Beginner level",
+          "4": "4⃣ Speak well"
+        }
+      },
+      "job_experience": {
+        "rows": {
+          "a": "D/C/CE in Europe",
+          "b": "D/C/CE outside Europe",
+          "c": "B - vans 3.5t in Europe"
+        },
+        "cols": {
+          "0": "➡️ Choose level",
+          "1": "1⃣ No experience",
+          "2": "2⃣ Less than 6 months",
+          "3": "3⃣ 6 months to 2 years",
+          "4": "4⃣ Over 2 years"
+        }
+      }
+    },
     "payment": {
       "invoice_url": "💳 Go to payment",
       "cancel": "🔘 Cancel"

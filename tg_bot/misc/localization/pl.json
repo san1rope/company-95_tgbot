@@ -1807,6 +1807,38 @@
         "Grudzień"
       ]
     },
+    "selectors": {
+      "back": "↩️ Wstecz",
+      "back_to_menu": "📄 Menu selektora",
+      "languages_skills": {
+        "rows": {
+          "a": "🇬🇧 Angielski",
+          "b": "🇩🇪 Niemiecki",
+          "c": "🇵🇱 Polski"
+        },
+        "cols": {
+          "0": "➡️ Wybierz poziom",
+          "1": "1⃣ Nie znam",
+          "2": "2⃣ Rozumiem, ale nie mówię",
+          "3": "3⃣ Poziom podstawowy",
+          "4": "4⃣ Mówię dobrze"
+        }
+      },
+      "job_experience": {
+        "rows": {
+          "a": "D/C/CE w Europie",
+          "b": "D/C/CE poza Europą",
+          "c": "B - busy 3.5t w Europie"
+        },
+        "cols": {
+          "0": "➡️ Wybierz poziom",
+          "1": "1⃣ Brak doświadczenia",
+          "2": "2⃣ Mniej niż pół roku",
+          "3": "3⃣ Od pół roku do 2 lat",
+          "4": "4⃣ Ponad 2 lata"
+        }
+      }
+    },
     "payment": {
       "invoice_url": "💳 Przejdź do płatności",
       "cancel": "🛑 Anulować"
