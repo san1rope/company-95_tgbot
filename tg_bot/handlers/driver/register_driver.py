@@ -1,4 +1,5 @@
 import logging
+from copy import deepcopy
 from datetime import datetime
 from typing import Optional, Union, Dict, List, Any
 
@@ -10,7 +11,7 @@ from config import Config
 from tg_bot.db_models.quick_commands import DbDriver, DbCompany
 from tg_bot.db_models.schemas import Driver
 from tg_bot.keyboards.default import request_contact_default
-from tg_bot.keyboards.inline import year_inline, calendar_inline, selectors_inline
+from tg_bot.keyboards.inline import CustomInlineMarkups as Cim
 from tg_bot.misc.models import DriverForm
 from tg_bot.misc.states import DriverRegistration
 from tg_bot.misc.utils import Utils as Ut, call_functions, AdditionalButtons, localization
@@ -187,14 +188,51 @@ class RegistrationSteps:
         return saved_data
 
     @staticmethod
-    async def processing_slider(
-            callback: types.CallbackQuery, state: FSMContext, lang: str, markup_key: str, error_msg_key: str
+    async def processing_selector(
+            callback: types.CallbackQuery, state: FSMContext, lang: str, selector_key: str, error_msg_key: str
     ) -> Union[list, bool]:
         cd = callback.data
         uid = callback.from_user.id
         data = await state.get_data()
         saved_data = data["saved_data"] if data.get("saved_data") else []
+        curr_selector_row = data.get("curr_selector_row")
 
+        if cd == "0":
+            return False
+
+        elif cd == "back_to_menu":
+            markup = await Cim.selectors(lang=lang, data=saved_data, selector_key=selector_key)
+            await callback.message.edit_reply_markup(reply_markup=markup)
+            return False
+
+        elif cd == "confirm":
+            if len(saved_data) < 3:
+                text = await Ut.get_message_text(key=error_msg_key, lang=lang)
+                msg = await callback.message.answer(text=text)
+                await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+                return False
+
+        elif ":" in cd:
+            key, value = cd.split(":")
+
+            if value == "set_value":
+                await state.update_data(curr_selector_row=key)
+                markup = await Cim.selector_cols(lang=lang, selector_key=selector_key, current_selector_row=key)
+                await callback.message.edit_reply_markup(reply_markup=markup)
+
+            elif key == curr_selector_row:
+                for item in deepcopy(saved_data):
+                    if curr_selector_row in item:
+                        saved_data.remove(item)
+                        break
+
+                saved_data.append(cd)
+                await state.update_data(saved_data=saved_data)
+
+                markup = await Cim.selectors(lang=lang, data=saved_data, selector_key=selector_key)
+                await callback.message.edit_reply_markup(reply_markup=markup)
+
+            return False
 
 
         # hidden_status = data["hidden_status"] if data.get("hidden_status") is not None else None
@@ -400,7 +438,7 @@ class RegistrationSteps:
 
         text = await Ut.get_message_text(key=msg_key, lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
-        markup = await year_inline(from_year=datetime.now(tz=Config.TIMEZONE).year - 42, lang=lang)
+        markup = await Cim.year(from_year=datetime.now(tz=Config.TIMEZONE).year - 42, lang=lang)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.update_data(min_year=None, status=status, function_for_back=function_for_back)
@@ -438,7 +476,7 @@ class RegistrationSteps:
                 if old_from_year + 25 < 1950:
                     return
 
-                markup = await year_inline(from_year=old_from_year, lang=lang)
+                markup = await Cim.year(from_year=old_from_year, lang=lang)
                 return await callback.message.edit_reply_markup(reply_markup=markup)
 
             elif direction == "right":
@@ -446,7 +484,7 @@ class RegistrationSteps:
                 if old_from_year > datetime.now(tz=Config.TIMEZONE).year - 18:
                     return
 
-                markup = await year_inline(from_year=old_from_year, lang=lang)
+                markup = await Cim.year(from_year=old_from_year, lang=lang)
                 return await callback.message.edit_reply_markup(reply_markup=markup)
 
             else:
@@ -461,7 +499,7 @@ class RegistrationSteps:
                                     status_secondary=data["status"], function_for_back=cls.birth_year, status=0)
 
             text = await Ut.get_message_text(key="company_filters_birth_year_2", lang=lang)
-            markup = await year_inline(from_year=datetime.now(tz=Config.TIMEZONE).year - 42, lang=lang)
+            markup = await Cim.year(from_year=datetime.now(tz=Config.TIMEZONE).year - 42, lang=lang)
             return await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         elif (status == 2 or status_secondary == 2) and min_year:
@@ -478,7 +516,7 @@ class RegistrationSteps:
 
     @classmethod
     async def messangers(cls, state: FSMContext, lang: str,
-                                        data_model: Optional[Union[DriverForm, Driver]] = None):
+                         data_model: Optional[Union[DriverForm, Driver]] = None):
         text = await Ut.get_message_text(key="driver_reg_choose_messangers_availabilities", lang=lang)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
         markup = await Ut.get_markup(mtype="inline", lang=lang, key="messangers_availabilities")
@@ -744,7 +782,7 @@ class RegistrationSteps:
                 function_for_back = cls.name
 
         text = await Ut.get_message_text(key=msg_key, lang=lang)
-        markup = await calendar_inline(date_time=datetime.now(tz=Config.TIMEZONE), lang=lang)
+        markup = await Cim.calendar(date_time=datetime.now(tz=Config.TIMEZONE), lang=lang)
         await state.update_data(title=text, markup=markup)
 
         markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=hidden_status)
@@ -782,12 +820,12 @@ class RegistrationSteps:
                 date_time = current_dt
 
             return await callback.message.edit_reply_markup(
-                reply_markup=await calendar_inline(date_time=date_time, lang=lang))
+                reply_markup=await Cim.calendar(date_time=date_time, lang=lang))
 
         elif "r:" in cd:
             date_time = datetime.strptime(cd.replace("r:", ""), "%d.%m.%Y")
             return await callback.message.edit_reply_markup(
-                reply_markup=await calendar_inline(date_time=date_time, lang=lang))
+                reply_markup=await Cim.calendar(date_time=date_time, lang=lang))
 
         elif "." in cd:
             returned_value = datetime.strptime(cd, "%d.%m.%Y")
@@ -801,7 +839,7 @@ class RegistrationSteps:
                 )
 
                 text = await Ut.get_message_text(key="company_filters_date_start_work_2", lang=lang)
-                markup = await calendar_inline(date_time=returned_value, lang=lang)
+                markup = await Cim.calendar(date_time=returned_value, lang=lang)
                 return await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
             elif (status == 2 or status_secondary == 2) and date_start_work_left:
@@ -829,7 +867,7 @@ class RegistrationSteps:
             msg_key = "driver_reg_language_skills"
 
         text = await Ut.get_message_text(key=msg_key, lang=lang)
-        markup = await selectors_inline(lang=lang, selector_key="languages_skills", data=[])
+        markup = await Cim.selectors(lang=lang, selector_key="languages_skills", data=[])
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.update_data(title=text, markup=markup, languages_skills=[])
@@ -860,8 +898,8 @@ class RegistrationSteps:
                 return
 
         else:
-            returned_data = await cls.processing_slider(
-                callback=callback, state=state, lang=lang, markup_key="language_skills",
+            returned_data = await cls.processing_selector(
+                callback=callback, state=state, lang=lang, selector_key="languages_skills",
                 error_msg_key="wrong_language_skills"
             )
             if returned_data is False:

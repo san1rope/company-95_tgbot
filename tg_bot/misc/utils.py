@@ -5,10 +5,9 @@ import os
 import json
 from copy import deepcopy
 from logging import Logger
-from typing import Union, Optional, Dict, List, Any
+from typing import Union, Optional, Dict, List
 
 from aiogram.exceptions import TelegramBadRequest
-from aiogram.fsm.context import FSMContext
 from aiogram.types import ReplyKeyboardMarkup, InlineKeyboardMarkup, KeyboardButton, InlineKeyboardButton
 from pydantic import BaseModel
 

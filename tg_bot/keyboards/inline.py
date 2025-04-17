@@ -155,10 +155,19 @@ class CustomInlineMarkups:
                 InlineKeyboardButton(text=loc_cols[el_col], callback_data=f"{row_key}:set_value")
             ])
 
+        markup.inline_keyboard.append([
+            InlineKeyboardButton(text=lang_data["markups"]["inline"]["additional_buttons"]["confirm"],
+                                 callback_data="confirm")
+        ])
+
+        markup.inline_keyboard.append([
+            InlineKeyboardButton(text=lang_data["misc"]["selectors"]["back"], callback_data="back")
+        ])
+
         return markup
 
     @staticmethod
-    async def selector_cols(lang: str, selector_key: str) -> InlineKeyboardMarkup:
+    async def selector_cols(lang: str, selector_key: str, current_selector_row: str) -> InlineKeyboardMarkup:
         lang_data = localization[lang] if localization.get(lang) else localization[Config.DEFAULT_LANG]
         loc_cols = lang_data["misc"]["selectors"][selector_key]["cols"]
 
@@ -167,8 +176,16 @@ class CustomInlineMarkups:
             if key == "0":
                 continue
 
-            markup.inline_keyboard.append([InlineKeyboardButton(text=value, callback_data=key)])
+            markup.inline_keyboard.append([
+                InlineKeyboardButton(text=value, callback_data=f"{current_selector_row}:{key}")
+            ])
 
-        # add button back
+        markup.inline_keyboard.append([
+            InlineKeyboardButton(text=lang_data["misc"]["selectors"]["back_to_menu"], callback_data="back_to_menu")
+        ])
+
+        markup.inline_keyboard.append([
+            InlineKeyboardButton(text=lang_data["misc"]["selectors"]["back"], callback_data="back")
+        ])
 
         return markup

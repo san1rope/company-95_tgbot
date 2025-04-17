@@ -185,17 +185,17 @@ class DriverForm(BaseModel):
             except AttributeError:
                 pass
 
-            if model.language_skills is not None:
-                localized_text = await self.codes_to_text_selectors(
-                    input_localized_text=lang_inline_markups["language_skills"], codes=model.language_skills)
-                text.append(f"<b>{hcode(fcd['language_skills'])}</b>")
-                text.extend(localized_text)
-
-            if model.job_experience is not None:
-                localized_text = await self.codes_to_text_selectors(
-                    input_localized_text=lang_inline_markups["job_experience"], codes=model.job_experience)
-                text.append(f"<b>{hcode(fcd['job_experience'])}</b>")
-                text.extend(localized_text)
+            # if model.language_skills is not None:
+            #     localized_text = await self.codes_to_text_selectors(
+            #         input_localized_text=lang_inline_markups["language_skills"], codes=model.language_skills)
+            #     text.append(f"<b>{hcode(fcd['language_skills'])}</b>")
+            #     text.extend(localized_text)
+            #
+            # if model.job_experience is not None:
+            #     localized_text = await self.codes_to_text_selectors(
+            #         input_localized_text=lang_inline_markups["job_experience"], codes=model.job_experience)
+            #     text.append(f"<b>{hcode(fcd['job_experience'])}</b>")
+            #     text.extend(localized_text)
 
             if model.need_internship is not None:
                 if model_company:
@@ -272,7 +272,6 @@ class DriverForm(BaseModel):
                     localized_text = ", ".join(localized_text)
 
                 else:
-                    print(f"work type code = {model.work_type}")
                     localized_text = await self.code_to_text(
                         input_localized_text=lang_inline_markups["work_types"], code=model.work_type)
 

@@ -9,7 +9,7 @@ from aiogram.fsm.context import FSMContext
 from tg_bot.db_models.quick_commands import DbCompany, DbDriver
 from tg_bot.handlers.company.menu import show_menu
 from tg_bot.handlers.company.payments_processing import PaymentsProcessing
-from tg_bot.keyboards.inline import saved_driver_menu_inline, SavedDriver
+from tg_bot.keyboards.inline import CustomInlineMarkups as Cim, SavedDriver
 from tg_bot.misc.models import DriverForm
 from tg_bot.misc.states import CompanySavedDrivers
 from tg_bot.misc.utils import Utils as Ut
@@ -71,7 +71,7 @@ async def show_saved_drivers(callback: types.CallbackQuery, state: FSMContext, f
         driver = await DbDriver(db_id=driver_id).select()
         title = f"<b>🆔 Водитель №{driver.id}</b>"
         d_text = await DriverForm().form_completion(title=title, lang=company.lang, db_model=driver, for_company=True)
-        d_markup = await saved_driver_menu_inline(driver_id=driver_id, lang=company.lang)
+        d_markup = await Cim.saved_driver_menu(driver_id=driver_id, lang=company.lang)
         drivers_texts.append([d_text, d_markup])
 
     await Ut.send_step_message(user_id=uid, text=text_your_drivers, markup=markup)

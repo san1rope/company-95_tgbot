@@ -11,7 +11,7 @@ from config import Config
 from tg_bot.db_models.db_gino import connect_to_db
 from tg_bot.db_models.quick_commands import DbDriver, DbPayment, DbCompany
 from tg_bot.db_models.schemas import Payment
-from tg_bot.keyboards.inline import payment_inline
+from tg_bot.keyboards.inline import CustomInlineMarkups as Cim
 from tg_bot.misc.models import DriverForm
 from tg_bot.misc.states import CompanyFindDriver
 from tg_bot.misc.utils import Utils as Ut
@@ -115,7 +115,7 @@ class PaymentsProcessing:
             text = await Ut.get_message_text(lang=company.lang, key="payment_stripe")
             text = text.replace("%reason%", "оплату открытия анкеты водителя")
             text = text.replace("%amount%", str(amount / 100))
-            markup = await payment_inline(invoice_url=invoice_url, lang=company.lang)
+            markup = await Cim.payment(invoice_url=invoice_url, lang=company.lang)
             msg = await Ut.send_step_message(user_id=uid, text=text, markup=markup)
 
             await DbPayment(db_id=result.id).update(msg_to_delete=msg.message_id)
@@ -232,7 +232,7 @@ class PaymentsProcessing:
                 text = await Ut.get_message_text(lang=company.lang, key="payment_stripe")
                 text = text.replace("%reason%", "оплату открытия анкеты водителя")
                 text = text.replace("%amount%", str(int(driver.form_price)))
-                markup = await payment_inline(invoice_url=payment.invoice_url, lang=company.lang)
+                markup = await Cim.payment(invoice_url=payment.invoice_url, lang=company.lang)
                 msg = await Ut.send_step_message(user_id=uid, text=text, markup=markup)
 
             elif p_type == "subscribe":

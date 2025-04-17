@@ -1,6 +1,6 @@
 import logging
 import asyncio
-from typing import Union, Optional, List, Any
+from typing import Union, List, Any
 
 from aiogram import Router, types, F
 from aiogram.fsm.context import FSMContext
