@@ -24,14 +24,13 @@ class RegistrationSteps:
 
     @staticmethod
     async def model_form_correct(
-            title: str, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None,
-            hidden_status: Optional[bool] = None) -> str:
+            title: str, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None) -> str:
         if isinstance(data_model, DriverForm):
-            title = await data_model.form_completion(title=title, lang=lang, hidden_status=hidden_status)
+            title = await data_model.form_completion(title=title, lang=lang)
 
         elif isinstance(data_model, Driver):
             title = await DriverForm().form_completion(
-                title=title, lang=lang, db_model=data_model, hidden_status=hidden_status)
+                title=title, lang=lang, db_model=data_model)
 
         return title
 
@@ -108,8 +107,6 @@ class RegistrationSteps:
         uid = callback.from_user.id
         data = await state.get_data()
         saved_data = data.get("saved_data") if "saved_data" in data else []
-        hidden_status = data["hidden_status"] if data.get("hidden_status") is not None else None
-        curr_selector_row = data.get("curr_selector_row")
 
         if callback.data == "confirm":
             if not saved_data:
@@ -118,7 +115,7 @@ class RegistrationSteps:
                 await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
                 return False
 
-        elif "row:" in cd or "col:" in cd or "hid_or_open_form" == cd:
+        elif "row:" in cd or "col:" in cd:
             return False
 
         elif "selectors:" in markup_key and cd == "back_to_menu":
@@ -148,13 +145,13 @@ class RegistrationSteps:
             else:
                 markup = await Ut.get_markup(
                     mtype="inline", key=markup_key, lang=lang, additional_buttons=additional_buttons,
-                    without_buttons=markup_without_buttons, hidden_status=hidden_status)
+                    without_buttons=markup_without_buttons)
 
             if cd == "check":
                 for block_buttons in markup.inline_keyboard:
                     for btn in block_buttons:
                         if btn.callback_data in [
-                            "check", "uncheck", "confirm", "back", "skip", "hid_or_open_form"
+                            "check", "uncheck", "confirm", "back", "skip"
                         ] or "row:" in btn.callback_data or "col:" in btn.callback_data:
                             continue
 
@@ -300,7 +297,6 @@ class RegistrationSteps:
         uid = callback.from_user.id
         data = await state.get_data()
         saved_data = data["saved_data"] if data.get("saved_data") else []
-        hidden_status = data.get("hidden_status") if "hidden_status" in data else None
 
         if "cont:" in cd:
             selected_continent = cd.replace('cont:', '')
@@ -309,7 +305,7 @@ class RegistrationSteps:
             markup = await Ut.get_markup(mtype="inline", key=f"countries_{selected_continent}_1", lang=lang,
                                          additional_buttons=additional_buttons)
             await state.update_data(markup=markup)
-            markup = await Ut.get_markup(markup=markup, lang=lang, hidden_status=hidden_status)
+            markup = await Ut.get_markup(markup=markup, lang=lang)
             markup = await Ut.recognize_selected_values(
                 markup=markup, datalist=saved_data, text_placeholder="✅ %btn.text%")
 
@@ -322,7 +318,7 @@ class RegistrationSteps:
                 mtype="inline", key=f"countries_{data['sc']}_{next_page}", lang=lang,
                 additional_buttons=additional_buttons, without_buttons=without_inline_buttons)
             await state.update_data(sp=next_page, markup=markup)
-            markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=hidden_status)
+            markup = await Ut.get_markup(lang=lang, markup=markup)
             markup = await Ut.recognize_selected_values(markup=markup, datalist=saved_data,
                                                         text_placeholder="✅ %btn.text%")
 
@@ -334,7 +330,7 @@ class RegistrationSteps:
             markup = await Ut.get_markup(mtype="inline", key=f"countries_{data['sc']}_{prev_page}", lang=lang,
                                          additional_buttons=additional_buttons, without_buttons=without_inline_buttons)
             await state.update_data(sp=prev_page, markup=markup)
-            markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=hidden_status)
+            markup = await Ut.get_markup(lang=lang, markup=markup)
             markup = await Ut.recognize_selected_values(markup=markup, datalist=saved_data,
                                                         text_placeholder="✅ %btn.text%")
             await callback.message.edit_reply_markup(reply_markup=markup)
@@ -344,7 +340,7 @@ class RegistrationSteps:
             markup = await Ut.get_markup(mtype="inline", key="continents", lang=lang,
                                          additional_buttons=additional_buttons, without_buttons=without_inline_buttons)
             await state.update_data(markup=markup)
-            markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=hidden_status)
+            markup = await Ut.get_markup(lang=lang, markup=markup)
             await callback.message.edit_reply_markup(reply_markup=markup)
             await state.update_data(sc=None)
             return False
@@ -376,7 +372,7 @@ class RegistrationSteps:
                     without_buttons=without_inline_buttons
                 )
                 await state.update_data(markup=markup)
-                markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=hidden_status)
+                markup = await Ut.get_markup(lang=lang, markup=markup)
                 markup = await Ut.recognize_selected_values(
                     markup=markup, datalist=saved_data, text_placeholder="✅ %btn.text%")
 
@@ -404,7 +400,7 @@ class RegistrationSteps:
                     mtype="inline", key=f"countries_{data['sc']}_{data['sp']}", lang=lang,
                     additional_buttons=additional_buttons, without_buttons=without_inline_buttons)
                 await state.update_data(markup=markup)
-                markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=hidden_status)
+                markup = await Ut.get_markup(lang=lang, markup=markup)
                 markup = await Ut.recognize_selected_values(
                     markup=markup, datalist=saved_data, text_placeholder="✅ %btn.text%")
 
@@ -603,7 +599,7 @@ class RegistrationSteps:
         markup = await Ut.get_markup(mtype="inline", lang=lang, key="continents", additional_buttons=additional_buttons)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
-        await state.update_data(selected_countries=[], hidden_status=None)
+        await state.update_data(selected_countries=[])
         await state.set_state(DriverRegistration.ChooseCitizenship)
 
     @classmethod
@@ -641,7 +637,6 @@ class RegistrationSteps:
     async def basis_of_stay(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = False
 
         if status == 2:
             text_key = "company_filters_basis_of_stay"
@@ -657,9 +652,9 @@ class RegistrationSteps:
         text = await Ut.get_message_text(key=text_key, lang=lang)
         markup = await Ut.get_markup(
             mtype="inline", lang=lang, key="basis_of_stay", additional_buttons=additional_buttons)
-        await state.update_data(title=text, markup=markup, hidden_status=hidden_status)
+        await state.update_data(title=text, markup=markup)
 
-        markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=hidden_status)
+        markup = await Ut.get_markup(lang=lang, markup=markup)
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
@@ -705,7 +700,6 @@ class RegistrationSteps:
                                    data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data.get("hidden_status")
 
         if status == 2:
             text_key = "company_filters_95_code"
@@ -720,8 +714,8 @@ class RegistrationSteps:
             mtype="inline", lang=lang, key="availability_95_code", additional_buttons=additional_buttons)
         await state.update_data(title=text, markup=markup)
 
-        markup = await Ut.get_markup(markup=markup, hidden_status=hidden_status, lang=lang)
-        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model, hidden_status=hidden_status)
+        markup = await Ut.get_markup(markup=markup, lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.set_state(DriverRegistration.Availability95Code)
@@ -762,7 +756,6 @@ class RegistrationSteps:
         data = await state.get_data()
         status = data["status"]
         status_secondary = data.get("status_secondary")
-        hidden_status = data.get("hidden_status")
 
         if status == 2 or status_secondary == 2:
             msg_key = "company_filters_date_start_work_1"
@@ -781,8 +774,8 @@ class RegistrationSteps:
         markup = await Cim.calendar(date_time=datetime.now(tz=Config.TIMEZONE), lang=lang)
         await state.update_data(title=text, markup=markup)
 
-        markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=hidden_status)
-        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model, hidden_status=hidden_status)
+        markup = await Ut.get_markup(lang=lang, markup=markup)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.update_data(date_start_work_left=None, status=status, function_for_back=function_for_back)
@@ -960,7 +953,6 @@ class RegistrationSteps:
                               data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data.get("hidden_status")
 
         if status == 2:
             msg_key = "company_filters_need_internship"
@@ -978,8 +970,8 @@ class RegistrationSteps:
             mtype="inline", key="need_internship", lang=lang, additional_buttons=additional_buttons)
         await state.update_data(title=text, markup=markup)
 
-        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model, hidden_status=hidden_status)
-        markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=hidden_status)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(lang=lang, markup=markup)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.set_state(DriverRegistration.ChooseNeedInternship)
@@ -1022,7 +1014,6 @@ class RegistrationSteps:
                                    data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data.get("hidden_status")
 
         if status == 2:
             msg_key = "company_filters_unsuitable_countries"
@@ -1040,8 +1031,8 @@ class RegistrationSteps:
         )
         await state.update_data(title=text, markup=markup, unsuitable_countries=[])
 
-        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model, hidden_status=hidden_status)
-        markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=hidden_status)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(lang=lang, markup=markup)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.set_state(DriverRegistration.ChooseUnsuitableCountries)
@@ -1087,7 +1078,6 @@ class RegistrationSteps:
                               data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data.get("hidden_status")
 
         if status == 2:
             msg_key = "company_filters_dangerous_goods"
@@ -1099,8 +1089,8 @@ class RegistrationSteps:
         markup = await Ut.get_markup(mtype="inline", key="dangerous_goods", lang=lang)
         await state.update_data(title=text, markup=markup, dangerous_goods=[])
 
-        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model, hidden_status=hidden_status)
-        markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=hidden_status)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(lang=lang, markup=markup)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.set_state(DriverRegistration.ChooseDangerousGoods)
@@ -1133,7 +1123,6 @@ class RegistrationSteps:
                               data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data.get("hidden_status")
 
         if status == 2:
             msg_key = "company_filters_expected_salary"
@@ -1148,8 +1137,8 @@ class RegistrationSteps:
             mtype="inline", lang=lang, additional_buttons=[AdditionalButtons(buttons={"back": None})])
         await state.update_data(title=text, markup=markup)
 
-        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model, hidden_status=hidden_status)
-        markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=hidden_status)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(lang=lang, markup=markup)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.set_state(DriverRegistration.WriteExpectedSalary)
@@ -1221,7 +1210,6 @@ class RegistrationSteps:
                                       data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data.get("hidden_status")
 
         if status == 2:
             text_key = "company_filters_categories"
@@ -1233,8 +1221,8 @@ class RegistrationSteps:
         markup = await Ut.get_markup(mtype="inline", key="categories_availability", lang=lang)
         await state.update_data(title=text, markup=markup, categories=[])
 
-        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model, hidden_status=hidden_status)
-        markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=hidden_status)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(lang=lang, markup=markup)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.set_state(DriverRegistration.ChooseAvailabilityCategories)
@@ -1269,7 +1257,6 @@ class RegistrationSteps:
                                       data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data.get("hidden_status")
 
         if status == 2:
             msg_key = "company_filters_country_driving_license"
@@ -1283,8 +1270,8 @@ class RegistrationSteps:
         markup = await Ut.get_markup(mtype="inline", key="continents", lang=lang, additional_buttons=additional_buttons)
         await state.update_data(title=text, markup=markup, sc=None, sp=None)
 
-        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model, hidden_status=hidden_status)
-        markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=hidden_status)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(lang=lang, markup=markup)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.set_state(DriverRegistration.ChooseCountryDrivingLicense)
@@ -1331,7 +1318,6 @@ class RegistrationSteps:
                                    data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data.get("hidden_status")
 
         if status == 2:
             msg_key = "company_filters_country_current_live"
@@ -1346,8 +1332,8 @@ class RegistrationSteps:
                                      additional_buttons=additional_buttons)
         await state.update_data(title=text, markup=markup, sc=None, sp=None)
 
-        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model, hidden_status=hidden_status)
-        markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=hidden_status)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(lang=lang, markup=markup)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.set_state(DriverRegistration.ChooseCountryCurrentLiving)
@@ -1392,7 +1378,6 @@ class RegistrationSteps:
     async def work_type(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data.get("hidden_status")
 
         if status == 2:
             text_key = "company_filters_work_type"
@@ -1408,8 +1393,8 @@ class RegistrationSteps:
             additional_buttons=additional_buttons)
         await state.update_data(title=text, markup=markup)
 
-        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model, hidden_status=hidden_status)
-        markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=hidden_status)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(lang=lang, markup=markup)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.set_state(DriverRegistration.ChooseWorkType)
@@ -1451,7 +1436,6 @@ class RegistrationSteps:
     async def cadence(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data.get("hidden_status")
 
         if status == 2:
             msg_key = "company_filters_cadence"
@@ -1465,8 +1449,8 @@ class RegistrationSteps:
         markup = await Ut.get_markup(mtype="inline", key="cadence", lang=lang, without_buttons=without_buttons)
         await state.update_data(title=text, markup=markup, selected_cadence=[])
 
-        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model, hidden_status=hidden_status)
-        markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=hidden_status)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(lang=lang, markup=markup)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.set_state(DriverRegistration.WriteCadence)
@@ -1506,7 +1490,6 @@ class RegistrationSteps:
     async def crew(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data.get("hidden_status")
 
         if status == 2:
             msg_key = "company_filters_crew"
@@ -1523,8 +1506,8 @@ class RegistrationSteps:
                                      without_buttons=without_buttons)
         await state.update_data(title=text, markup=markup)
 
-        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model, hidden_status=hidden_status)
-        markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=hidden_status)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(lang=lang, markup=markup)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.set_state(DriverRegistration.ChooseCrew)
@@ -1563,7 +1546,6 @@ class RegistrationSteps:
     async def driver_gender(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
-        hidden_status = data.get("hidden_status")
 
         if status == 2:
             msg_key = "company_filters_driver_gender"
@@ -1577,8 +1559,8 @@ class RegistrationSteps:
         markup = await Ut.get_markup(mtype="inline", key="genders", lang=lang, additional_buttons=additional_buttons)
         await state.update_data(title=text, markup=markup)
 
-        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model, hidden_status=hidden_status)
-        markup = await Ut.get_markup(lang=lang, markup=markup, hidden_status=hidden_status)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
+        markup = await Ut.get_markup(lang=lang, markup=markup)
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.set_state(DriverRegistration.ChooseGender)
@@ -1670,7 +1652,6 @@ class RegistrationSteps:
             mtype="inline", lang=lang, additional_buttons=[AdditionalButtons(buttons={"back": None})])
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
-        await state.update_data(hidden_status=None)
         await state.set_state(DriverRegistration.WriteName)
 
     @classmethod

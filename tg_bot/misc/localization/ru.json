@@ -1704,10 +1704,6 @@
       "driver_gender": "Пол водителя:",
       "username": "ТГ юзернейм:"
     },
-    "hid_or_open_form": [
-      "\uD83D\uDCD1 Скрыть анкету",
-      "\uD83D\uDCD6 Раскрыть анкету"
-    ],
     "calendar": {
       "weekdays": [
         "Пн",

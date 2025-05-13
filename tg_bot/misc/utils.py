@@ -99,8 +99,7 @@ class Utils:
     async def get_markup(
             cls, lang: str, mtype: Optional[str] = None, key: Optional[str] = None,
             additional_buttons: List[AdditionalButtons] = [], without_buttons: List[str] = [],
-            user_id: Union[str, int] = None, hidden_status: Optional[bool] = None,
-            markup: Optional[InlineKeyboardMarkup] = None
+            user_id: Union[str, int] = None, markup: Optional[InlineKeyboardMarkup] = None
     ) -> Union[ReplyKeyboardMarkup, InlineKeyboardMarkup, None]:
         markup_data = localization[lang] if localization.get(lang) else localization[Config.DEFAULT_LANG]
 
@@ -144,14 +143,6 @@ class Utils:
             markup = InlineKeyboardMarkup(inline_keyboard=[])
             markup = await cls.processing_additional_buttons(
                 markup_data=markup_data, markup=markup, additional_buttons=additional_buttons)
-
-        if hidden_status is not None:
-            btn_key = 1 if hidden_status else 0
-
-            btn_text = markup_data["misc"]["hid_or_open_form"][btn_key]
-            btn = InlineKeyboardButton(text=btn_text, callback_data="hid_or_open_form")
-            markup = deepcopy(markup)
-            markup.inline_keyboard.insert(0, [btn])
 
         return markup
 
