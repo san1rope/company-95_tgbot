@@ -207,7 +207,6 @@ class DbDriver:
             logger.error(traceback.format_exc())
             return False
 
-
 class DbCompany:
     def __init__(
             self, db_id: Optional[int] = None, tg_user_id: Optional[int] = None,
