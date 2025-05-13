@@ -79,21 +79,20 @@ class DriverForm(BaseModel):
                 return localized_value
 
     @staticmethod
-    async def codes_to_text_selectors(input_localized_text: List[Dict[str, str]], codes: List[str]) -> List[str]:
+    async def codes_to_text_selectors(input_localized_text: Dict, codes: List[str]) -> List[str]:
         localized_text = []
-
-        rows, cols = {}, {}
-        for row in input_localized_text:
-            for btn_text, btn_cd in row.items():
-                if "row:" in btn_cd:
-                    rows[btn_cd.replace("row:", "")] = btn_text
-
-                elif "col:" in btn_cd:
-                    cols[btn_cd.replace("col:", "")] = btn_text
+        used_rows = {}
 
         for el in codes:
             row, col = el.split(":")
-            localized_text.append(f"<b>{rows[row]}: {cols[col]}</b>")
+            if row in used_rows:
+                localized_text[used_rows[row]] += f", {input_localized_text['cols'][col]}"
+
+            else:
+                localized_text.append(
+                    f"<b>{input_localized_text['rows'][row]}: {input_localized_text['cols'][col]}</b>"
+                )
+                used_rows[row] = len(localized_text) - 1
 
         return localized_text
 
@@ -126,7 +125,7 @@ class DriverForm(BaseModel):
         except AttributeError:
             pass
 
-        if model.messangers is not None:
+        if getattr(model, "messangers", None) is not None:
             localized_text = await self.codes_to_text_checkboxes(
                 input_localized_text=lang_inline_markups["messangers_availabilities"], codes=model.messangers)
             text.append(f"<b>{hcode(fcd['messangers'])} {', '.join(localized_text)}</b>")
@@ -185,17 +184,17 @@ class DriverForm(BaseModel):
             except AttributeError:
                 pass
 
-            # if model.language_skills is not None:
-            #     localized_text = await self.codes_to_text_selectors(
-            #         input_localized_text=lang_inline_markups["language_skills"], codes=model.language_skills)
-            #     text.append(f"<b>{hcode(fcd['language_skills'])}</b>")
-            #     text.extend(localized_text)
-            #
-            # if model.job_experience is not None:
-            #     localized_text = await self.codes_to_text_selectors(
-            #         input_localized_text=lang_inline_markups["job_experience"], codes=model.job_experience)
-            #     text.append(f"<b>{hcode(fcd['job_experience'])}</b>")
-            #     text.extend(localized_text)
+            if model.language_skills is not None:
+                localized_text = await self.codes_to_text_selectors(
+                    input_localized_text=lang_misc["selectors"]["languages_skills"], codes=model.language_skills)
+                text.append(f"<b>{hcode(fcd['language_skills'])}</b>")
+                text.extend(localized_text)
+
+            if model.job_experience is not None:
+                localized_text = await self.codes_to_text_selectors(
+                    input_localized_text=lang_misc["selectors"]["job_experience"], codes=model.job_experience)
+                text.append(f"<b>{hcode(fcd['job_experience'])}</b>")
+                text.extend(localized_text)
 
             if model.need_internship is not None:
                 if model_company:

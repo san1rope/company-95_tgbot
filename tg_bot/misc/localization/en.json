@@ -92,9 +92,6 @@
       "<b>❇\uFE0F Driver registration</b>\n",
       "<b>Indicate your proficiency in these languages</b>",
       "<b>ℹ\uFE0F Need to specify the scale skill for all languages shown</b>\n",
-      "<b>Languages: Polish | English | German</b>",
-      "<b>——————————————————</b>",
-      "<b>Levels: Don't speak | Understand, but don't say | Entry level | Speak well</b>",
       "\n<b>⬇ Use the keyboard below</b>"
     ],
     "wrong_language_skills": [
@@ -104,9 +101,6 @@
       "<b>❇\uFE0F Driver registration</b>\n",
       "<b>Specify your work experience for the different categories</b>",
       "<b>ℹ\uFE0F Need to specify the scale experience for all categories shown</b>\n",
-      "<b>Categories: D/C/CE in Europe | D/C/CE outside Europe | B - buses 3.5t in Europe</b>",
-      "<b>——————————————————</b>",
-      "<b>Experience: Don't have | Up to half a year | From half to 2 years | Over 2 years</b>",
       "\n<b>⬇ Use the keyboard below</b>"
     ],
     "wrong_job_experience": [
@@ -1343,78 +1337,6 @@
         },
         {
           "In the manufacturing process": "3"
-        },
-        {
-          "\uD83D\uDD19 Back": "back"
-        }
-      ],
-      "language_skills": [
-        {
-          "  ": "0",
-          "Don't speak": "col:1",
-          "Understand, but don't say": "col:2",
-          "Entry level": "col:3",
-          "Speak well": "col:4"
-        },
-        {
-          "Polish": "row:pl",
-          "⚪\uFE0F": "pl:1",
-          "⚪\uFE0F ": "pl:2",
-          "⚪\uFE0F  ": "pl:3",
-          "⚪\uFE0F   ": "pl:4"
-        },
-        {
-          "English": "row:en",
-          "⚪\uFE0F": "en:1",
-          "⚪\uFE0F ": "en:2",
-          "⚪\uFE0F  ": "en:3",
-          "⚪\uFE0F   ": "en:4"
-        },
-        {
-          "German": "row:de",
-          "⚪\uFE0F": "de:1",
-          "⚪\uFE0F ": "de:2",
-          "⚪\uFE0F  ": "de:3",
-          "⚪\uFE0F   ": "de:4"
-        },
-        {
-          "\uD83D\uDCDD Confirm selection": "confirm"
-        },
-        {
-          "\uD83D\uDD19 Back": "back"
-        }
-      ],
-      "job_experience": [
-        {
-          "  ": "0",
-          "Don't have": "col:1",
-          "Up to half a year": "col:2",
-          "From half to 2 years": "col:3",
-          "Over 2 years": "col:4"
-        },
-        {
-          "D/C/CE in Europe": "row:a",
-          "⚪\uFE0F": "a:1",
-          "⚪\uFE0F ": "a:2",
-          "⚪\uFE0F  ": "a:3",
-          "⚪\uFE0F   ": "a:4"
-        },
-        {
-          "D/C/CE outside Europe": "row:b",
-          "⚪\uFE0F": "b:1",
-          "⚪\uFE0F ": "b:2",
-          "⚪\uFE0F  ": "b:3",
-          "⚪\uFE0F   ": "b:4"
-        },
-        {
-          "B - buses 3.5t in Europe": "row:c",
-          "⚪\uFE0F": "c:1",
-          "⚪\uFE0F ": "c:2",
-          "⚪\uFE0F  ": "c:3",
-          "⚪\uFE0F   ": "c:4"
-        },
-        {
-          "\uD83D\uDCDD Confirm selection": "confirm"
         },
         {
           "\uD83D\uDD19 Back": "back"

@@ -137,7 +137,8 @@ class CustomInlineMarkups:
         )
 
     @staticmethod
-    async def selectors(lang: str, data: List[str], selector_key: str) -> InlineKeyboardMarkup:
+    async def selectors(lang: str, data: List[str], selector_key: str, from_filter: bool = False
+                        ) -> InlineKeyboardMarkup:
         lang_data = localization[lang] if localization.get(lang) else localization[Config.DEFAULT_LANG]
         loc_selector = lang_data["misc"]["selectors"][selector_key]
         loc_rows, loc_cols = loc_selector["rows"], loc_selector["cols"]
@@ -152,7 +153,9 @@ class CustomInlineMarkups:
 
             markup.inline_keyboard.append([
                 InlineKeyboardButton(text=row_value, callback_data="0"),
-                InlineKeyboardButton(text=loc_cols[el_col], callback_data=f"{row_key}:set_value")
+                InlineKeyboardButton(
+                    text=loc_cols["0"] if from_filter else loc_cols[el_col], callback_data=f"{row_key}:set_value"
+                )
             ])
 
         markup.inline_keyboard.append([

@@ -109,10 +109,8 @@ class RegistrationSteps:
         data = await state.get_data()
         saved_data = data.get("saved_data") if "saved_data" in data else []
         hidden_status = data["hidden_status"] if data.get("hidden_status") is not None else None
+        curr_selector_row = data.get("curr_selector_row")
 
-        markup = await Ut.get_markup(
-            mtype="inline", key=markup_key, lang=lang, additional_buttons=additional_buttons,
-            without_buttons=markup_without_buttons, hidden_status=hidden_status)
         if callback.data == "confirm":
             if not saved_data:
                 text = await Ut.get_message_text(key=error_msg_key, lang=lang)
@@ -123,9 +121,34 @@ class RegistrationSteps:
         elif "row:" in cd or "col:" in cd or "hid_or_open_form" == cd:
             return False
 
+        elif "selectors:" in markup_key and cd == "back_to_menu":
+            selector_key = markup_key.split(":")[1]
+            await state.update_data(curr_selector_row=None)
+            markup = await Cim.selectors(lang=lang, data=saved_data, selector_key=selector_key)
+            await callback.message.edit_reply_markup(reply_markup=markup)
+            return False
+
         else:
             if cd == "0":
                 return False
+
+            if ":" in cd and "selectors:" in markup_key:
+                selector_key = markup_key.split(":")[1]
+                key, value = cd.split(":")
+                if value == "set_value":
+                    await state.update_data(curr_selector_row=key)
+                    markup = await Cim.selector_cols(lang=lang, selector_key=selector_key, current_selector_row=key)
+                    markup = await Ut.recognize_selected_values(
+                        markup=markup, datalist=saved_data, text_placeholder="✅ %btn.text%")
+                    await callback.message.edit_reply_markup(reply_markup=markup)
+                    return False
+
+                markup = await Cim.selector_cols(lang=lang, selector_key=selector_key, current_selector_row=key)
+
+            else:
+                markup = await Ut.get_markup(
+                    mtype="inline", key=markup_key, lang=lang, additional_buttons=additional_buttons,
+                    without_buttons=markup_without_buttons, hidden_status=hidden_status)
 
             if cd == "check":
                 for block_buttons in markup.inline_keyboard:
@@ -214,6 +237,7 @@ class RegistrationSteps:
                 return False
 
         elif ":" in cd:
+            print(f"cd = {cd}")
             key, value = cd.split(":")
 
             if value == "set_value":
@@ -827,7 +851,8 @@ class RegistrationSteps:
             await cls.handler_finish(state=state, returned_value=returned_value, additional_field="date_start_work")
 
     @classmethod
-    async def language_skills(cls, state: FSMContext, lang: str):
+    async def language_skills(cls, state: FSMContext, lang: str,
+                              data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
         if status == 2:
@@ -837,6 +862,7 @@ class RegistrationSteps:
             msg_key = "driver_reg_language_skills"
 
         text = await Ut.get_message_text(key=msg_key, lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
         markup = await Cim.selectors(lang=lang, selector_key="languages_skills", data=[])
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
@@ -860,13 +886,12 @@ class RegistrationSteps:
 
         status = data["status"]
         if status == 2:
-            # returned_data = await cls.processing_checkboxes(
-            #     callback=callback, state=state, lang=lang, markup_key="job_experience",
-            #     error_msg_key="wrong_job_experience"
-            # )
-            # if returned_data is False:
-            #     return
-            pass  # in progress...
+            returned_data = await cls.processing_checkboxes(
+                callback=callback, state=state, lang=lang, markup_key="selectors:languages_skills",
+                error_msg_key="wrong_job_experience"
+            )
+            if returned_data is False:
+                return
 
         else:
             returned_data = await cls.processing_selector(
@@ -879,7 +904,7 @@ class RegistrationSteps:
         await cls.handler_finish(state=state, returned_value=returned_data, additional_field="language_skills")
 
     @classmethod
-    async def job_experience(cls, state: FSMContext, lang: str):
+    async def job_experience(cls, state: FSMContext, lang: str, data_model: Optional[Union[DriverForm, Driver]] = None):
         data = await state.get_data()
         status = data["status"]
         if status == 2:
@@ -889,6 +914,7 @@ class RegistrationSteps:
             msg_key = "driver_reg_job_experience"
 
         text = await Ut.get_message_text(key=msg_key, lang=lang)
+        text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
         markup = await Cim.selectors(lang=lang, selector_key="job_experience", data=[])
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
@@ -913,7 +939,7 @@ class RegistrationSteps:
         status = data["status"]
         if status == 2:
             returned_data = await cls.processing_checkboxes(
-                callback=callback, state=state, lang=lang, markup_key="job_experience",
+                callback=callback, state=state, lang=lang, markup_key="selectors:job_experience",
                 error_msg_key="wrong_job_experience"
             )
             if returned_data is False:
