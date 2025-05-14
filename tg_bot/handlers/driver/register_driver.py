@@ -303,7 +303,7 @@ class RegistrationSteps:
             await state.update_data(sc=selected_continent, sp=1)
 
             markup = await Ut.get_markup(mtype="inline", key=f"countries_{selected_continent}_1", lang=lang,
-                                         additional_buttons=additional_buttons)
+                                         additional_buttons=additional_buttons, without_buttons=without_inline_buttons)
             await state.update_data(markup=markup)
             markup = await Ut.get_markup(markup=markup, lang=lang)
             markup = await Ut.recognize_selected_values(
@@ -318,7 +318,7 @@ class RegistrationSteps:
                 mtype="inline", key=f"countries_{data['sc']}_{next_page}", lang=lang,
                 additional_buttons=additional_buttons, without_buttons=without_inline_buttons)
             await state.update_data(sp=next_page, markup=markup)
-            markup = await Ut.get_markup(lang=lang, markup=markup)
+            markup = await Ut.get_markup(lang=lang, markup=markup, without_buttons=without_inline_buttons)
             markup = await Ut.recognize_selected_values(markup=markup, datalist=saved_data,
                                                         text_placeholder="✅ %btn.text%")
 
@@ -330,7 +330,7 @@ class RegistrationSteps:
             markup = await Ut.get_markup(mtype="inline", key=f"countries_{data['sc']}_{prev_page}", lang=lang,
                                          additional_buttons=additional_buttons, without_buttons=without_inline_buttons)
             await state.update_data(sp=prev_page, markup=markup)
-            markup = await Ut.get_markup(lang=lang, markup=markup)
+            markup = await Ut.get_markup(lang=lang, markup=markup, without_buttons=without_inline_buttons)
             markup = await Ut.recognize_selected_values(markup=markup, datalist=saved_data,
                                                         text_placeholder="✅ %btn.text%")
             await callback.message.edit_reply_markup(reply_markup=markup)
@@ -340,7 +340,7 @@ class RegistrationSteps:
             markup = await Ut.get_markup(mtype="inline", key="continents", lang=lang,
                                          additional_buttons=additional_buttons, without_buttons=without_inline_buttons)
             await state.update_data(markup=markup)
-            markup = await Ut.get_markup(lang=lang, markup=markup)
+            markup = await Ut.get_markup(lang=lang, markup=markup, without_buttons=without_inline_buttons)
             await callback.message.edit_reply_markup(reply_markup=markup)
             await state.update_data(sc=None)
             return False
@@ -372,7 +372,7 @@ class RegistrationSteps:
                     without_buttons=without_inline_buttons
                 )
                 await state.update_data(markup=markup)
-                markup = await Ut.get_markup(lang=lang, markup=markup)
+                markup = await Ut.get_markup(lang=lang, markup=markup, without_buttons=without_inline_buttons)
                 markup = await Ut.recognize_selected_values(
                     markup=markup, datalist=saved_data, text_placeholder="✅ %btn.text%")
 
@@ -400,7 +400,7 @@ class RegistrationSteps:
                     mtype="inline", key=f"countries_{data['sc']}_{data['sp']}", lang=lang,
                     additional_buttons=additional_buttons, without_buttons=without_inline_buttons)
                 await state.update_data(markup=markup)
-                markup = await Ut.get_markup(lang=lang, markup=markup)
+                markup = await Ut.get_markup(lang=lang, markup=markup, without_buttons=without_inline_buttons)
                 markup = await Ut.recognize_selected_values(
                     markup=markup, datalist=saved_data, text_placeholder="✅ %btn.text%")
 
@@ -1267,11 +1267,12 @@ class RegistrationSteps:
             additional_buttons = []
 
         text = await Ut.get_message_text(key=msg_key, lang=lang)
-        markup = await Ut.get_markup(mtype="inline", key="continents", lang=lang, additional_buttons=additional_buttons)
+        markup = await Ut.get_markup(mtype="inline", key="continents", lang=lang, additional_buttons=additional_buttons,
+                                     without_buttons=["confirm"])
         await state.update_data(title=text, markup=markup, sc=None, sp=None)
 
         text = await cls.model_form_correct(title=text, lang=lang, data_model=data_model)
-        markup = await Ut.get_markup(lang=lang, markup=markup)
+        markup = await Ut.get_markup(lang=lang, markup=markup, without_buttons=["confirm"])
         await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
 
         await state.set_state(DriverRegistration.ChooseCountryDrivingLicense)

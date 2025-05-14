@@ -209,7 +209,7 @@ async def choose_country_current_live(state: FSMContext, returned_data: Union[st
     dmodel.country_driving_licence = returned_data
     await state.update_data(dmodel=dmodel, call_function=choose_work_type)
 
-    await RegistrationSteps().country_driving_licence(state=state, data_model=dmodel, lang=ulang)
+    await RegistrationSteps().country_current_live(state=state, data_model=dmodel, lang=ulang)
 
 
 async def choose_work_type(state: FSMContext, returned_data: Union[str, int]):
