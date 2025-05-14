@@ -266,17 +266,22 @@ class RegistrationSteps:
         inline_markups_data = current_localization["markups"]["inline"]
 
         if markup_key:
-            for row in inline_markups_data[markup_key]:
-                for value in row.values():
-                    if (value in ["check", "uncheck", "confirm", "back", "skip", "0", "to_continents"]
-                    ) or ("next_page" in value) or ("prev_page" in value):
-                        continue
+            for pag in range(1, 10):
+                markup_key_pag = markup_key + str(pag)
+                if markup_key_pag not in inline_markups_data:
+                    break
 
-                    if action == "+" and value not in entrance_data:
-                        entrance_data.append(value)
+                for row in inline_markups_data[markup_key_pag]:
+                    for value in row.values():
+                        if (value in ["check", "uncheck", "confirm", "back", "skip", "0", "to_continents"]
+                        ) or ("next_page" in value) or ("prev_page" in value):
+                            continue
 
-                    elif action == "-" and value in entrance_data:
-                        entrance_data.remove(value)
+                        if action == "+" and value not in entrance_data:
+                            entrance_data.append(value)
+
+                        elif action == "-" and value in entrance_data:
+                            entrance_data.remove(value)
 
         else:
             for markup_key, markup_data in inline_markups_data.items():
@@ -359,7 +364,7 @@ class RegistrationSteps:
             sc = data.get("sc")
             markup_key = None
             if sc:
-                markup_key = f"countries_{sc}_{data['sp']}"
+                markup_key = f"countries_{sc}_"
 
             saved_data = await cls.iteration_by_countries(
                 lang=lang, entrance_data=saved_data, action="+" if cd == "check" else "-", markup_key=markup_key)
@@ -368,7 +373,7 @@ class RegistrationSteps:
 
             if sc:
                 markup = await Ut.get_markup(
-                    mtype="inline", key=markup_key, lang=lang, additional_buttons=additional_buttons,
+                    mtype="inline", key=markup_key + str(data['sp']), lang=lang, additional_buttons=additional_buttons,
                     without_buttons=without_inline_buttons
                 )
                 await state.update_data(markup=markup)
