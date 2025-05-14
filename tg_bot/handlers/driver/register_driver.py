@@ -1428,8 +1428,6 @@ class RegistrationSteps:
 
         else:
             returned_value = callback.data
-            if returned_value == "skip":
-                returned_value = ""
 
         await cls.handler_finish(state=state, returned_value=returned_value, additional_field="work_type")
 
