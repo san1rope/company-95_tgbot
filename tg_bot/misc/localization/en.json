@@ -660,99 +660,121 @@
       ],
       "countries_europe_1": [
         {
-          "\ud83c\uddf5\ud83c\uddf1 Poland": "pl",
-          "\ud83c\uddfa\ud83c\udde6 Ukraine": "ua"
-        },
-        {
           "\ud83c\uddf7\ud83c\uddfe Belarus": "by",
           "\ud83c\uddec\ud83c\uddea Georgia": "ge"
         },
         {
           "\ud83c\uddf2\ud83c\udde9 Moldova": "md",
+          "\ud83c\uddf5\ud83c\uddf1 Poland": "pl"
+        },
+        {
+          "\ud83c\uddfa\ud83c\udde6 Ukraine": "ua",
+          "\ud83c\udde6\ud83c\uddf1 Albania": "al"
+        },
+        {
+          "\ud83c\udde6\ud83c\udde9 Andorra": "ad",
           "\ud83c\udde6\ud83c\uddf9 Austria": "at"
         },
         {
-          "\ud83c\udde6\ud83c\uddf1 Albania": "al",
-          "\ud83c\udde6\ud83c\udde9 Andorra": "ad"
-        },
-        {
           "\ud83c\udde7\ud83c\uddea Belgium": "be",
-          "\ud83c\udde7\ud83c\uddec Bulgaria": "bg"
+          "\ud83c\udde7\ud83c\udde6 Bosnia and Herzegovina": "ba"
         },
         {
-          "\ud83c\udde7\ud83c\udde6 Bosnia and Herzegovina": "ba",
-          "\ud83c\uddec\ud83c\udde7 United Kingdom": "gb"
+          "\ud83c\udde7\ud83c\uddec Bulgaria": "bg",
+          "\ud83c\uded5\ud83c\uddf7 Croatia": "hr"
         },
         {
           "  ": "0",
           "1/4": "0",
-          "➡\uFE0F": "next_page:2"
+          "\u27a1\ufe0f": "next_page:2"
         },
         {
-          "⬅️\uFE0F To continents": "to_continents",
-          "\uD83D\uDCDD Confirm selection": "confirm"
+          "\u2b05\ufe0f\ufe0f To continents": "to_continents",
+          "\ud83d\udcdd Confirm selection": "confirm"
         },
         {
-          "\uD83D\uDD19 Back": "back"
+          "\ud83d\udd19 Back": "back"
         }
       ],
       "countries_europe_2": [
         {
-          "\ud83c\udded\ud83c\uddfa Hungary": "hu",
+          "\ud83c\udded\ud83c\uddf7 Czech Republic": "cz",
+          "\ud83c\udde9\ud83c\uddf0 Denmark": "dk"
+        },
+        {
+          "\ud83c\uddea\ud83c\uddea Estonia": "ee",
+          "\ud83c\uddeb\ud83c\uddee Finland": "fi"
+        },
+        {
+          "\ud83c\uddeb\ud83c\uddf7 France": "fr",
           "\ud83c\udde9\ud83c\uddea Germany": "de"
         },
         {
           "\ud83c\uddec\ud83c\uddf7 Greece": "gr",
-          "\ud83c\udde9\ud83c\uddf0 Denmark": "dk"
+          "\ud83c\udded\ud83c\uddfa Hungary": "hu"
         },
         {
-          "\ud83c\uddee\ud83c\uddea Ireland": "ie",
-          "\ud83c\uddee\ud83c\uddf8 Iceland": "is"
+          "\ud83c\uddee\ud83c\uddf8 Iceland": "is",
+          "\ud83c\uddee\ud83c\uddea Ireland": "ie"
         },
         {
-          "\ud83c\uddea\ud83c\uddf8 Spain": "es",
-          "\ud83c\uddee\ud83c\uddf9 Italy": "it"
+          "\ud83c\uddee\ud83c\uddf9 Italy": "it",
+          "\ud83c\uddfd\ud83c\uddf0 Kosovo": "xk"
         },
         {
-          "\ud83c\uddfd\ud83c\uddf0 Kosovo": "xk",
-          "\ud83c\uddf1\ud83c\uddfb Latvia": "lv"
-        },
-        {
-          "\ud83c\uddf1\ud83c\uddf9 Lithuania": "lt",
-          "\ud83c\uddf1\ud83c\uddee Liechtenstein": "li"
-        },
-        {
-          "⬅\uFE0F": "prev_page:1",
+          "\u2b05\ufe0f": "prev_page:1",
           "2/4": "0",
-          "➡\uFE0F": "next_page:3"
+          "\u27a1\ufe0f": "next_page:3"
         },
         {
-          "⬅️\uFE0F To continents": "to_continents",
-          "\uD83D\uDCDD Confirm selection": "confirm"
+          "\u2b05\ufe0f\ufe0f To continents": "to_continents",
+          "\ud83d\udcdd Confirm selection": "confirm"
         },
         {
-          "\uD83D\uDD19 Back": "back"
+          "\ud83d\udd19 Back": "back"
         }
       ],
       "countries_europe_3": [
         {
-          "\ud83c\uddf1\ud83c\uddfa Luxembourg": "lu",
-          "\ud83c\uddf2\ud83c\uddf9 Malta": "mt"
+          "\ud83c\uddf1\ud83c\uddfb Latvia": "lv",
+          "\ud83c\uddf1\ud83c\uddee Liechtenstein": "li"
         },
         {
-          "\ud83c\uddf2\ud83c\udde8 Monaco": "mc",
+          "\ud83c\uddf1\ud83c\uddf9 Lithuania": "lt",
+          "\ud83c\uddf1\ud83c\uddfa Luxembourg": "lu"
+        },
+        {
+          "\ud83c\uddf2\ud83c\uddf9 Malta": "mt",
+          "\ud83c\uddf2\ud83c\udde8 Monaco": "mc"
+        },
+        {
+          "\ud83c\uddf2\ud83c\uddea Montenegro": "me",
           "\ud83c\uddf3\ud83c\uddf1 Netherlands": "nl"
         },
         {
-          "\ud83c\uddf3\ud83c\uddf4 Norway": "no",
-          "\ud83c\uddf5\ud83c\uddf9 Portugal": "pt"
-        },
-        {
-          "\ud83c\uddf7\ud83c\uddf4 Romania": "ro",
-          "\ud83c\uddf8\ud83c\uddf2 San Marino": "sm"
-        },
-        {
           "\ud83c\uddf2\ud83c\uddf0 North Macedonia": "mk",
+          "\ud83c\uddf3\ud83c\uddf4 Norway": "no"
+        },
+        {
+          "\ud83c\uddf5\ud83c\uddf9 Portugal": "pt",
+          "\ud83c\uddf7\ud83c\uddf4 Romania": "ro"
+        },
+        {
+          "\u2b05\ufe0f": "prev_page:2",
+          "3/4": "0",
+          "\u27a1\ufe0f": "next_page:4"
+        },
+        {
+          "\u2b05\ufe0f\ufe0f To continents": "to_continents",
+          "\ud83d\udcdd Confirm selection": "confirm"
+        },
+        {
+          "\ud83d\udd19 Back": "back"
+        }
+      ],
+      "countries_europe_4": [
+        {
+          "\ud83c\uddf8\ud83c\uddf2 San Marino": "sm",
           "\ud83c\uddf7\ud83c\uddf8 Serbia": "rs"
         },
         {
@@ -760,316 +782,277 @@
           "\ud83c\uddf8\ud83c\uddee Slovenia": "si"
         },
         {
-          "⬅\uFE0F": "prev_page:2",
-          "3/4": "0",
-          "➡\uFE0F": "next_page:4"
+          "\ud83c\uddea\ud83c\uddf8 Spain": "es",
+          "\ud83c\uddf8\ud83c\uddea Sweden": "se"
         },
         {
-          "⬅️\uFE0F To continents": "to_continents",
-          "\uD83D\uDCDD Confirm selection": "confirm"
+          "\ud83c\udde8\ud83c\udded Switzerland": "ch",
+          "\ud83c\uddec\ud83c\udde7 United Kingdom": "gb"
         },
         {
-          "\uD83D\uDD19 Back": "back"
-        }
-      ],
-      "countries_europe_4": [
-        {
-          "\ud83c\uddeb\ud83c\uddee Finland": "fi",
-          "\ud83c\uddeb\ud83c\uddf7 France": "fr"
-        },
-        {
-          "\ud83c\uded5\ud83c\uddf7 Croatia": "hr",
-          "\ud83c\uddf2\ud83c\uddea Montenegro": "me"
-        },
-        {
-          "\ud83c\udded\ud83c\uddf7 Czech Republic": "cz",
-          "\ud83c\udde8\ud83c\udded Switzerland": "ch"
-        },
-        {
-          "\ud83c\uddf8\ud83c\uddea Sweden": "se",
-          "\ud83c\uddea\ud83c\uddea Estonia": "ee"
-        },
-        {
-          "⬅\uFE0F": "prev_page:3",
+          "\u2b05\ufe0f": "prev_page:3",
           "4/4": "0",
           "  ": "0"
         },
         {
-          "⬅️\uFE0F To continents": "to_continents",
-          "\uD83D\uDCDD Confirm selection": "confirm"
+          "\u2b05\ufe0f\ufe0f To continents": "to_continents",
+          "\ud83d\udcdd Confirm selection": "confirm"
         },
         {
-          "\uD83D\uDD19 Back": "back"
+          "\ud83d\udd19 Back": "back"
         }
       ],
       "countries_asia_1": [
         {
-          "🇮🇳 India": "in",
-          "🇰🇿 Kazakhstan": "kz"
+          "\ud83c\uddee\ud83c\uddf3 India": "in",
+          "\ud83c\uddf0\ud83c\uddff Kazakhstan": "kz"
         },
         {
-          "🇳🇵 Nepal": "np",
-          "🇺🇿 Uzbekistan": "uz"
+          "\ud83c\uddf3\ud83c\uddf5 Nepal": "np",
+          "\ud83c\uddf5\ud83c\udded Philippines": "ph"
         },
         {
-          "🇵🇭 Philippines": "ph",
-          "🇦🇿 Azerbaijan": "az"
+          "\ud83c\uddfa\ud83c\uddff Uzbekistan": "uz",
+          "\ud83c\udde6\ud83c\uddeb Afghanistan": "af"
         },
         {
-          "🇦🇲 Armenia": "am",
-          "🇦🇫 Afghanistan": "af"
+          "\ud83c\udde6\ud83c\uddf2 Armenia": "am",
+          "\ud83c\udde6\ud83c\uddff Azerbaijan": "az"
         },
         {
-          "🇧🇬 Bangladesh": "bd",
-          "🇧🇭 Bahrain": "bh"
+          "\ud83c\udde7\ud83c\udded Bahrain": "bh",
+          "\ud83c\udde7\ud83c\uddec Bangladesh": "bd"
         },
         {
-          "🇧🇳 Brunei": "bn",
-          "🇧🇹 Bhutan": "bt"
+          "\ud83c\udde7\ud83c\uddf9 Bhutan": "bt",
+          "\ud83c\udde7\ud83c\uddf3 Brunei": "bn"
         },
         {
           "  ": "0",
-          "1/5": "0",
-          "➡️": "next_page:2"
+          "1/4": "0",
+          "\u27a1\ufe0f": "next_page:2"
         },
         {
-          "⬅️️ To continents": "to_continents",
-          "📝 Confirm selection": "confirm"
+          "\u2b05\ufe0f\ufe0f To continents": "to_continents",
+          "\ud83d\udcdd Confirm selection": "confirm"
         },
         {
-          "🔙 Back": "back"
+          "\ud83d\udd19 Back": "back"
         }
       ],
       "countries_asia_2": [
         {
-          "🇹🇱 East Timor": "tl",
-          "🇻🇳 Vietnam": "vn"
+          "\ud83c\uddf0\ud83c\udded Cambodia": "kh",
+          "\ud83c\udde8\ud83c\uddf3 China": "cn"
         },
         {
-          "🇬🇪 Georgia": "ge",
-          "🇮🇱 Israel": "il"
+          "\ud83c\udde8\ud83c\uddee Cyprus": "cy",
+          "\ud83c\uddf9\ud83c\uddf1 East Timor": "tl"
         },
         {
-          "🇮🇳 India": "in",
-          "🇮🇩 Indonesia": "id"
+          "\ud83c\uddec\ud83c\uddea Georgia": "ge",
+          "\ud83c\uddee\ud83c\udde9 Indonesia": "id"
         },
         {
-          "🇯🇴 Jordan": "jo",
-          "🇮🇶 Iraq": "iq"
+          "\ud83c\uddee\ud83c\uddf7 Iran": "ir",
+          "\ud83c\uddee\ud83c\uddf6 Iraq": "iq"
         },
         {
-          "🇮🇷 Iran": "ir",
-          "🇾🇪 Yemen": "ye"
+          "\ud83c\uddee\ud83c\uddf1 Israel": "il",
+          "\ud83c\uddef\ud83c\uddf5 Japan": "jp"
         },
         {
-          "🇰🇭 Cambodia": "kh",
-          "🇶🇦 Qatar": "qa"
+          "\ud83c\uddef\ud83c\uddf4 Jordan": "jo",
+          "\ud83c\uddf0\ud83c\uddfc Kuwait": "kw"
         },
         {
-          "⬅️": "prev_page:1",
-          "2/5": "0",
-          "➡️": "next_page:3"
+          "\u2b05\ufe0f": "prev_page:1",
+          "2/4": "0",
+          "\u27a1\ufe0f": "next_page:3"
         },
         {
-          "⬅️️ To continents": "to_continents",
-          "📝 Confirm selection": "confirm"
+          "\u2b05\ufe0f\ufe0f To continents": "to_continents",
+          "\ud83d\udcdd Confirm selection": "confirm"
         },
         {
-          "🔙 Back": "back"
+          "\ud83d\udd19 Back": "back"
         }
       ],
       "countries_asia_3": [
         {
-          "🇨🇮 Cyprus": "cy",
-          "🇰🇬 Kyrgyzstan": "kg"
+          "\ud83c\uddf0\ud83c\uddec Kyrgyzstan": "kg",
+          "\ud83c\uddf1\ud83c\udde6 Laos": "la"
         },
         {
-          "🇨🇳 China": "cn",
-          "🇰🇼 Kuwait": "kw"
+          "\ud83c\uddf1\ud83c\udde7 Lebanon": "lb",
+          "\ud83c\uddf2\ud83c\uddfe Malaysia": "my"
         },
         {
-          "🇱🇦 Laos": "la",
-          "🇱🇧 Lebanon": "lb"
+          "\ud83c\uddf2\ud83c\uddfb Maldives": "mv",
+          "\ud83c\uddf2\ud83c\uddf3 Mongolia": "mn"
         },
         {
-          "🇲🇾 Malaysia": "my",
-          "🇲🇻 Maldives": "mv"
+          "\ud83c\uddf2\ud83c\uddf2 Myanmar": "mm",
+          "\ud83c\uddf4\ud83c\uddf2 Oman": "om"
         },
         {
-          "🇲🇳 Mongolia": "mn",
-          "🇲🇲 Myanmar": "mm"
+          "\ud83c\uddf5\ud83c\uddf0 Pakistan": "pk",
+          "\ud83c\uddf5\ud83c\uddf8 Palestine": "ps"
         },
         {
-          "🇦🇪 UAE": "ae",
-          "🇴🇲 Oman": "om"
+          "\ud83c\uddf6\ud83c\udde6 Qatar": "qa",
+          "\ud83c\uddf8\ud83c\udde6 Saudi Arabia": "sa"
         },
         {
-          "⬅️": "prev_page:2",
-          "3/5": "0",
-          "➡️": "next_page:4"
+          "\u2b05\ufe0f": "prev_page:2",
+          "3/4": "0",
+          "\u27a1\ufe0f": "next_page:4"
         },
         {
-          "⬅️️ To continents": "to_continents",
-          "📝 Confirm selection": "confirm"
+          "\u2b05\ufe0f\ufe0f To continents": "to_continents",
+          "\ud83d\udcdd Confirm selection": "confirm"
         },
         {
-          "🔙 Back": "back"
+          "\ud83d\udd19 Back": "back"
         }
       ],
       "countries_asia_4": [
         {
-          "🇵🇰 Pakistan": "pk",
-          "🇵🇸 Palestine": "ps"
+          "\ud83c\uddf8\ud83c\uddec Singapore": "sg",
+          "\ud83c\uddf0\ud83c\uddf7 South Korea": "kr"
         },
         {
-          "🇸🇦 Saudi Arabia": "sa",
-          "🇸🇬 Singapore": "sg"
+          "\ud83c\uddf1\ud83c\uddf0 Sri Lanka": "lk",
+          "\ud83c\uddf8\ud83c\uddfe Syria": "sy"
         },
         {
-          "🇸🇾 Syria": "sy",
-          "🇹🇯 Tajikistan": "tj"
+          "\ud83c\uddf9\ud83c\uddfc Taiwan": "tw",
+          "\ud83c\uddf9\ud83c\uddef Tajikistan": "tj"
         },
         {
-          "🇹🇭 Thailand": "th",
-          "🇹🇼 Taiwan": "tw"
+          "\ud83c\uddf9\ud83c\udded Thailand": "th",
+          "\ud83c\uddf9\ud83c\uddf7 Turkey": "tr"
         },
         {
-          "🇹🇲 Turkmenistan": "tm",
-          "🇹🇷 Turkey": "tr"
+          "\ud83c\uddf9\ud83c\uddf2 Turkmenistan": "tm",
+          "\ud83c\udde6\ud83c\uddea UAE": "ae"
         },
         {
-          "🇱🇰 Sri Lanka": "lk",
-          "🇰🇷 South Korea": "kr"
+          "\ud83c\uddfb\ud83c\uddf3 Vietnam": "vn",
+          "\ud83c\uddfe\ud83c\uddea Yemen": "ye"
         },
         {
-          "⬅️": "prev_page:3",
-          "4/5": "0",
-          "➡️": "next_page:5"
-        },
-        {
-          "⬅️ To continents": "to_continents",
-          "📝 Confirm selection": "confirm"
-        },
-        {
-          "🔙 Back": "back"
-        }
-      ],
-      "countries_asia_5": [
-        {
-          "🇯🇵 Japan": "jp"
-        },
-        {
-          "⬅️": "prev_page:4",
-          "5/5": "0",
+          "\u2b05\ufe0f": "prev_page:3",
+          "4/4": "0",
           "  ": "0"
         },
         {
-          "⬅️ To continents": "to_continents",
-          "📝 Confirm selection": "confirm"
+          "\u2b05\ufe0f\ufe0f To continents": "to_continents",
+          "\ud83d\udcdd Confirm selection": "confirm"
         },
         {
-          "🔙 Back": "back"
+          "\ud83d\udd19 Back": "back"
         }
       ],
       "countries_north_america_1": [
         {
-          "🇦🇬 Antigua and Barbuda": "ag",
-          "🇧🇸 Bahamas": "bs"
+          "\ud83c\udde6\ud83c\uddec Antigua and Barbuda": "ag",
+          "\ud83c\udde7\ud83c\uddf8 Bahamas": "bs"
         },
         {
-          "🇧🇧 Barbados": "bb",
-          "🇧🇿 Belize": "bz"
+          "\ud83c\udde7\ud83c\udde7 Barbados": "bb",
+          "\ud83c\udde7\ud83c\uddff Belize": "bz"
         },
         {
-          "🇭🇹 Haiti": "ht",
-          "🇬🇹 Guatemala": "gt"
+          "\ud83c\udde8\ud83c\udde6 Canada": "ca",
+          "\ud83c\udde8\ud83c\uddf7 Costa Rica": "cr"
         },
         {
-          "🇭🇳 Honduras": "hn",
-          "🇬🇩 Grenada": "gd"
+          "\ud83c\udde8\ud83c\uddfa Cuba": "cu",
+          "\ud83c\udde9\ud83c\uddf2 Dominica": "dm"
         },
         {
-          "🇩🇲 Dominica": "dm",
-          "🇩🇴 Dominican Republic": "do"
+          "\ud83c\udde9\ud83c\uddf4 Dominican Republic": "do",
+          "\ud83c\uddf8\ud83c\uddfb El Salvador": "sv"
         },
         {
-          "🇨🇦 Canada": "ca",
-          "🇨🇷 Costa Rica": "cr"
+          "\ud83c\uddec\ud83c\udde9 Grenada": "gd",
+          "\ud83c\uddec\ud83c\uddf9 Guatemala": "gt"
         },
         {
           "  ": "0",
           "1/2": "0",
-          "➡️": "next_page:2"
+          "\u27a1\ufe0f": "next_page:2"
         },
         {
-          "⬅️ To continents": "to_continents",
-          "📑 Confirm selection": "confirm"
+          "\u2b05\ufe0f\ufe0f To continents": "to_continents",
+          "\ud83d\udcdd Confirm selection": "confirm"
         },
         {
-          "🔙 Back": "back"
+          "\ud83d\udd19 Back": "back"
         }
       ],
       "countries_north_america_2": [
         {
-          "🇨🇺 Cuba": "cu",
-          "🇲🇽 Mexico": "mx"
+          "\ud83c\udded\ud83c\uddf9 Haiti": "ht",
+          "\ud83c\udded\ud83c\uddf3 Honduras": "hn"
         },
         {
-          "🇳🇮 Nicaragua": "ni",
-          "🇵🇦 Panama": "pa"
+          "\ud83c\uddef\ud83c\uddf2 Jamaica": "jm",
+          "\ud83c\uddf2\ud83c\uddfd Mexico": "mx"
         },
         {
-          "🇸🇻 El Salvador": "sv",
-          "🇻🇨 Saint Vincent and the Grenadines": "vc"
+          "\ud83c\uddf3\ud83c\uddee Nicaragua": "ni",
+          "\ud83c\uddf5\ud83c\udde6 Panama": "pa"
         },
         {
-          "🇰🇳 Saint Kitts and Nevis": "kn",
-          "🇱🇨 Saint Lucia": "lc"
+          "\ud83c\uddf0\ud83c\uddf3 Saint Kitts and Nevis": "kn",
+          "\ud83c\uddf1\ud83c\udde8 Saint Lucia": "lc"
         },
         {
-          "🇺🇸 USA": "us",
-          "🇹🇹 Trinidad and Tobago": "tt"
+          "\ud83c\uddfb\ud83c\udde8 Saint Vincent and the Grenadines": "vc",
+          "\ud83c\uddf9\ud83c\uddf9 Trinidad and Tobago": "tt"
         },
         {
-          "🇯🇲 Jamaica": "jm"
+          "\ud83c\uddfa\ud83c\uddf8 USA": "us"
         },
         {
-          "⬅️": "prev_page:1",
+          "\u2b05\ufe0f": "prev_page:1",
           "2/2": "0",
           "  ": "0"
         },
         {
-          "⬅️ To continents": "to_continents",
-          "📑 Confirm selection": "confirm"
+          "\u2b05\ufe0f\ufe0f To continents": "to_continents",
+          "\ud83d\udcdd Confirm selection": "confirm"
         },
         {
-          "🔙 Back": "back"
+          "\ud83d\udd19 Back": "back"
         }
       ],
       "countries_south_america_1": [
         {
-          "🇦🇷 Argentina": "ar",
-          "🇧🇴 Bolivia": "bo"
+          "\ud83c\udde6\ud83c\uddf7 Argentina": "ar",
+          "\ud83c\udde7\ud83c\uddf4 Bolivia": "bo"
         },
         {
-          "🇧🇷 Brazil": "br",
-          "🇻🇪 Venezuela": "ve"
+          "\ud83c\udde7\ud83c\uddf7 Brazil": "br",
+          "\ud83c\udde8\ud83c\uddf1 Chile": "cl"
         },
         {
-          "🇬🇾 Guyana": "gy",
-          "🇨🇴 Colombia": "co"
+          "\ud83c\udde8\ud83c\uddf4 Colombia": "co",
+          "\ud83c\uddea\ud83c\udde8 Ecuador": "ec"
         },
         {
-          "🇵🇾 Paraguay": "py",
-          "🇵🇪 Peru": "pe"
+          "\ud83c\uddec\ud83c\uddfe Guyana": "gy",
+          "\ud83c\uddf5\ud83c\uddfe Paraguay": "py"
         },
         {
-          "🇸🇷 Suriname": "sr",
-          "🇺🇾 Uruguay": "uy"
+          "\ud83c\uddf5\ud83c\uddea Peru": "pe",
+          "\ud83c\uddf8\ud83c\uddf7 Suriname": "sr"
         },
         {
-          "🇨🇱 Chile": "cl",
-          "🇪🇨 Ecuador": "ec"
+          "\ud83c\uddfa\ud83c\uddfe Uruguay": "uy",
+          "\ud83c\uddfb\ud83c\uddea Venezuela": "ve"
         },
         {
           "  ": "0",
@@ -1077,222 +1060,219 @@
           "   ": "0"
         },
         {
-          "⬅️\uFE0F To continents": "to_continents",
-          "\uD83D\uDCDD Confirm selection": "confirm"
+          "\u2b05\ufe0f\ufe0f To continents": "to_continents",
+          "\ud83d\udcdd Confirm selection": "confirm"
         },
         {
-          "\uD83D\uDD19 Back": "back"
+          "\ud83d\udd19 Back": "back"
         }
       ],
       "countries_africa_1": [
         {
-          "🇩🇿 Algeria": "dz",
-          "🇦🇴 Angola": "ao"
+          "\ud83c\udde9\ud83c\uddff Algeria": "dz",
+          "\ud83c\udde6\ud83c\uddf4 Angola": "ao"
         },
         {
-          "🇧🇯 Benin": "bj",
-          "🇧🇼 Botswana": "bw"
+          "\ud83c\udde7\ud83c\uddef Benin": "bj",
+          "\ud83c\udde7\ud83c\uddfc Botswana": "bw"
         },
         {
-          "🇧🇫 Burkina Faso": "bf",
-          "🇧🇮 Burundi": "bi"
+          "\ud83c\udde7\ud83c\uddeb Burkina Faso": "bf",
+          "\ud83c\udde7\ud83c\uddee Burundi": "bi"
         },
         {
-          "🇬🇦 Gabon": "ga",
-          "🇬🇲 Gambia": "gm"
+          "\ud83c\udde8\ud83c\uddf2 Cameroon": "cm",
+          "\ud83c\udde8\ud83c\uddfb Cape Verde": "cv"
         },
         {
-          "🇬🇭 Ghana": "gh",
-          "🇬🇳 Guinea": "gn"
+          "\ud83c\udde8\ud83c\udded Chad": "td",
+          "\ud83c\uddf0\ud83c\uddf2 Comoros": "km"
         },
         {
-          "🇬🇼 Guinea-Bissau": "gw",
-          "🇨🇩 DR Congo": "cd"
+          "\ud83c\udde9\ud83c\uddef Djibouti": "dj",
+          "\ud83c\udde8\ud83c\udde9 DR Congo": "cd"
         },
         {
           "  ": "0",
           "1/5": "0",
-          "➡️": "next_page:2"
+          "\u27a1\ufe0f": "next_page:2"
         },
         {
-          "⬅️ To continents": "to_continents",
-          "📝 Confirm selection": "confirm"
+          "\u2b05\ufe0f\ufe0f To continents": "to_continents",
+          "\ud83d\udcdd Confirm selection": "confirm"
         },
         {
-          "🔙 Back": "back"
+          "\ud83d\udd19 Back": "back"
         }
       ],
       "countries_africa_2": [
         {
-          "🇩🇯 Djibouti": "dj",
-          "🇪🇬 Egypt": "eg"
+          "\ud83c\uddea\ud83c\uddec Egypt": "eg",
+          "\ud83c\uddea\ud83c\uddf7 Eritrea": "er"
         },
         {
-          "🇿🇲 Zambia": "zm",
-          "🇪🇭 Western Sahara": "eh"
+          "\ud83c\uddf8\ud83c\uddff Eswatini": "sz",
+          "\ud83c\uddea\ud83c\uddf9 Ethiopia": "et"
         },
         {
-          "🇿🇼 Zimbabwe": "zw",
-          "🇨🇻 Cape Verde": "cv"
+          "\ud83c\uddec\ud83c\udde6 Gabon": "ga",
+          "\ud83c\uddec\ud83c\uddf2 Gambia": "gm"
         },
         {
-          "🇨🇲 Cameroon": "cm",
-          "🇰🇪 Kenya": "ke"
+          "\ud83c\uddec\ud83c\udded Ghana": "gh",
+          "\ud83c\uddec\ud83c\uddf3 Guinea": "gn"
         },
         {
-          "🇰🇲 Comoros": "km",
-          "🇨🇮 Ivory Coast": "ci"
+          "\ud83c\uddec\ud83c\uddfc Guinea-Bissau": "gw",
+          "\ud83c\udde8\ud83c\uddee Ivory Coast": "ci"
         },
         {
-          "🇱🇸 Lesotho": "ls",
-          "🇱🇷 Liberia": "lr"
+          "\ud83c\uddf0\ud83c\uddea Kenya": "ke",
+          "\ud83c\uddf1\ud83c\uddf8 Lesotho": "ls"
         },
         {
-          "⬅️": "prev_page:1",
+          "\u2b05\ufe0f": "prev_page:1",
           "2/5": "0",
-          "➡️": "next_page:3"
+          "\u27a1\ufe0f": "next_page:3"
         },
         {
-          "⬅️ To continents": "to_continents",
-          "📝 Confirm selection": "confirm"
+          "\u2b05\ufe0f\ufe0f To continents": "to_continents",
+          "\ud83d\udcdd Confirm selection": "confirm"
         },
         {
-          "🔙 Back": "back"
+          "\ud83d\udd19 Back": "back"
         }
       ],
       "countries_africa_3": [
         {
-          "🇱🇾 Libya": "ly",
-          "🇲🇺 Mauritius": "mu"
+          "\ud83c\uddf1\ud83c\uddf7 Liberia": "lr",
+          "\ud83c\uddf1\ud83c\uddfe Libya": "ly"
         },
         {
-          "🇲🇷 Mauritania": "mr",
-          "🇲🇬 Madagascar": "mg"
+          "\ud83c\uddf2\ud83c\uddec Madagascar": "mg",
+          "\ud83c\uddf2\ud83c\uddfc Malawi": "mw"
         },
         {
-          "🇲🇼 Malawi": "mw",
-          "🇲🇱 Mali": "ml"
+          "\ud83c\uddf2\ud83c\uddf1 Mali": "ml",
+          "\ud83c\uddf2\ud83c\uddf7 Mauritania": "mr"
         },
         {
-          "🇲🇦 Morocco": "ma",
-          "🇲🇿 Mozambique": "mz"
+          "\ud83c\uddf2\ud83c\uddfa Mauritius": "mu",
+          "\ud83c\uddf2\ud83c\udde6 Morocco": "ma"
         },
         {
-          "🇳🇦 Namibia": "na",
-          "🇳🇪 Niger": "ne"
+          "\ud83c\uddf2\ud83c\uddff Mozambique": "mz",
+          "\ud83c\uddf3\ud83c\udde6 Namibia": "na"
         },
         {
-          "🇳🇬 Nigeria": "ng",
-          "🇷🇼 Rwanda": "rw"
+          "\ud83c\uddf3\ud83c\uddea Niger": "ne",
+          "\ud83c\uddf3\ud83c\uddec Nigeria": "ng"
         },
         {
-          "⬅️": "prev_page:2",
+          "\u2b05\ufe0f": "prev_page:2",
           "3/5": "0",
-          "➡️": "next_page:4"
+          "\u27a1\ufe0f": "next_page:4"
         },
         {
-          "⬅️ To continents": "to_continents",
-          "📝 Confirm selection": "confirm"
+          "\u2b05\ufe0f\ufe0f To continents": "to_continents",
+          "\ud83d\udcdd Confirm selection": "confirm"
         },
         {
-          "🔙 Back": "back"
+          "\ud83d\udd19 Back": "back"
         }
       ],
       "countries_africa_4": [
         {
-          "🇸🇳 Senegal": "sn",
-          "🇸🇴 Somalia": "so"
+          "\ud83c\uddf7\ud83c\uddfc Rwanda": "rw",
+          "\ud83c\uddf8\ud83c\uddf3 Senegal": "sn"
         },
         {
-          "🇸🇩 Sudan": "sd",
-          "🇸🇱 Sierra Leone": "sl"
+          "\ud83c\uddf8\ud83c\uddf1 Sierra Leone": "sl",
+          "\ud83c\uddf8\ud83c\uddf4 Somalia": "so"
         },
         {
-          "🇹🇿 Tanzania": "tz",
-          "🇹🇬 Togo": "tg"
+          "\ud83c\uddff\ud83c\udde6 South Africa": "za",
+          "\ud83c\uddf8\ud83c\uddf8 South Sudan": "ss"
         },
         {
-          "🇹🇳 Tunisia": "tn",
-          "🇺🇬 Uganda": "ug"
+          "\ud83c\uddf8\ud83c\udde9 Sudan": "sd",
+          "\ud83c\uddf9\ud83c\uddff Tanzania": "tz"
         },
         {
-          "🇿🇦 South Africa": "za",
-          "🇨🇭 Chad": "td"
+          "\ud83c\uddf9\ud83c\uddec Togo": "tg",
+          "\ud83c\uddf9\ud83c\uddf3 Tunisia": "tn"
         },
         {
-          "🇬🇳 Guinea": "gn",
-          "🇪🇷 Eritrea": "er"
+          "\ud83c\uddfa\ud83c\uddec Uganda": "ug",
+          "\ud83c\uddea\ud83c\udded Western Sahara": "eh"
         },
         {
-          "⬅️": "prev_page:3",
+          "\u2b05\ufe0f": "prev_page:3",
           "4/5": "0",
-          "➡️": "next_page:5"
+          "\u27a1\ufe0f": "next_page:5"
         },
         {
-          "⬅️ To continents": "to_continents",
-          "📝 Confirm selection": "confirm"
+          "\u2b05\ufe0f\ufe0f To continents": "to_continents",
+          "\ud83d\udcdd Confirm selection": "confirm"
         },
         {
-          "🔙 Back": "back"
+          "\ud83d\udd19 Back": "back"
         }
       ],
       "countries_africa_5": [
         {
-          "🇸🇿 Eswatini": "sz",
-          "🇪🇹 Ethiopia": "et"
+          "\ud83c\uddff\ud83c\uddf2 Zambia": "zm",
+          "\ud83c\uddff\ud83c\uddfc Zimbabwe": "zw"
         },
         {
-          "🇸🇸 South Sudan": "ss"
-        },
-        {
-          "⬅️": "prev_page:4",
+          "\u2b05\ufe0f": "prev_page:4",
           "5/5": "0",
           "  ": "0"
         },
         {
-          "⬅️ To continents": "to_continents",
-          "📝 Confirm selection": "confirm"
+          "\u2b05\ufe0f\ufe0f To continents": "to_continents",
+          "\ud83d\udcdd Confirm selection": "confirm"
         },
         {
-          "🔙 Back": "back"
+          "\ud83d\udd19 Back": "back"
         }
       ],
       "countries_oceania_1": [
         {
-          "🇦🇺 Australia": "au",
-          "🇰🇮 Kiribati": "ki"
+          "\ud83c\udde6\ud83c\uddfa Australia": "au",
+          "\ud83c\uddeb\ud83c\uddef Fiji": "fj"
         },
         {
-          "🇲🇭 Marshall Islands": "mh",
-          "🇳🇷 Nauru": "nr"
+          "\ud83c\uddf0\ud83c\uddee Kiribati": "ki",
+          "\ud83c\uddf2\ud83c\udded Marshall Islands": "mh"
         },
         {
-          "🇳🇿 New Zealand": "nz",
-          "🇵🇼 Palau": "pw"
+          "\ud83c\uddf3\ud83c\uddf7 Nauru": "nr",
+          "\ud83c\uddf3\ud83c\uddff New Zealand": "nz"
         },
         {
-          "🇵🇬 Papua New Guinea": "pg",
-          "🇼🇸 Samoa": "ws"
+          "\ud83c\uddf5\ud83c\uddfc Palau": "pw",
+          "\ud83c\uddf5\ud83c\uddec Papua New Guinea": "pg"
         },
         {
-          "🇸🇧 Solomon Islands": "sb",
-          "🇹🇴 Tonga": "to"
+          "\ud83c\uddfc\ud83c\uddf8 Samoa": "ws",
+          "\ud83c\uddf8\ud83c\udde7 Solomon Islands": "sb"
         },
         {
-          "🇹🇻 Tuvalu": "tv",
-          "🇫🇯 Fiji": "fj"
+          "\ud83c\uddf9\ud83c\uddf4 Tonga": "to",
+          "\ud83c\uddf9\ud83c\uddfb Tuvalu": "tv"
         },
         {
-          "   ": "0",
+          "  ": "0",
           "1/1": "0",
-          "  ": "0"
+          "   ": "0"
         },
         {
-          "⬅️ To continents": "to_continents",
-          "📋 Confirm choice": "confirm"
+          "\u2b05\ufe0f\ufe0f To continents": "to_continents",
+          "\ud83d\udcdd Confirm selection": "confirm"
         },
         {
-          "🔙 Back": "back"
+          "\ud83d\udd19 Back": "back"
         }
       ],
       "basis_of_stay": [
