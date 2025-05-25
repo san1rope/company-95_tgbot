@@ -25,7 +25,7 @@ async def remove_profile_confirmation(callback: types.CallbackQuery, state: FSMC
 
     text = await Ut.get_message_text(lang=company.lang, key="company_remove_my_profile_confirmation")
     markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="confirmation")
-    await Ut.send_step_message(user_id=uid, text=text, markup=markup)
+    await Ut.send_step_message(user_id=uid, texts=[text], markups=[markup])
 
     await state.set_state(RemoveProfile.RemoveConfirmation)
 
@@ -45,12 +45,12 @@ async def remove_has_been_confirmed(callback: types.CallbackQuery, state: FSMCon
     result = await DbCompany(tg_user_id=uid).remove()
     if result:
         text = await Ut.get_message_text(lang=company.lang, key="company_remove_my_profile_success")
-        await Ut.send_step_message(user_id=uid, text=text)
+        await Ut.send_step_message(user_id=uid, texts=[text])
         await asyncio.sleep(1.5)
         return await choose_language(message=callback, state=state)
 
     else:
         text = await Ut.get_message_text(lang=company.lang, key="company_remove_my_profile_error")
-        await Ut.send_step_message(user_id=uid, text=text)
+        await Ut.send_step_message(user_id=uid, texts=[text])
         await asyncio.sleep(1.5)
         return await show_menu(message=callback)

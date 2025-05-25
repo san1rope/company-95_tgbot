@@ -26,4 +26,4 @@ async def show_menu(message: Union[types.Message, types.CallbackQuery]):
     text = text.replace("%forms_count%", str(forms_count))
 
     markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="company_menu")
-    await Ut.send_step_message(user_id=uid, text=text, markup=markup)
+    await Ut.send_step_message(user_id=uid, texts=[text], markups=[markup])

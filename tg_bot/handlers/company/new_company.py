@@ -23,7 +23,7 @@ async def motd_message(callback: types.CallbackQuery, state: FSMContext):
 
     text = await Ut.get_message_text(key="company_reg_motd", lang=ulang)
     markup = await Ut.get_markup(mtype="inline", lang=ulang, key="start_search_driver")
-    await Ut.send_step_message(user_id=uid, text=text, markup=markup)
+    await Ut.send_step_message(user_id=uid, texts=[text], markups=[markup])
 
     await state.set_state(CompanyRegistration.MOTDMessage)
 

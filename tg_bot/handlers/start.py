@@ -20,13 +20,10 @@ async def choose_language(message: Union[types.Message, types.CallbackQuery], st
 
     if isinstance(message, types.CallbackQuery):
         await message.answer()
-        message = message.message
 
     text = await Ut.get_message_text(key="choose_lang", lang=ulang)
     markup = await Ut.get_markup(mtype="inline", key="choose_lang", lang=ulang)
-    await Ut.delete_messages(user_id=uid)
-    msg = await message.answer(text=text, reply_markup=markup)
-    await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+    await Ut.send_step_message(user_id=uid, texts=[text], markups=[markup])
 
     await state.set_state(AfterStart.ChooseLang)
 
@@ -47,17 +44,13 @@ async def choose_role(message: [types.CallbackQuery, types.Message], state: FSMC
             await state.update_data(ulang=cd)
             ulang = cd
 
-        message = message.message
-
     else:
         ulang = ""
 
     text = await Ut.get_message_text(key="choose_role", lang=ulang)
     markup = await Ut.get_markup(mtype="inline", key="choose_role", lang=ulang,
                                  additional_buttons=[AdditionalButtons(buttons={"back": None})])
-    await Ut.delete_messages(user_id=uid)
-    msg = await message.answer(text=text, reply_markup=markup)
-    await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+    await Ut.send_step_message(user_id=uid, texts=[text], markups=[markup])
 
     await state.set_state(AfterStart.ChooseRole)
 

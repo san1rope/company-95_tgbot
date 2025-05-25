@@ -35,7 +35,7 @@ async def show_saved_drivers(callback: types.CallbackQuery, state: FSMContext, f
     company = await DbCompany(tg_user_id=uid).select()
     if not company.saved_drivers:
         text = await Ut.get_message_text(lang=company.lang, key="no_saved_drivers")
-        await Ut.send_step_message(user_id=uid, text=text)
+        await Ut.send_step_message(user_id=uid, texts=[text])
         await asyncio.sleep(1.5)
         return await show_menu(message=callback)
 
@@ -74,7 +74,7 @@ async def show_saved_drivers(callback: types.CallbackQuery, state: FSMContext, f
         d_markup = await Cim.saved_driver_menu(driver_id=driver_id, lang=company.lang)
         drivers_texts.append([d_text, d_markup])
 
-    await Ut.send_step_message(user_id=uid, text=text_your_drivers, markup=markup)
+    await Ut.send_step_message(user_id=uid, texts=[text_your_drivers], markups=[markup])
     for msg_data in drivers_texts:
         d_text, d_markup = msg_data
         msg = await callback.message.answer(text=d_text, reply_markup=d_markup)
@@ -95,7 +95,7 @@ async def driver_remove_from_notes(callback: types.CallbackQuery, state: FSMCont
     text = await Ut.get_message_text(key="driver_remove_from_notes", lang=company.lang)
     text = text.replace("%driver_id%", str(callback_data.driver_id))
     markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="confirmation")
-    await Ut.send_step_message(text=text, markup=markup, user_id=uid)
+    await Ut.send_step_message(texts=[text], markups=[markup], user_id=uid)
 
     await state.set_state(CompanySavedDrivers.RemoveConfirmation)
 
@@ -120,7 +120,7 @@ async def remove_driver_from_saved_list(callback: types.CallbackQuery, state: FS
         await DbCompany(db_id=company.id).update(saved_drivers=company.saved_drivers)
 
         text = await Ut.get_message_text(key="driver_remove_from_notes_confirm", lang=company.lang)
-        await Ut.send_step_message(user_id=uid, text=text)
+        await Ut.send_step_message(user_id=uid, texts=[text])
         await asyncio.sleep(1.5)
 
     await show_saved_drivers(callback=callback, state=state, from_back_btn=True)
@@ -158,7 +158,7 @@ async def driver_open(callback: types.CallbackQuery, state: FSMContext, callback
 
         await state.set_state(CompanySavedDrivers.ChoosePaymentSystem)
 
-    await Ut.send_step_message(text=text, markup=markup, user_id=uid)
+    await Ut.send_step_message(texts=[text], markups=[markup], user_id=uid)
 
 
 @router.callback_query(CompanySavedDrivers.OpenConfirmationFromSubscribe)
@@ -186,9 +186,9 @@ async def open_driver_subscribe_confirmation(callback: types.CallbackQuery, stat
             open_drivers=company.open_drivers, saved_drivers=company.saved_drivers)
 
         await DbDriver(db_id=driver.id).update(opens_count=driver.opens_count + 1)
-        text = await Ut.get_message_text(lang=company.lang, key="pay_for_driver_success")
-        text = await DriverForm().form_completion(title=text, lang=company.lang, db_model=driver)
-        await Ut.send_step_message(user_id=uid, text=text)
+        text_question = await Ut.get_message_text(lang=company.lang, key="pay_for_driver_success")
+        text_form = await DriverForm().form_completion(lang=company.lang, db_model=driver)
+        await Ut.send_step_message(user_id=uid, texts=[text_form, text_question])
 
 
 @router.callback_query(CompanySavedDrivers.ChoosePaymentSystem)
@@ -204,7 +204,7 @@ async def call_payment_method(callback: types.CallbackQuery, state: FSMContext):
         return await show_saved_drivers(callback=callback, state=state)
 
     text = await Ut.get_message_text(lang=company.lang, key="payment_in_creating_process")
-    await Ut.send_step_message(user_id=uid, text=text)
+    await Ut.send_step_message(user_id=uid, texts=[text])
 
     await state.update_data(function_for_back=driver_open, type="open_driver")
 

@@ -192,3 +192,16 @@ class CustomInlineMarkups:
         ])
 
         return markup
+
+    @staticmethod
+    async def support_btn(lang: str) -> InlineKeyboardMarkup:
+        lang_data = localization[lang] if localization.get(lang) else localization[Config.DEFAULT_LANG]
+        markup_data = lang_data["misc"]["support"]
+
+        return InlineKeyboardMarkup(
+            inline_keyboard=[
+                [
+                    InlineKeyboardButton(text=markup_data, url=f"https://t.me/{Config.SUPPORT_USERNAME}")
+                ]
+            ]
+        )

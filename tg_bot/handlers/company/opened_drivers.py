@@ -30,7 +30,7 @@ async def show_opened_drivers(callback: types.CallbackQuery, state: FSMContext):
     company = await DbCompany(tg_user_id=uid).select()
     if not company.open_drivers:
         text = await Ut.get_message_text(lang=company.lang, key="no_opened_drivers")
-        await Ut.send_step_message(user_id=uid, text=text)
+        await Ut.send_step_message(user_id=uid, texts=[text])
         await asyncio.sleep(1.5)
         return await show_menu(message=callback)
 
@@ -65,10 +65,10 @@ async def show_opened_drivers(callback: types.CallbackQuery, state: FSMContext):
     for driver_id in company.open_drivers[start_index:start_index + 3]:
         driver = await DbDriver(db_id=driver_id).select()
         title = f"<b>🆔 Водитель №{driver.id}</b>"
-        d_text = await DriverForm().form_completion(title=title, lang=company.lang, db_model=driver)
+        d_text = title + "\n" + await DriverForm().form_completion(lang=company.lang, db_model=driver)
         drivers_texts.append(d_text)
 
-    await Ut.send_step_message(user_id=uid, text=text_your_drivers, markup=markup)
+    await Ut.send_step_message(user_id=uid, texts=[text_your_drivers], markups=[markup])
     for d_text in drivers_texts:
         msg = await callback.message.answer(text=d_text)
         await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)

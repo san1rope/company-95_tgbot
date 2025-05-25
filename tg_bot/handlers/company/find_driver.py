@@ -54,14 +54,14 @@ async def show_driver(callback: types.CallbackQuery, state: FSMContext, retry: b
     if not driver:
         if retry and len(company.viewed_drivers) > 0:
             text = await Ut.get_message_text(lang=company.lang, key="company_find_driver_end")
-            await Ut.send_step_message(user_id=uid, text=text)
+            await Ut.send_step_message(user_id=uid, texts=[text])
             await asyncio.sleep(1.5)
 
             await DbCompany(tg_user_id=uid).update(viewed_drivers=[])
 
         elif retry and len(company.viewed_drivers) == 0:
             text = await Ut.get_message_text(lang=company.lang, key="company_drivers_list_none")
-            await Ut.send_step_message(user_id=uid, text=text)
+            await Ut.send_step_message(user_id=uid, texts=[text])
             await asyncio.sleep(1.5)
 
             return await show_menu(message=callback)
@@ -72,11 +72,11 @@ async def show_driver(callback: types.CallbackQuery, state: FSMContext, retry: b
     await DbCompany(tg_user_id=uid).update(viewed_drivers=company.viewed_drivers)
     await state.update_data(current_driver_id=driver.id)
 
-    text = await Ut.get_message_text(key="company_driver_found", lang=company.lang)
-    text = text.replace("%form_price%", str(driver.form_price))
-    text = await DriverForm().form_completion(title=text, lang=company.lang, db_model=driver, for_company=True)
+    text_question = await Ut.get_message_text(key="company_driver_found", lang=company.lang)
+    text_question = text_question.replace("%form_price%", str(driver.form_price))
+    text_form = await DriverForm().form_completion(lang=company.lang, db_model=driver, for_company=True)
     markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="company_driver_found_menu")
-    await Ut.send_step_message(user_id=uid, text=text, markup=markup)
+    await Ut.send_step_message(user_id=uid, texts=[text_form, text_question], markups=[None, markup])
 
     text = await Ut.get_message_text(lang=company.lang, key="company_count_next_drivers")
     text = text.replace("%drivers_count%", str(count_drivers - 1))
@@ -139,7 +139,7 @@ async def action_on_driver(callback: types.CallbackQuery, state: FSMContext, fro
             markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="company_choose_payment_system")
             await state.set_state(CompanyFindDriver.ChoosePaymentSystem)
 
-        return await Ut.send_step_message(user_id=uid, text=text, markup=markup)
+        return await Ut.send_step_message(user_id=uid, texts=[text], markups=[markup])
 
 
 @router.callback_query(CompanyFindDriver.OpenConfirmationFromSubscribe)
@@ -167,9 +167,9 @@ async def open_driver_subscribe_confirmation(callback: types.CallbackQuery, stat
             open_drivers=company.open_drivers, saved_drivers=company.saved_drivers)
 
         await DbDriver(db_id=driver.id).update(opens_count=driver.opens_count + 1)
-        text = await Ut.get_message_text(lang=company.lang, key="pay_for_driver_success")
-        text = await DriverForm().form_completion(title=text, lang=company.lang, db_model=driver)
-        await Ut.send_step_message(user_id=uid, text=text)
+        text_question = await Ut.get_message_text(lang=company.lang, key="pay_for_driver_success")
+        text_form = await DriverForm().form_completion(lang=company.lang, db_model=driver)
+        await Ut.send_step_message(user_id=uid, texts=[text_question, text_form])
 
 
 @router.callback_query(CompanyFindDriver.ChoosePaymentSystem)
@@ -186,7 +186,7 @@ async def select_payment_system(callback: types.CallbackQuery, state: FSMContext
         return await show_driver(callback=callback, state=state, driver_id=uid)
 
     text = await Ut.get_message_text(lang=company.lang, key="payment_in_creating_process")
-    await Ut.send_step_message(user_id=uid, text=text)
+    await Ut.send_step_message(user_id=uid, texts=[text])
 
     await state.update_data(function_for_back=action_on_driver, type="open_driver")
 

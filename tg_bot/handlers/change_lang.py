@@ -35,9 +35,7 @@ async def show_lang_options(callback: types.CallbackQuery, state: FSMContext):
     text = await Ut.get_message_text(key="choose_lang", lang=ulang)
     markup = await Ut.get_markup(
         mtype="inline", key="choose_lang", lang=ulang, additional_buttons=[AdditionalButtons(buttons={"back": None})])
-    await Ut.delete_messages(user_id=uid)
-    msg = await callback.message.answer(text=text, reply_markup=markup)
-    await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
+    await Ut.send_step_message(user_id=uid, texts=[text], markups=[markup])
 
     await state.set_state(ChangeLang.ChooseLang)
 
@@ -74,7 +72,7 @@ async def lang_is_selected(callback: types.CallbackQuery, state: FSMContext):
         return
 
     text = await Ut.get_message_text(lang=cd, key="language_has_been_changed")
-    await Ut.send_step_message(user_id=uid, text=text)
+    await Ut.send_step_message(user_id=uid, texts=[text])
     await asyncio.sleep(1.5)
 
     await state.clear()

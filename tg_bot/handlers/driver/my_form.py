@@ -26,10 +26,10 @@ async def show_my_form(callback: types.CallbackQuery, state: FSMContext):
 
     driver = await DbDriver(tg_user_id=uid).select()
 
-    text = await Ut.get_message_text(key="driver_menu_my_form", lang=driver.lang)
-    text = await DriverForm().form_completion(db_model=driver, title=text, lang=driver.lang)
+    text_question = await Ut.get_message_text(key="driver_menu_my_form", lang=driver.lang)
+    text_form = await DriverForm().form_completion(db_model=driver, lang=driver.lang)
     markup = await Ut.get_markup(mtype="inline", lang=driver.lang, key="driver_menu_my_form")
-    await Ut.send_step_message(user_id=uid, text=text, markup=markup)
+    await Ut.send_step_message(user_id=uid, texts=[text_form, text_question], markups=[None, markup])
 
     await state.set_state(DriverFormStates.ChooseAction)
 
@@ -52,7 +52,7 @@ async def form_reset_confirmation(callback: Optional[Union[types.CallbackQuery, 
     if cd == "driver_my_form_reset":
         text = await Ut.get_message_text(key="driver_menu_my_form_reset_confirmation", lang=driver.lang)
         markup = await Ut.get_markup(mtype="inline", lang=driver.lang, key="confirmation")
-        await Ut.send_step_message(user_id=uid, text=text, markup=markup)
+        await Ut.send_step_message(user_id=uid, texts=[text], markups=[markup])
 
         await state.set_state(DriverFormStates.FormResetConfirmation)
 
@@ -142,7 +142,7 @@ async def field_has_changed(state: FSMContext, returned_data: Union[str, int], f
     )
     if result:
         text = await Ut.get_message_text(key="driver_menu_my_form_param_changed", lang=driver.lang)
-        await Ut.send_step_message(user_id=tg_user_id, text=text)
+        await Ut.send_step_message(user_id=tg_user_id, texts=[text])
 
         await asyncio.sleep(1)
 

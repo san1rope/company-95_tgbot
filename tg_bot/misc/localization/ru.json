@@ -533,6 +533,11 @@
     ],
     "company_remove_my_profile_error": [
       "<b>\uD83D\uDD34 При удалении профиля произошла ошибка! Попробуйте ещё раз...</b>"
+    ],
+    "company_support": [
+      "<b>\uD83D\uDEE1 Поддержка</b>",
+      "\n<b>Для связи с поддержкой, напишите администратору</b>",
+      "<b>⬇️ Нажмите на кнопку ниже</b>"
     ]
   },
   "markups": {
@@ -1612,6 +1617,9 @@
         },
         {
           "\uD83D\uDDD1 Удалить свой профиль": "remove_company_profile"
+        },
+        {
+          "\uD83D\uDEE1 Поддержка": "support_company"
         }
       ],
       "company_filters": [
@@ -1749,6 +1757,7 @@
       "remove_from_notes": "Удалить с заметок",
       "open_driver": "Открыть водителя"
     },
-    "username": "Не выбран"
+    "username": "Не выбран",
+    "support": "Поддержка"
   }
 }

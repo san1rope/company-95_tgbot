@@ -51,12 +51,30 @@ class Utils:
             corrections.update(json.load(file))
 
     @staticmethod
-    async def send_step_message(user_id: int, text: str, markup: Optional[InlineKeyboardMarkup] = None):
+    async def send_step_message(user_id: int, texts: List[str], markups: List[InlineKeyboardMarkup] = None):
         await Utils.delete_messages(user_id=user_id)
-        msg = await Config.BOT.send_message(chat_id=user_id, text=text, reply_markup=markup)
-        await Utils.add_msg_to_delete(user_id=user_id, msg_id=msg.message_id)
 
-        return msg
+        messages = []
+        for text, counter in zip(texts, range(len(texts))):
+            if not text:
+                continue
+
+            try:
+                if markups:
+                    markup = markups[counter]
+
+                else:
+                    markup = None
+
+            except IndexError:
+                markup = None
+
+            msg = await Config.BOT.send_message(chat_id=user_id, text=text, reply_markup=markup)
+            await Utils.add_msg_to_delete(user_id=user_id, msg_id=msg.message_id)
+
+            messages.append(msg)
+
+        return messages
 
     @staticmethod
     async def get_message_text(key: str, lang: str) -> str:

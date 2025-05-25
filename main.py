@@ -32,6 +32,7 @@ async def main():
 
     bot_commands = [
         BotCommand(command="start", description="Start menu"),
+        BotCommand(command="support", description="Support")
     ]
     await Config.BOT.set_my_commands(commands=bot_commands)
 

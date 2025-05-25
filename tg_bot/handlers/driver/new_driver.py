@@ -26,7 +26,7 @@ async def motd_message(callback: types.CallbackQuery, state: FSMContext):
     text = await Ut.get_message_text(key="driver_reg_motd", lang=ulang)
     markup = await Ut.get_markup(mtype="inline", lang=ulang,
                                  additional_buttons=[AdditionalButtons(buttons={"fill_data": None})])
-    await Ut.send_step_message(user_id=uid, text=text, markup=markup)
+    await Ut.send_step_message(user_id=uid, texts=[text], markups=[markup])
 
     await state.set_state(DriverRegistration.MOTDMessage)
 
@@ -286,10 +286,10 @@ async def form_confirmation(state: FSMContext, returned_data: Union[str, int]):
     dmodel.name = returned_data
     await state.update_data(dmodel=dmodel)
 
-    text = await Ut.get_message_text(key="driver_reg_confirmation", lang=ulang)
-    text = await dmodel.form_completion(title=text, lang=ulang)
+    text_question = await Ut.get_message_text(key="driver_reg_confirmation", lang=ulang)
+    text_form = await dmodel.form_completion(lang=ulang)
     markup = await Ut.get_markup(mtype="inline", key="confirmation", lang=ulang)
-    await Ut.send_step_message(user_id=state.key.user_id, text=text, markup=markup)
+    await Ut.send_step_message(user_id=state.key.user_id, texts=[text_form, text_question], markups=[None, markup])
 
     await state.set_state(DriverRegistration.FormConfirmation)
 
@@ -318,7 +318,7 @@ async def registration_finish(callback: types.CallbackQuery, state: FSMContext):
         ).add()
         if result:
             text = await Ut.get_message_text(key="driver_reg_finish", lang=ulang)
-            await Ut.send_step_message(user_id=uid, text=text)
+            await Ut.send_step_message(user_id=uid, texts=[text])
             return await state.clear()
 
         else:

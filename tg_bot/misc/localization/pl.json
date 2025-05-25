@@ -529,6 +529,11 @@
     ],
     "company_remove_my_profile_error": [
       "<b>\uD83D\uDD34 Wystąpił błąd podczas usuwania profilu! Spróbuj ponownie...</b>"
+    ],
+    "company_support": [
+      "<b>\uD83D\uDEE1 Wsparcie</b>",
+      "\n<b>Aby skontaktować się z pomocą techniczną, wyślij wiadomość e-mail do administratora</b>",
+      "<b>⬇️ Kliknij przycisk poniżej</b>"
     ]
   },
   "markups": {
@@ -1749,6 +1754,7 @@
       "remove_from_notes": "Usuń z notatek",
       "open_driver": "Otwórz kierowcę"
     },
-    "username": "Nie wybrano"
+    "username": "Nie wybrano",
+    "support": "Wsparcie"
   }
 }

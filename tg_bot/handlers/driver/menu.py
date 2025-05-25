@@ -30,4 +30,4 @@ async def show_menu(message: Union[types.Message, types.CallbackQuery]):
             buttons={'driver_change_form_status:off' if driver.status else 'driver_change_form_status:on': None}
         )]
     )
-    await Ut.send_step_message(user_id=uid, text=text, markup=markup)
+    await Ut.send_step_message(user_id=uid, texts=[text], markups=[markup])

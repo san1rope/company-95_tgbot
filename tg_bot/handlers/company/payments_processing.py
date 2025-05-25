@@ -116,9 +116,9 @@ class PaymentsProcessing:
             text = text.replace("%reason%", "оплату открытия анкеты водителя")
             text = text.replace("%amount%", str(amount / 100))
             markup = await Cim.payment(invoice_url=invoice_url, lang=company.lang)
-            msg = await Ut.send_step_message(user_id=uid, text=text, markup=markup)
+            msg = await Ut.send_step_message(user_id=uid, texts=[text], markups=[markup])
 
-            await DbPayment(db_id=result.id).update(msg_to_delete=msg.message_id)
+            await DbPayment(db_id=result.id).update(msg_to_delete=msg[0].message_id)
 
             await state.update_data(system="stripe")
             await state.set_state(CompanyFindDriver.PaymentProcessing)
@@ -159,8 +159,9 @@ class PaymentsProcessing:
                             open_drivers=company.open_drivers, saved_drivers=company.saved_drivers)
 
                         await DbDriver(db_id=driver.id).update(opens_count=driver.opens_count + 1)
-                        text = await Ut.get_message_text(lang=company.lang, key="pay_for_driver_success")
-                        text = await DriverForm().form_completion(title=text, lang=company.lang, db_model=driver)
+                        text_question = await Ut.get_message_text(lang=company.lang, key="pay_for_driver_success")
+                        text_form = await DriverForm().form_completion(lang=company.lang, db_model=driver)
+                        text = text_question + "\n" + text_form
 
                     elif payment.type == PaymentsProcessing.SUBSCRIPTION_FEE:
                         await DbCompany(db_id=company.id).update(paid_subscription=20)
@@ -222,7 +223,7 @@ class PaymentsProcessing:
         if cd == "cancel":
             text = await Ut.get_message_text(lang=company.lang, key="payment_cancel_confirmation")
             markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="confirmation")
-            msg = await Ut.send_step_message(user_id=uid, text=text, markup=markup)
+            msg = await Ut.send_step_message(user_id=uid, texts=[text], markups=[markup])
             await DbPayment(creator_id=uid, status=0).update(msg_to_delete=msg.message_id)
 
         elif cd == "back":
@@ -233,7 +234,7 @@ class PaymentsProcessing:
                 text = text.replace("%reason%", "оплату открытия анкеты водителя")
                 text = text.replace("%amount%", str(int(driver.form_price)))
                 markup = await Cim.payment(invoice_url=payment.invoice_url, lang=company.lang)
-                msg = await Ut.send_step_message(user_id=uid, text=text, markup=markup)
+                msg = await Ut.send_step_message(user_id=uid, texts=[text], markups=[markup])
 
             elif p_type == "subscribe":
                 pass
@@ -257,7 +258,7 @@ class PaymentsProcessing:
                 return
 
             text = await Ut.get_message_text(lang=company.lang, key="payment_cancel_complete")
-            await Ut.send_step_message(user_id=uid, text=text)
+            await Ut.send_step_message(user_id=uid, texts=[text])
             await asyncio.sleep(1.5)
 
             await data["function_for_back"](callback=callback, state=state, from_payment_cancel=True)

@@ -32,7 +32,7 @@ async def show_subscription_info(callback: types.CallbackQuery, state: FSMContex
         text = await Ut.get_message_text(lang=company.lang, key="company_subscription_info")
         markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="company_choose_payment_system")
 
-    await Ut.send_step_message(user_id=uid, text=text, markup=markup)
+    await Ut.send_step_message(user_id=uid, texts=[text], markups=[markup])
 
     await state.set_state(CompanySubscription.ChoosePaymentSystem)
 
@@ -50,7 +50,7 @@ async def call_payment_method(callback: types.CallbackQuery, state: FSMContext):
     company = await DbCompany(tg_user_id=uid).select()
 
     text = await Ut.get_message_text(lang=company.lang, key="payment_in_creating_process")
-    await Ut.send_step_message(user_id=uid, text=text)
+    await Ut.send_step_message(user_id=uid, texts=[text])
 
     await state.update_data(function_for_back=show_subscription_info, type="subscribe")
 

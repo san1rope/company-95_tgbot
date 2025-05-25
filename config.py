@@ -20,6 +20,7 @@ class Config:
     SALARY_MIN = float(os.getenv("SALARY_MIN").strip())
     SALARY_MAX = float(os.getenv("SALARY_MAX").strip())
     BASE_FORM_PRICE = float(os.getenv("BASE_FORM_PRICE").strip())
+    SUPPORT_USERNAME = os.getenv("SUPPORT_USERNAME").strip()
 
     STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY").strip()
 

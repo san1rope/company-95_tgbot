@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional, List, Dict, Union, Any
+from typing import Optional, List, Dict, Union
 
 from aiogram.utils.markdown import hcode
 from pydantic import BaseModel
@@ -96,8 +96,7 @@ class DriverForm(BaseModel):
 
         return localized_text
 
-    async def form_completion(
-            self, title: str, lang: str, db_model: Optional[Driver] = None, for_company: bool = False) -> str:
+    async def form_completion(self, lang: str, db_model: Optional[Driver] = None, for_company: bool = False) -> str:
         lang_data = localization[lang] if localization.get(lang) else localization[Config.DEFAULT_LANG]
         lang_inline_markups = lang_data["markups"]["inline"]
         lang_misc = lang_data['misc']
@@ -106,7 +105,7 @@ class DriverForm(BaseModel):
         model = db_model if db_model else self
         model_company = isinstance(model, Company)
 
-        text = [f"{title}\n"]
+        text = []
 
         try:
             birth_year = getattr(model, "birth_year", None)

@@ -26,10 +26,10 @@ async def selected_filters_btn(callback: types.CallbackQuery, state: FSMContext)
 
     company = await DbCompany(tg_user_id=uid).select()
 
-    text = await Ut.get_message_text(key="company_filters", lang=company.lang)
-    text = await DriverForm().form_completion(title=text, lang=company.lang, db_model=company)
+    text_question = await Ut.get_message_text(key="company_filters", lang=company.lang)
+    text_form = await DriverForm().form_completion(lang=company.lang, db_model=company)
     markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="company_filters")
-    await Ut.send_step_message(user_id=uid, text=text, markup=markup)
+    await Ut.send_step_message(user_id=uid, texts=[text_form, text_question], markups=[None, markup])
 
     await state.set_state(CompanyFilters.ChooseFilterMenuBtn)
 
@@ -54,14 +54,14 @@ async def processing_filters_menu(message: [types.CallbackQuery, types.Message],
     if cd == "show_filters" or isinstance(message, int):
         text = await Ut.get_message_text(key="company_filters_choose_param", lang=company.lang)
         markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="filter_params_1")
-        await Ut.send_step_message(user_id=uid, text=text, markup=markup)
+        await Ut.send_step_message(user_id=uid, texts=[text], markups=[markup])
 
         return await state.set_state(CompanyFilters.ChooseParam)
 
     elif cd == "reset_filters":
         text = await Ut.get_message_text(key="company_reset_filters_confirmation", lang=company.lang)
         markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="confirmation")
-        await Ut.send_step_message(user_id=uid, text=text, markup=markup)
+        await Ut.send_step_message(user_id=uid, texts=[text], markups=[markup])
 
         await state.set_state(CompanyFilters.ResetFiltersConfirmation)
 
@@ -87,7 +87,7 @@ async def reset_filters_has_completed(callback: types.CallbackQuery, state: FSMC
     )
     if result:
         text = await Ut.get_message_text(key="company_reset_filters_completed", lang=company.lang)
-        await Ut.send_step_message(user_id=uid, text=text)
+        await Ut.send_step_message(user_id=uid, texts=[text])
 
         await asyncio.sleep(1)
         await selected_filters_btn(callback=callback, state=state)
@@ -156,7 +156,7 @@ async def param_has_changed(state: FSMContext, returned_data: Union[str, int, Li
     result = await DbCompany(tg_user_id=uid).update(viewed_drivers=[], **params)
     if result:
         text = await Ut.get_message_text(key="company_filters_param_changed", lang=company.lang)
-        await Ut.send_step_message(user_id=uid, text=text)
+        await Ut.send_step_message(user_id=uid, texts=[text])
 
         await asyncio.sleep(1)
         await processing_filters_menu(message=uid, state=state)
