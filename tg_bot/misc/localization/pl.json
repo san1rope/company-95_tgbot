@@ -6,12 +6,12 @@
     ],
     "choose_lang": [
       "<b>❇\uFE0F Zanim zaczniesz korzystać z bota, wybierz język, który jest dla Ciebie wygodniejszy</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "choose_role": [
       "<b>\uD83E\uDDD1\u200D\uD83D\uDCBB Wybór ról</b>\n",
       "<b>Wybierz swoją rolę w pracy</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "driver_reg_motd": [
       "<b>Jestem Twoim osobistym asystentem w poszukiwaniu pracy jako kierowca. Jeśli chcesz szybko i bez zbędnego stresu znaleźć pewną i dobrze płatną pracę – jesteś we właściwym miejscu!</b>",
@@ -29,8 +29,8 @@
     ],
     "driver_reg_write_name": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
-      "<b>W jaki sposób pracownik firmy transportowej powinien się z Tobą skontaktować?</b>",
-      "\n<b>ℹ\uFE0F Imię i nazwisko należy pisać wyłącznie alfabetem łacińskim</b>"
+      "<b>Proszę podać swoje imię.</b>",
+      "\n<b>ℹ\uFE0F Imię musi być napisane tylko literami łacińskimi!</b>"
     ],
     "wrong_name_format": [
       "<b>\uD83D\uDED1 Nieprawidłowy format nazwy!</b>\n",
@@ -40,7 +40,7 @@
     "driver_reg_choose_birth_year": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
       "<b>Wybierz swój rok urodzenia</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "driver_reg_write_contact_number": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
@@ -53,7 +53,7 @@
     "driver_reg_choose_messangers_availabilities": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
       "<b>Wybierz obecność wprowadzonego numeru telefonu w wyświetlanych komunikatorach</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "wrong_phone_number_format": [
       "<b>\uD83D\uDED1 Nieprawidłowy format numeru telefonu!</b>\n",
@@ -66,33 +66,33 @@
     "driver_reg_choose_car_type": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
       "<b>Wybierz wszystkie typy pojazdów, z którymi możesz pracować</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "driver_reg_choose_citizenship": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
       "<b>Wybierz kraje, których jesteś obywatelem</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "driver_reg_basis_of_stay": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
       "<b>Wybierz podstawę pobytu w Europie</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "driver_reg_availability_95_code": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
       "<b>Czy posiadasz ważny Kod 95 uzyskany w Europie?</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "driver_reg_date_start_work": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
       "<b>Wybierz datę rozpoczęcia pracy</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "driver_reg_language_skills": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
       "<b>Wskaż swoją biegłość w tych językach</b>",
       "<b>ℹ\uFE0F Konieczne jest określenie umiejętności skali dla wszystkich wyświetlanych języków</b>\n",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "wrong_language_skills": [
       "<b>\uD83D\uDED1 Zaznaczyłeś swoje umiejętności nie we wszystkich pokazanych językach!</b>\n"
@@ -101,29 +101,30 @@
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
       "<b>Określ swoje doświadczenie zawodowe dla różnych kategorii</b>",
       "<b>ℹ\uFE0F Należy określić skalę doświadczenia dla wszystkich przedstawionych kategorii</b>\n",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "wrong_job_experience": [
       "<b>\uD83D\uDED1 Nie zaznaczyłeś swojego doświadczenia we wszystkich pokazanych kategoriach!</b>\n"
     ],
     "driver_reg_need_internship": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
-      "<b>Do you need an internship?</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "<b>Czy potrzebujesz stażu?</b>",
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "driver_reg_unsuitable_countries": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
       "<b>Wybór nieodpowiednich krajów dla tras</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "driver_reg_dangerous_goods": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
       "<b>Wybierz obecność dokumentu</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "driver_reg_expected_salary": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
-      "<b>Wpisz oczekiwaną kwotę w euro na klawiaturze</b>"
+      "<b>Wprowadź oczekiwane dzienne wynagrodzenie w euro</b>",
+      "<b>Od 40 do 150 euro!</b>"
     ],
     "wrong_number": [
       "<b>\uD83D\uDED1 Nieprawidłowy format liczb!</b>\n",
@@ -135,42 +136,42 @@
     "driver_reg_availability_categories": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
       "<b>Wybierz dostępne kategorie na swojej licencji</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "driver_reg_country_driving_license": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
       "<b>Wybierz kraj wydania prawa jazdy</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "driver_reg_country_current_living": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
       "<b>Wybierz kraj aktualnego pobytu</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "driver_reg_work_type": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
       "<b>Wybierz rodzaj pracy</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "driver_reg_choose_cadence": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
       "<b>Wybór proponowanego harmonogramu pracy</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "driver_reg_crew": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
       "<b>Wybierz preferowaną załogę</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "driver_reg_gender": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
       "<b>Wybierz swoją płeć</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "driver_reg_confirmation": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
       "<b>Sprawdź wprowadzone informacje i potwierdź swój profil</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "driver_reg_finish": [
       "<b>❇\uFE0F Rejestracja kierowcy</b>\n",
@@ -181,7 +182,7 @@
     "driver_menu_text": [
       "<b>\uD83D\uDCD4 Menu kierowcy</b>\n",
       "<b>\uD83D\uDCD6 >Otwarcie profilu użytkownika: %form_opens%</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "driver_menu_change_form_status": [
       "<b>✅\uFE0F Pomyślnie zmieniłeś status swojego profilu!</b>"
@@ -194,7 +195,7 @@
       "<b>\uD83D\uDCC4 Mój profil</b>\n",
       "<b>Czy na pewno chcesz usunąć dane swojego profilu?</b>\n",
       "\n<b>ℹ\uFE0F Po usunięciu będziesz mógł wypełnić je ponownie.</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "driver_menu_my_form_reset_completed": [
       "<b>\uD83D\uDCC4 Mój profil</b>\n",
@@ -207,7 +208,7 @@
     "driver_menu_my_form_choose_field": [
       "<b>\uD83D\uDCC4 Mój profil</b>\n",
       "<b>Zaznacz na klawiaturze pole, które chcesz edytować</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "driver_menu_my_form_param_changed": [
       "<b>✅ Parametr został pomyślnie zmieniony!</b>"
@@ -238,7 +239,7 @@
     "company_filters_choose_param": [
       "<b>⚙\uFE0F Filtr sterownika</b>",
       "\n<b>Wybierz parametr, który chcesz filtrować\n</b>",
-      "\n<b>⬇ Użyj poniższej klawiatury</b>"
+      "\n<b>⬇ Proszę skorzystać z poniższej klawiatury</b>"
     ],
     "company_filters_param_changed": [
       "<b>✅ Parametry filtra zostały pomyślnie zmienione!</b>"
@@ -1314,8 +1315,8 @@
       ],
       "availability_95_code": [
         {
-          "Mieć": "1",
-          "Nie mam": "2"
+          "Mam.": "1",
+          "Nie mam.": "2"
         },
         {
           "W procesie produkcyjnym": "3"

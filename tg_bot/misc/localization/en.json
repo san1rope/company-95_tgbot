@@ -29,8 +29,8 @@
     ],
     "driver_reg_write_name": [
       "<b>❇\uFE0F Driver registration</b>\n",
-      "<b>How should I address you?</b>",
-      "\n<b>ℹ\uFE0F Write your name in Latin letters only</b>"
+      "<b>Please, write your name.</b>",
+      "\n<b>ℹ\uFE0F The name must be written in Latin letters only!</b>"
     ],
     "wrong_name_format": [
       "<b>\uD83D\uDED1 Incorrect name format!</b>\n",
@@ -123,7 +123,8 @@
     ],
     "driver_reg_expected_salary": [
       "<b>❇\uFE0F Driver registration</b>\n",
-      "<b>Write the expected amount in euros on the keyboard</b>"
+      "<b>Enter the expected salary per day in euros</b>",
+      "<b>From 40 to 150 euros!</b>"
     ],
     "wrong_number": [
       "<b>\uD83D\uDED1 Incorrect number format!</b>\n",
@@ -1317,8 +1318,8 @@
       ],
       "availability_95_code": [
         {
-          "Have": "1",
-          "Don't have": "2"
+          "Yes, I have ": "1",
+          "No, I don't have": "2"
         },
         {
           "In the manufacturing process": "3"

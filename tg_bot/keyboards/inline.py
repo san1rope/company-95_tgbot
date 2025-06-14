@@ -70,7 +70,7 @@ class CustomInlineMarkups:
             temp_month = 1
             temp_year += 1
 
-        right = InlineKeyboardButton(text="🔜", callback_data=f"r:1.{temp_month}.{temp_year}")
+        right = InlineKeyboardButton(text="➡️", callback_data=f"r:1.{temp_month}.{temp_year}")
 
         # For button - Previous Month
         if date_time.month == today.month and date_time.year == today.year:
@@ -86,7 +86,7 @@ class CustomInlineMarkups:
 
             left_cd = f"l:1.{temp_month}.{temp_year}"
 
-        left = InlineKeyboardButton(text="🔙", callback_data=left_cd)
+        left = InlineKeyboardButton(text="⬅️", callback_data=left_cd)
 
         month = calendar_localization["months"][date_time.month - 1]
         current_month = InlineKeyboardButton(text=f"{month} {date_time.year}", callback_data="0")
