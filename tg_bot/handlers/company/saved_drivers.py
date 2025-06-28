@@ -70,7 +70,8 @@ async def show_saved_drivers(callback: types.CallbackQuery, state: FSMContext, f
     for driver_id in company.saved_drivers[start_index:start_index + 3]:
         driver = await DbDriver(db_id=driver_id).select()
         title = f"<b>🆔 Водитель №{driver.id}</b>"
-        d_text = await DriverForm().form_completion(title=title, lang=company.lang, db_model=driver, for_company=True)
+        d_text = await DriverForm().form_completion(lang=company.lang, db_model=driver, for_company=True)
+        d_text = title + "\n\n" + d_text
         d_markup = await Cim.saved_driver_menu(driver_id=driver_id, lang=company.lang)
         drivers_texts.append([d_text, d_markup])
 

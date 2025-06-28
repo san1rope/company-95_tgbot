@@ -411,11 +411,18 @@
     "company_count_next_drivers": [
       "<b>\uD83D\uDCC4 Количество следующих водителей: %drivers_count%</b>"
     ],
+    "company_text_before_driver_form": [
+      "<b>\uD83D\uDD0E Поиск водителя</b>",
+      "\n<b>Просмотрите анкеты водителей</b>",
+      "\n<b>Чтобы открыть контакты водителя, нажмите 'Открыть водителя' и следуйте дальнейшим инструкциям для оплаты доступа</b>",
+      "<b>ℹ️ Чтобы взаимодействовать с анкетой водителя, используйте кнопки под выбранной анкетой</b>"
+    ],
     "company_driver_found": [
-      "<b>⚙\uFE0F Найден водитель</b>",
-      "<b>\nРассмотрите заявку водителя</b>",
-      "<b>Что-бы открыть контакты водителя, нужно нажать на 'Открыть водителя' и в дальнейших указаниях оплатить стоимость открытия водителя</b>",
-      "\n<b>Цена открытия: %form_price% zł (PLN)</b>",
+      "<b>Водитель №%driver_id%</b>\n",
+      "<b>Цена: %driver_price% zł (PLN)</b>"
+    ],
+    "company_text_after_driver_form": [
+      "<b>Осталось анкет: %drivers_count%</b>",
       "\n<b>⬇ Используйте клавиатуру ниже</b>"
     ],
     "company_drivers_list_none": [
@@ -1632,21 +1639,6 @@
           "\uD83D\uDD19 Назад": "back"
         }
       ],
-      "company_driver_found_menu": [
-        {
-          "Открыть водителя": "open_driver"
-        },
-        {
-          "Сохранить в заметки": "save_driver"
-        },
-        {
-          "Предыдущий": "previous_driver",
-          "Следующий": "next_driver"
-        },
-        {
-          "\uD83D\uDD19 В меню": "back"
-        }
-      ],
       "company_choose_payment_system": [
         {
           "Stripe": "stripe",
@@ -1759,6 +1751,15 @@
       "open_driver": "Открыть водителя"
     },
     "username": "Не выбран",
-    "support": "Поддержка"
+    "support": "Поддержка",
+    "find_driver_menu": {
+      "open_driver": "Открыть водителя",
+      "save_driver": "Сохранить в закладки"
+    },
+    "company_search_driver_menu_before_form": {
+      "find_driver_previous": "Предыдущие водители",
+      "find_driver_next": "Следующие водители",
+      "back_from_driver_search": "↩\uFE0F В меню"
+    }
   }
 }

@@ -407,11 +407,18 @@
     "company_count_next_drivers": [
       "<b>\uD83D\uDCC4 The number of following drivers: %drivers_count%</b>"
     ],
+    "company_text_before_driver_form": [
+      "<b>\uD83D\uDD0E Driver Search</b>",
+      "\n<b>Browse driver profiles</b>",
+      "\n<b>To view the driver's contact details, click 'Open driver' and follow the instructions to pay for access</b>",
+      "<b>ℹ️ To interact with the driver's profile, use the buttons below the selected profile</b>"
+    ],
     "company_driver_found": [
-      "<b>⚙️ Driver found</b>",
-      "<b>\nReview the driver's application</b>",
-      "<b>To open the driver's contact information, click 'Open driver' and follow the instructions to pay for opening the driver</b>",
-      "\n<b>Opening price: %form_price% zł (PLN)</b>",
+      "<b>Driver №%driver_id%</b>\n",
+      "<b>Price: %driver_price% zł (PLN)</b>"
+    ],
+    "company_text_after_driver_form": [
+      "<b>Profiles left: %drivers_count%</b>",
       "\n<b>⬇ Use the keyboard below</b>"
     ],
     "company_drivers_list_none": [
@@ -1632,21 +1639,6 @@
           "🔙 Back": "back"
         }
       ],
-      "company_driver_found_menu": [
-        {
-          "Open driver": "open_driver"
-        },
-        {
-          "Save to notes": "save_driver"
-        },
-        {
-          "Previous": "previous_driver",
-          "Next": "next_driver"
-        },
-        {
-          "🔙 To menu": "back"
-        }
-      ],
       "company_choose_payment_system": [
         {
           "Stripe": "stripe",
@@ -1759,6 +1751,15 @@
       "open_driver": "Open driver"
     },
     "username": "Not selected",
-    "support": "Support"
+    "support": "Support",
+    "find_driver_menu": {
+      "open_driver": "Open driver",
+      "save_driver": "Save to notes"
+    },
+    "company_search_driver_menu_before_form": {
+      "find_driver_previous": "Previous drivers",
+      "find_driver_next": "Next drivers",
+      "back_from_driver_search": "↩\uFE0F Back to menu"
+    }
   }
 }

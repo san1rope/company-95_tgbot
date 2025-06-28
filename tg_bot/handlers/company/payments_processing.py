@@ -105,7 +105,7 @@ class PaymentsProcessing:
             customer=customer.id, collection_method="send_invoice", days_until_due=1,
             description="Payment for opening a driver's form."
         )
-        # await stripe.InvoiceItem.create_async(customer=customer.id, invoice=invoice.id, price=price.id)
+        # await stripe.InvoiceItem.create_async(customer=customer.id, invoice=invoice.id, price=price.id)  # HERE
         finalized_invoice = await stripe.Invoice.finalize_invoice_async(invoice=invoice.id)
         invoice_url = finalized_invoice.hosted_invoice_url
 
@@ -230,7 +230,7 @@ class PaymentsProcessing:
             text = await Ut.get_message_text(lang=company.lang, key="payment_cancel_confirmation")
             markup = await Ut.get_markup(mtype="inline", lang=company.lang, key="confirmation")
             msg = await Ut.send_step_message(user_id=uid, texts=[text], markups=[markup])
-            await DbPayment(creator_id=uid, status=0).update(msg_to_delete=msg.message_id)
+            await DbPayment(creator_id=uid, status=0).update(msg_to_delete=msg[0].message_id)
 
         elif cd == "back":
             payment: Payment = await DbPayment(creator_id=uid, status=0).select()
@@ -248,7 +248,7 @@ class PaymentsProcessing:
             else:
                 return
 
-            await DbPayment(db_id=payment.id).update(msg_to_delete=msg.message_id)
+            await DbPayment(db_id=payment.id).update(msg_to_delete=msg[0].message_id)
 
         elif cd == "confirm":
             payment = await DbPayment(creator_id=uid, status=0).select()

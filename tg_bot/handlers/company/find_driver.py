@@ -1,3 +1,4 @@
+import asyncio
 import logging
 from copy import deepcopy
 
@@ -5,8 +6,9 @@ from aiogram import Router, F, types
 from aiogram.fsm.context import FSMContext
 
 from tg_bot.db_models.quick_commands import DbCompany, DbDriver
+from tg_bot.handlers.company.menu import show_menu
 from tg_bot.handlers.company.payments_processing import PaymentsProcessing
-from tg_bot.keyboards.inline import CustomInlineMarkups as Cim, ActionOnDriver, ActionsAfterBtnOpen
+from tg_bot.keyboards.inline import CustomInlineMarkups as Cim, ActionOnDriver, ActionsAfterBtnOpen, MenuBeforeForm
 from tg_bot.misc.models import DriverForm
 from tg_bot.misc.utils import Utils as Ut
 
@@ -15,7 +17,7 @@ router = Router()
 
 
 @router.callback_query(F.data == "find_driver")
-async def show_driver(callback: types.CallbackQuery):
+async def show_driver(callback: types.CallbackQuery, retry: bool = False):
     await callback.answer()
     uid = callback.from_user.id
     await Ut.handler_log(logger, uid)
@@ -45,8 +47,27 @@ async def show_driver(callback: types.CallbackQuery):
     db_driver = DbDriver(**params)
     drivers = await db_driver.select(viewed_drivers_id=viewed_drivers_id)
 
+    if not drivers:
+        if retry and len(company.viewed_drivers) > 0:
+            text = await Ut.get_message_text(lang=company.lang, key="company_find_driver_end")
+            await Ut.send_step_message(user_id=uid, texts=[text])
+            await asyncio.sleep(1.5)
+
+            await DbCompany(tg_user_id=uid).update(viewed_drivers=[])
+
+        elif retry and len(company.viewed_drivers) == 0:
+            text = await Ut.get_message_text(lang=company.lang, key="company_drivers_list_none")
+            await Ut.send_step_message(user_id=uid, texts=[text])
+            await asyncio.sleep(1.5)
+
+            return await show_menu(message=callback)
+
+        return await show_driver(callback=callback, retry=True)
+
     text_info_before_open = await Ut.get_message_text(lang=company.lang, key="company_text_before_driver_form")
-    markup_info_before_open = await Ut.get_markup(lang=company.lang, mtype="inline", key="company_find_driver_menu")
+    markup_info_before_open = await Cim.company_driver_menu_before_form(
+        lang=company.lang, current_drivers=[str(d.id) for d in drivers])
+
     await Ut.send_step_message(user_id=uid, texts=[text_info_before_open], markups=[markup_info_before_open])
 
     for driver in drivers:
@@ -194,3 +215,24 @@ async def payment_system_selected(callback: types.CallbackQuery, state: FSMConte
 
     payment_method = getattr(PaymentsProcessing, callback_data.additional_data)
     await payment_method(callback=callback, state=state)
+
+
+@router.callback_query(MenuBeforeForm.filter())
+async def pagination(callback: types.CallbackQuery, callback_data: MenuBeforeForm):
+    await callback.answer()
+    uid = callback.from_user.id
+    await Ut.handler_log(logger, uid)
+
+    company = await DbCompany(tg_user_id=uid).select()
+
+    if callback_data.action == "next":
+        company.viewed_drivers.extend(list(map(int, callback_data.drivers.split(','))))
+
+    elif callback_data.action == "previous":
+        company.viewed_drivers = company.viewed_drivers[:-3]
+
+    else:
+        return
+
+    await DbCompany(db_id=company.id).update(viewed_drivers=company.viewed_drivers)
+    await show_driver(callback=callback)

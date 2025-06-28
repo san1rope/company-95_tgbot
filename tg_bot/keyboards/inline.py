@@ -25,6 +25,11 @@ class ActionsAfterBtnOpen(CallbackData, prefix="aabo"):
     additional_data: Optional[Any] = None
 
 
+class MenuBeforeForm(CallbackData, prefix="mbe"):
+    action: str
+    drivers: str
+
+
 class CustomInlineMarkups:
 
     @staticmethod
@@ -231,6 +236,31 @@ class CustomInlineMarkups:
                 [
                     InlineKeyboardButton(text=markup_data["save_driver"],
                                          callback_data=ActionOnDriver(action="save", driver_id=driver_id).pack())
+                ]
+            ]
+        )
+
+    @staticmethod
+    async def company_driver_menu_before_form(lang: str, current_drivers: List[str]) -> InlineKeyboardMarkup:
+        lang_data = localization[lang] if localization.get(lang) else localization[Config.DEFAULT_LANG]
+        markup_data = lang_data["misc"]["company_search_driver_menu_before_form"]
+
+        return InlineKeyboardMarkup(
+            inline_keyboard=[
+                [
+                    InlineKeyboardButton(
+                        text=markup_data["find_driver_previous"],
+                        callback_data=MenuBeforeForm(action="previous", drivers=",".join(current_drivers)).pack()
+                    ),
+                    InlineKeyboardButton(
+                        text=markup_data["find_driver_next"],
+                        callback_data=MenuBeforeForm(action="next", drivers=",".join(current_drivers)).pack()
+                    )
+                ],
+                [
+                    InlineKeyboardButton(
+                        text=markup_data["back_from_driver_search"], callback_data="back_from_driver_search"
+                    )
                 ]
             ]
         )

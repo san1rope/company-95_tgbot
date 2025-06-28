@@ -407,12 +407,19 @@
     "company_count_next_drivers": [
       "<b>\uD83D\uDCC4 Liczba następujących kierowców: %drivers_count%</b>"
     ],
+    "company_text_before_driver_form": [
+      "<b>\uD83D\uDD0E Szukaj kierowcy</b>",
+      "\n<b>Przejrzyj profile kierowców</b>",
+      "\n<b>Aby uzyskać dane kontaktowe kierowcy, kliknij „Otwórz kierowcę” i postępuj zgodnie z instrukcjami, aby opłacić dostęp</b>",
+      "<b>ℹ️ Aby korzystać z profilu kierowcy, użyj przycisków poniżej wybranego profilu</b>"
+    ],
     "company_driver_found": [
-      "<b>⚙️ Filtr kierowców</b>",
-      "<b>\nRozważ zgłoszenie kierowcy</b>",
-      "<b>Aby otworzyć dane kontaktowe kierowcy, należy nacisnąć 'Otwórz kierowcę' i w dalszym etapie zapłacić za otwarcie</b>",
-      "\n<b>Cena otwarcia: %form_price% zł (PLN)</b>",
-      "\n<b>⬇ Użyj klawiatury poniżej</b>"
+      "<b>Kierowca nr %driver_id%</b>\n",
+      "<b>Cena: %driver_price% zł (PLN)</b>"
+    ],
+    "company_text_after_driver_form": [
+      "<b>Pozostało profili: %drivers_count%</b>",
+      "\n<b>⬇ Skorzystaj z klawiatury poniżej</b>"
     ],
     "company_drivers_list_none": [
       "<b>⚪️ Na ten moment lista kierowców według Twoich parametrów jest pusta. Spróbuj później...</b>"
@@ -1629,21 +1636,6 @@
           "🔙 Wstecz": "back"
         }
       ],
-      "company_driver_found_menu": [
-        {
-          "Otwórz kierowcę": "open_driver"
-        },
-        {
-          "Zapisz do notatek": "save_driver"
-        },
-        {
-          "Poprzedni": "previous_driver",
-          "Następny": "next_driver"
-        },
-        {
-          "🔙 Do menu": "back"
-        }
-      ],
       "company_choose_payment_system": [
         {
           "Stripe": "stripe",
@@ -1756,6 +1748,15 @@
       "open_driver": "Otwórz kierowcę"
     },
     "username": "Nie wybrano",
-    "support": "Wsparcie"
+    "support": "Wsparcie",
+    "find_driver_menu": {
+      "open_driver": "Otwórz kierowcę",
+      "save_driver": "Zapisz do notatek"
+    },
+    "company_search_driver_menu_before_form": {
+      "find_driver_previous": "Poprzedni kierowcy",
+      "find_driver_next": "Następni kierowcy",
+      "back_from_driver_search": "↩\uFE0F Do menu"
+    }
   }
 }

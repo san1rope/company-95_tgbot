@@ -1,8 +1,9 @@
 import logging
-from typing import Union
+from typing import Union, Optional
 
 from aiogram import Router, F, enums, types
 from aiogram.filters import CommandStart
+from aiogram.fsm.context import FSMContext
 
 from tg_bot.db_models.quick_commands import DbCompany, DbDriver
 from tg_bot.filters.company import IsCompany
@@ -14,9 +15,12 @@ router = Router()
 
 @router.message(F.chat.type == enums.ChatType.PRIVATE, CommandStart(), IsCompany())
 @router.callback_query(F.data == "back_from_driver_search")
-async def show_menu(message: Union[types.Message, types.CallbackQuery]):
+async def show_menu(message: Union[types.Message, types.CallbackQuery], state: Optional[FSMContext] = None):
     uid = message.from_user.id
     await Ut.handler_log(logger, uid)
+
+    if isinstance(state, FSMContext):
+        await state.clear()
 
     if isinstance(message, types.CallbackQuery):
         await message.answer()
