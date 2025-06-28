@@ -588,10 +588,6 @@
           "Żadne z powyższych": "skip"
         },
         {
-          "\uD83D\uDFE2 Zaznacz wszystkie": "check",
-          "\uD83D\uDD34 Odznacz wszystkie": "uncheck"
-        },
-        {
           "\uD83D\uDCDD Potwierdź": "confirm"
         },
         {
@@ -1357,11 +1353,7 @@
           "“Towary niebezpieczne” z cysternami": "2"
         },
         {
-          "Brak dostępu do “Towary niebezpieczne”": "3"
-        },
-        {
-          "\uD83D\uDFE2 Wybierz wszystko": "check",
-          "\uD83D\uDD34 Usuń wszystko": "uncheck"
+          "Brak dostępu do “Towary niebezpieczne”": "skip"
         },
         {
           "\uD83D\uDCDD Potwierdź wybór": "confirm"
@@ -1625,6 +1617,9 @@
         },
         {
           "\uD83D\uDDD1 Usuń swój profil": "remove_company_profile"
+        },
+        {
+          "\uD83D\uDEE1 Wsparcie": "support_company"
         }
       ],
       "company_filters": [

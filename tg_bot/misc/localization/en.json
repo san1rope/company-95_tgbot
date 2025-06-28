@@ -108,7 +108,7 @@
     ],
     "driver_reg_need_internship": [
       "<b>❇\uFE0F Driver registration</b>\n",
-      "<b>Czy potrzebujesz stażu?</b>",
+      "<b>Do you need an internship?</b>",
       "\n<b>⬇ Use the keyboard below</b>"
     ],
     "driver_reg_unsuitable_countries": [
@@ -586,13 +586,6 @@
         },
         {
           "None of the above": "skip"
-        },
-        {
-          "\uD83D\uDD19 Back": "back"
-        },
-        {
-          "\uD83D\uDFE2 Select all": "check",
-          "\uD83D\uDD34 Deselect all": "uncheck"
         },
         {
           "\uD83D\uDCDD Confirm": "confirm"
@@ -1360,11 +1353,7 @@
           "“Dangerous goods” with tankers": "2"
         },
         {
-          "No access to “Dangerous Goods”": "3"
-        },
-        {
-          "\uD83D\uDFE2 Select all": "check",
-          "\uD83D\uDD34 Unselect all": "uncheck"
+          "No access to “Dangerous Goods”": "skip"
         },
         {
           "\uD83D\uDCDD Confirm selection": "confirm"
@@ -1628,6 +1617,9 @@
         },
         {
           "\uD83D\uDDD1 Delete my profile": "remove_company_profile"
+        },
+        {
+          "\uD83D\uDEE1 Support": "support_company"
         }
       ],
       "company_filters": [
