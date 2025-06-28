@@ -13,6 +13,7 @@ router = Router()
 
 
 @router.message(F.chat.type == enums.ChatType.PRIVATE, CommandStart(), IsCompany())
+@router.callback_query(F.data == "back_from_driver_search")
 async def show_menu(message: Union[types.Message, types.CallbackQuery]):
     uid = message.from_user.id
     await Ut.handler_log(logger, uid)

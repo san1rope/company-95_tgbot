@@ -167,7 +167,7 @@ class RegistrationSteps:
                 await state.update_data(saved_data=[])
 
             elif cd == "skip":
-                if cd in saved_data:
+                if (saved_data is not None) and (cd in saved_data):
                     await state.update_data(saved_data=[])
 
                 else:

@@ -172,7 +172,9 @@ class DbDriver:
                 return await db.scalar(count_query)
 
             else:
-                return await q.gino.first()
+                # return await q.gino.first()
+                print("RIGHT ANSWER")
+                return await q.limit(3).gino.all()
 
         except Exception as ex:
             logger.error(ex)

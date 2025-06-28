@@ -1,6 +1,6 @@
 from calendar import Calendar
 from datetime import datetime
-from typing import List
+from typing import List, Union, Any, Optional
 
 from aiogram.filters.callback_data import CallbackData
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
@@ -12,6 +12,17 @@ from tg_bot.misc.utils import localization
 class SavedDriver(CallbackData, prefix="sd"):
     action: str
     driver_id: int
+
+
+class ActionOnDriver(CallbackData, prefix="aod"):
+    action: str
+    driver_id: int
+
+
+class ActionsAfterBtnOpen(CallbackData, prefix="aabo"):
+    action: str
+    driver_id: int
+    additional_data: Optional[Any] = None
 
 
 class CustomInlineMarkups:
@@ -202,6 +213,24 @@ class CustomInlineMarkups:
             inline_keyboard=[
                 [
                     InlineKeyboardButton(text=markup_data, url=f"https://t.me/{Config.SUPPORT_USERNAME}")
+                ]
+            ]
+        )
+
+    @staticmethod
+    async def find_driver_menu(lang: str, driver_id: int) -> InlineKeyboardMarkup:
+        lang_data = localization[lang] if localization.get(lang) else localization[Config.DEFAULT_LANG]
+        markup_data = lang_data["misc"]["find_driver_menu"]
+
+        return InlineKeyboardMarkup(
+            inline_keyboard=[
+                [
+                    InlineKeyboardButton(text=markup_data["open_driver"],
+                                         callback_data=ActionOnDriver(action="open", driver_id=driver_id).pack())
+                ],
+                [
+                    InlineKeyboardButton(text=markup_data["save_driver"],
+                                         callback_data=ActionOnDriver(action="save", driver_id=driver_id).pack())
                 ]
             ]
         )

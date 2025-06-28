@@ -4,6 +4,7 @@ from datetime import datetime
 
 import stripe
 from aiogram import types, Router
+from aiogram.exceptions import TelegramBadRequest
 from aiogram.fsm.context import FSMContext
 from stripe.oauth_error import InvalidRequestError
 
@@ -178,7 +179,12 @@ class PaymentsProcessing:
 
                     if payment.type == PaymentsProcessing.PAY_FOR_DRIVER:
                         text = await Ut.get_message_text(lang=driver.lang, key="msg_to_driver_after_open")
-                        await Config.BOT.send_message(chat_id=driver.tg_user_id, text=text)
+
+                        try:
+                            await Config.BOT.send_message(chat_id=driver.tg_user_id, text=text)
+
+                        except TelegramBadRequest:
+                            pass
 
                 elif invoice_obj.status == "open":
                     due_date_dt = datetime.fromtimestamp(invoice_obj.due_date, Config.TIMEZONE)
@@ -261,7 +267,7 @@ class PaymentsProcessing:
             await Ut.send_step_message(user_id=uid, texts=[text])
             await asyncio.sleep(1.5)
 
-            await data["function_for_back"](callback=callback, state=state, from_payment_cancel=True)
+            await data["function_for_back"](callback=callback)
 
 
 router.callback_query.register(PaymentsProcessing.payments_handler, CompanyFindDriver.PaymentProcessing)

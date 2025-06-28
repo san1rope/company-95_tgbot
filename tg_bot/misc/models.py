@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import Optional, List, Dict, Union
 
+from aiogram.exceptions import TelegramBadRequest
 from aiogram.utils.markdown import hcode
 from pydantic import BaseModel
 
@@ -308,9 +309,13 @@ class DriverForm(BaseModel):
             text.append(f"<b>{hcode(fcd['name'])} {model.name}</b>")
 
         if isinstance(model, Driver):
-            user = await Config.BOT.get_chat_member(chat_id=model.tg_user_id, user_id=model.tg_user_id)
-            username = user.user.username if user.user.username else lang_misc["username"]
-            text.append(f"<b>{hcode(fcd['username'])} @{username}</b>")
+            try:
+                user = await Config.BOT.get_chat_member(chat_id=model.tg_user_id, user_id=model.tg_user_id)
+                username = user.user.username if user.user.username else lang_misc["username"]
+                text.append(f"<b>{hcode(fcd['username'])} @{username}</b>")
+
+            except TelegramBadRequest:
+                pass
 
         return "\n".join(text)
 
