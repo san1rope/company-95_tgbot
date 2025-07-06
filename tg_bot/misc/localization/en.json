@@ -581,8 +581,8 @@
       ],
       "messangers_availabilities": [
         {
-          "Viber": "0",
-          "WhatsApp": "1"
+          "Viber": "1",
+          "WhatsApp": "2"
         },
         {
           "None of the above": "skip"

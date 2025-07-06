@@ -38,7 +38,6 @@ async def support(callback: Union[types.CallbackQuery, types.Message], state: FS
             ulang = data["ulang"] if data.get("ulang") else Config.DEFAULT_LANG
 
     text = await Ut.get_message_text(key="company_support", lang=ulang)
-    markup = await CustomInlineMarkups.support_btn(lang=ulang)
 
-    msg = await callback.answer(text=text, reply_markup=markup)
+    msg = await callback.answer(text=text)
     await Ut.add_msg_to_delete(user_id=uid, msg_id=msg.message_id)
