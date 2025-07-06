@@ -308,7 +308,7 @@ class DriverForm(BaseModel):
         if (not model_company) and (not for_company) and (model.name is not None):
             text.append(f"<b>{hcode(fcd['name'])} {model.name}</b>")
 
-        if isinstance(model, Driver):
+        if isinstance(model, Driver) and (not for_company):
             try:
                 user = await Config.BOT.get_chat_member(chat_id=model.tg_user_id, user_id=model.tg_user_id)
                 username = user.user.username if user.user.username else lang_misc["username"]
