@@ -267,12 +267,15 @@ class RegistrationSteps:
 
         if markup_key:
             for pag in range(1, 10):
-                markup_key_pag = markup_key + str(pag)
+                markup_key_pag = (markup_key + str(pag)) if markup_key.endswith("_") else markup_key
+                print(f"markup_key_pag = {markup_key_pag}")
                 if markup_key_pag not in inline_markups_data:
                     break
 
                 for row in inline_markups_data[markup_key_pag]:
+                    print(f"row = {row}")
                     for value in row.values():
+                        print(f"value = {value}")
                         if (value in ["check", "uncheck", "confirm", "back", "skip", "0", "to_continents"]
                         ) or ("next_page" in value) or ("prev_page" in value):
                             continue
@@ -288,8 +291,9 @@ class RegistrationSteps:
                 if "countries_" not in markup_key:
                     continue
 
-                entrance_data = await cls.iteration_by_countries(
-                    lang=lang, entrance_data=entrance_data, action=action, markup_key=markup_key)
+                print(f"entrance_data = {entrance_data}; markup_key = {markup_key}")
+                entrance_data.extend(await cls.iteration_by_countries(
+                    lang=lang, entrance_data=entrance_data, action=action, markup_key=markup_key))
 
         return entrance_data
 
@@ -369,6 +373,8 @@ class RegistrationSteps:
             saved_data = await cls.iteration_by_countries(
                 lang=lang, entrance_data=saved_data, action="+" if cd == "check" else "-", markup_key=markup_key)
 
+            print(f"saved_data = {saved_data}")
+
             await state.update_data(saved_data=saved_data)
 
             if sc:
@@ -382,9 +388,6 @@ class RegistrationSteps:
                     markup=markup, datalist=saved_data, text_placeholder="✅ %btn.text%")
 
                 await callback.message.edit_reply_markup(reply_markup=markup)
-
-            else:
-                pass
 
             return False
 
@@ -1268,7 +1271,10 @@ class RegistrationSteps:
 
         if status == 2:
             msg_key = "company_filters_country_driving_license"
-            additional_buttons = [AdditionalButtons(index=-2, action="new", buttons={"check": None, "uncheck": None})]
+            additional_buttons = [
+                AdditionalButtons(index=-2, action="new", buttons={"check": None, "uncheck": None}),
+                AdditionalButtons(index=-2, action="new", buttons={"confirm": None})
+            ]
 
         else:
             msg_key = "driver_reg_country_driving_license"
@@ -1330,7 +1336,10 @@ class RegistrationSteps:
 
         if status == 2:
             msg_key = "company_filters_country_current_live"
-            additional_buttons = [AdditionalButtons(index=-2, action="new", buttons={"check": None, "uncheck": None})]
+            additional_buttons = [
+                AdditionalButtons(index=-2, action="new", buttons={"check": None, "uncheck": None}),
+                AdditionalButtons(index=-2, action="new", buttons={"confirm": None})
+            ]
 
         else:
             msg_key = "driver_reg_country_current_living"
