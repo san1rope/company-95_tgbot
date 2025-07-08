@@ -383,6 +383,9 @@ class RegistrationSteps:
 
                 await callback.message.edit_reply_markup(reply_markup=markup)
 
+            else:
+                pass
+
             return False
 
         else:

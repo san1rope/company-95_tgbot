@@ -1,3 +1,4 @@
+import traceback
 from datetime import datetime
 from typing import Optional, List, Dict, Union
 
@@ -314,8 +315,11 @@ class DriverForm(BaseModel):
                 username = user.user.username if user.user.username else lang_misc["username"]
                 text.append(f"<b>{hcode(fcd['username'])} @{username}</b>")
 
-            except TelegramBadRequest:
-                pass
+            except Exception:
+                print(traceback.format_exc())
+
+            # except TelegramBadRequest:
+            #     pass
 
         return "\n".join(text)
 
