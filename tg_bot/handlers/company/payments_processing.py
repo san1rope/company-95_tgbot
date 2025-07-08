@@ -173,7 +173,12 @@ class PaymentsProcessing:
 
                     text_payment_success = await Ut.get_message_text(lang=company.lang, key="payment_success")
 
-                    await Config.BOT.delete_message(chat_id=payment.creator_id, message_id=payment.msg_to_delete)
+                    try:
+                        await Config.BOT.delete_message(chat_id=payment.creator_id, message_id=payment.msg_to_delete)
+
+                    except TelegramBadRequest:
+                        pass
+
                     await Config.BOT.send_message(chat_id=payment.creator_id, text=text_payment_success)
                     await Config.BOT.send_message(chat_id=payment.creator_id, text=text)
 
