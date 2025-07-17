@@ -1,4 +1,5 @@
 import logging
+import time
 from copy import deepcopy
 from datetime import datetime
 from typing import Optional, Union, Dict, List, Any
@@ -268,14 +269,11 @@ class RegistrationSteps:
         if markup_key:
             for pag in range(1, 10):
                 markup_key_pag = (markup_key + str(pag)) if markup_key.endswith("_") else markup_key
-                print(f"markup_key_pag = {markup_key_pag}")
                 if markup_key_pag not in inline_markups_data:
                     break
 
                 for row in inline_markups_data[markup_key_pag]:
-                    print(f"row = {row}")
                     for value in row.values():
-                        print(f"value = {value}")
                         if (value in ["check", "uncheck", "confirm", "back", "skip", "0", "to_continents"]
                         ) or ("next_page" in value) or ("prev_page" in value):
                             continue
@@ -291,7 +289,7 @@ class RegistrationSteps:
                 if "countries_" not in markup_key:
                     continue
 
-                print(f"entrance_data = {entrance_data}; markup_key = {markup_key}")
+                # print(f"entrance_data = {entrance_data}; markup_key = {markup_key}")
                 entrance_data.extend(await cls.iteration_by_countries(
                     lang=lang, entrance_data=entrance_data, action=action, markup_key=markup_key))
 
@@ -373,7 +371,7 @@ class RegistrationSteps:
             saved_data = await cls.iteration_by_countries(
                 lang=lang, entrance_data=saved_data, action="+" if cd == "check" else "-", markup_key=markup_key)
 
-            print(f"saved_data = {saved_data}")
+            print(f"complete")
 
             await state.update_data(saved_data=saved_data)
 
