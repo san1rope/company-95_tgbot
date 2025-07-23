@@ -261,38 +261,71 @@ class RegistrationSteps:
         return saved_data
 
     @classmethod
-    async def iteration_by_countries(cls, lang: str, entrance_data: List[Optional[str]], action: str,
-                                     markup_key: Optional[str] = None):
-        current_localization = localization[lang] if "lang" in localization else localization[Config.DEFAULT_LANG]
+    async def iteration_by_countries(
+            cls, lang: str, entrance_data: List[Optional[str]], action: str, markup_key: Optional[str] = None,
+            min_page: Optional[int] = 1, max_page: Optional[int] = 10, country_iteration: bool = False
+    ):
+        current_localization = localization[lang] if lang in localization else localization[Config.DEFAULT_LANG]
         inline_markups_data = current_localization["markups"]["inline"]
 
         if markup_key:
-            for pag in range(1, 10):
+            for pag in range(min_page, max_page):
+                flag = False if markup_key.endswith("_") else True
                 markup_key_pag = (markup_key + str(pag)) if markup_key.endswith("_") else markup_key
                 if markup_key_pag not in inline_markups_data:
                     break
 
-                for row in inline_markups_data[markup_key_pag]:
-                    for value in row.values():
-                        if (value in ["check", "uncheck", "confirm", "back", "skip", "0", "to_continents"]
-                        ) or ("next_page" in value) or ("prev_page" in value):
-                            continue
+                if action == "+":
+                    if markup_key_pag in entrance_data:
+                        continue
 
-                        if action == "+" and value not in entrance_data:
-                            entrance_data.append(value)
+                    for row in inline_markups_data[markup_key_pag]:
+                        print(f"row = {row}")
+                        for value in row.values():
+                            if (value in ["check", "uncheck", "confirm", "back", "skip", "0", "to_continents"]) or \
+                                    ("next_page" in value) or ("prev_page" in value):
+                                continue
 
-                        elif action == "-" and value in entrance_data:
-                            entrance_data.remove(value)
+                            if value in entrance_data:
+                                if not country_iteration:
+                                    entrance_data.remove(value)
+
+                            else:
+                                if country_iteration:
+                                    # print(f"add value = {value}")
+                                    entrance_data.append(value)
+
+                    if not country_iteration:
+                        entrance_data.append(markup_key_pag)
+
+                elif action == "-":
+                    if markup_key_pag in entrance_data:
+                        entrance_data.remove(markup_key_pag)
+                        continue
+
+                    for row in inline_markups_data[markup_key_pag]:
+                        for value in row.values():
+                            if (value in ["check", "uncheck", "confirm", "back", "skip", "0", "to_continents"]) or \
+                                    ("next_page" in value) or ("prev_page" in value):
+                                continue
+
+                            if value in entrance_data:
+                                entrance_data.remove(value)
+
+                if flag:
+                    break
 
         else:
-            for markup_key, markup_data in inline_markups_data.items():
-                if "countries_" not in markup_key:
-                    continue
+            if action == "+":
+                entrance_data = []
+                for markup_key in inline_markups_data:
+                    if "countries_" in markup_key:
+                        entrance_data.append(markup_key)
 
-                # print(f"entrance_data = {entrance_data}; markup_key = {markup_key}")
-                entrance_data.extend(await cls.iteration_by_countries(
-                    lang=lang, entrance_data=entrance_data, action=action, markup_key=markup_key))
+            elif action == "-":
+                entrance_data = []
 
+        print(f"return iteration_by_countries = {entrance_data}")
         return entrance_data
 
     @classmethod
@@ -309,37 +342,40 @@ class RegistrationSteps:
             selected_continent = cd.replace('cont:', '')
             await state.update_data(sc=selected_continent, sp=1)
 
-            markup = await Ut.get_markup(mtype="inline", key=f"countries_{selected_continent}_1", lang=lang,
+            markup_key = f"countries_{selected_continent}_1"
+            markup = await Ut.get_markup(mtype="inline", key=markup_key, lang=lang,
                                          additional_buttons=additional_buttons, without_buttons=without_inline_buttons)
             await state.update_data(markup=markup)
             markup = await Ut.get_markup(markup=markup, lang=lang)
             markup = await Ut.recognize_selected_values(
-                markup=markup, datalist=saved_data, text_placeholder="✅ %btn.text%")
+                markup=markup, datalist=saved_data, text_placeholder="✅ %btn.text%", markup_name=markup_key)
 
             await callback.message.edit_reply_markup(reply_markup=markup)
             return False
 
         elif "next_page:" in cd:
             next_page = int(cd.replace('next_page:', ''))
+            markup_key = f"countries_{data['sc']}_{next_page}"
             markup = await Ut.get_markup(
-                mtype="inline", key=f"countries_{data['sc']}_{next_page}", lang=lang,
+                mtype="inline", key=markup_key, lang=lang,
                 additional_buttons=additional_buttons, without_buttons=without_inline_buttons)
             await state.update_data(sp=next_page, markup=markup)
             markup = await Ut.get_markup(lang=lang, markup=markup, without_buttons=without_inline_buttons)
-            markup = await Ut.recognize_selected_values(markup=markup, datalist=saved_data,
-                                                        text_placeholder="✅ %btn.text%")
+            markup = await Ut.recognize_selected_values(
+                markup=markup, datalist=saved_data, text_placeholder="✅ %btn.text%", markup_name=markup_key)
 
             await callback.message.edit_reply_markup(reply_markup=markup)
             return False
 
         elif "prev_page:" in cd:
             prev_page = int(cd.replace('prev_page:', ''))
-            markup = await Ut.get_markup(mtype="inline", key=f"countries_{data['sc']}_{prev_page}", lang=lang,
+            markup_key = f"countries_{data['sc']}_{prev_page}"
+            markup = await Ut.get_markup(mtype="inline", key=markup_key, lang=lang,
                                          additional_buttons=additional_buttons, without_buttons=without_inline_buttons)
             await state.update_data(sp=prev_page, markup=markup)
             markup = await Ut.get_markup(lang=lang, markup=markup, without_buttons=without_inline_buttons)
-            markup = await Ut.recognize_selected_values(markup=markup, datalist=saved_data,
-                                                        text_placeholder="✅ %btn.text%")
+            markup = await Ut.recognize_selected_values(
+                markup=markup, datalist=saved_data, text_placeholder="✅ %btn.text%", markup_name=markup_key)
             await callback.message.edit_reply_markup(reply_markup=markup)
             return False
 
@@ -370,20 +406,18 @@ class RegistrationSteps:
 
             saved_data = await cls.iteration_by_countries(
                 lang=lang, entrance_data=saved_data, action="+" if cd == "check" else "-", markup_key=markup_key)
-
-            print(f"complete")
-
             await state.update_data(saved_data=saved_data)
 
             if sc:
+                markup_name = markup_key + str(data['sp'])
                 markup = await Ut.get_markup(
-                    mtype="inline", key=markup_key + str(data['sp']), lang=lang, additional_buttons=additional_buttons,
+                    mtype="inline", key=markup_name, lang=lang, additional_buttons=additional_buttons,
                     without_buttons=without_inline_buttons
                 )
                 await state.update_data(markup=markup)
                 markup = await Ut.get_markup(lang=lang, markup=markup, without_buttons=without_inline_buttons)
                 markup = await Ut.recognize_selected_values(
-                    markup=markup, datalist=saved_data, text_placeholder="✅ %btn.text%")
+                    markup=markup, datalist=saved_data, text_placeholder="✅ %btn.text%", markup_name=markup_name)
 
                 await callback.message.edit_reply_markup(reply_markup=markup)
 
@@ -397,11 +431,41 @@ class RegistrationSteps:
                 saved_data = cd
 
             else:
-                if cd in saved_data:
+                sc = data.get("sc")
+                sp = data.get("sp")
+                markup_key = f"countries_{sc}_{sp}"
+
+                if markup_key in saved_data:
+                    saved_data.remove(markup_key)
+
+                    saved_data = await cls.iteration_by_countries(
+                        lang=lang, markup_key=markup_key, entrance_data=saved_data, action="+", country_iteration=True
+                    )
+                    saved_data.remove(cd)
+
+                elif cd in saved_data:
                     saved_data.remove(cd)
 
                 else:
                     saved_data.append(cd)
+
+                    continent_countries = await cls.iteration_by_countries(
+                        lang=lang, markup_key=markup_key, entrance_data=[], action="+", country_iteration=True)
+                    print(f"markup_key = {markup_key}; continent_countries = {continent_countries}")
+
+                    counter = 0
+                    for country in continent_countries:
+                        if country not in saved_data:
+                            break
+
+                        counter += 1
+
+                    print(f"counter = {counter}; len continent_countries = {len(continent_countries)}")
+                    if counter == len(continent_countries):
+                        for country in continent_countries:
+                            saved_data.remove(country)
+
+                        saved_data.append(markup_key)
 
                 await state.update_data(saved_data=saved_data)
 

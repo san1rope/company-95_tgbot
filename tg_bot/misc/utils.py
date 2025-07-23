@@ -165,10 +165,12 @@ class Utils:
         return markup
 
     @staticmethod
-    async def recognize_selected_values(markup: InlineKeyboardMarkup, datalist: List[str], text_placeholder: str):
+    async def recognize_selected_values(markup: InlineKeyboardMarkup, datalist: List[str], text_placeholder: str,
+                                        markup_name: Optional[str] = None):
         for row in markup.inline_keyboard:
             for btn in row:
-                if btn.callback_data in datalist:
+                if (btn.callback_data in datalist) or \
+                        (len(btn.callback_data) == 2 and (markup_name is not None) and (markup_name in datalist)):
                     btn.text = text_placeholder.replace("%btn.text%", btn.text)
 
         return markup
